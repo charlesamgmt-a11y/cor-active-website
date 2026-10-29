@@ -1,0 +1,161 @@
+{
+  "sections": [
+    {
+      "name": "Hero",
+      "texts": [
+        "The app that shows its workon every number.",
+        "Scan a barcode and see the seed oils, additives and processing rating. Photograph a menu and see which dish fits your goal. Log your lifts and the next weight is already in the box. Then one score out of 100 — with the arithmetic printed underneath.",
+        "Know what you’re eating"
+      ]
+    },
+    {
+      "name": "Food Suggestions",
+      "texts": [
+        "Helps you findwhat you shouldeat.",
+        "Hover over these icons",
+        "Hover over the elements",
+        "The 3D food icons are interactable and hovering over them shows which food you should probably eat. That’s what the app will do for you."
+      ]
+    },
+    {
+      "name": "Meal Deconstruct",
+      "texts": [
+        "The oil you can’t see still counts.",
+        "Every photo-logging app quietly misses the two tablespoons of oil in the pan. CŌR asks first — hidden oil, butter, sauce or cheese, and whether the portion was small, regular or large. That answer goes into the estimate."
+      ]
+    },
+    {
+      "name": "How It Works",
+      "texts": []
+    },
+    {
+      "name": "Features",
+      "texts": [
+        "Four things a calorie tracker won’t do.",
+        "The parts a single-metric tracker has no room for."
+      ]
+    },
+    {
+      "name": "AI Meals",
+      "texts": [
+        "Type it. Don’t weigh it.",
+        "Two eggs, sourdough, half an avocado. Back comes calories, protein, carbs, fat, fibre, sugar, sodium and more — into the same sheet as any barcode scan. And when search comes up empty, it works out whether you asked about a generic food, a major brand, a store brand or a chain restaurant, and looks each one up differently."
+      ]
+    },
+    {
+      "name": "Results",
+      "texts": [
+        "People who got results.",
+        "Real people. Real data. Real progress. Our users are transforming their health through simple, consistent tracking."
+      ]
+    },
+    {
+      "name": "Pricing Plans",
+      "texts": [
+        "Pricing plans",
+        "Start free, go pro when you’re ready! no limits, no pressure."
+      ]
+    },
+    {
+      "name": "Frequently Asked Questions",
+      "texts": [
+        "Frequently asked questions",
+        "The things people ask before they download."
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "It picks the goal that fits your body.",
+      "description": "Cut, recomp, build or maintain — it reads your body composition and recommends one instead of asking you to guess, then sets your daily calorie and macro targets. An over-aggressive deficit gets clamped at a safe floor, and it tells you that it did."
+    },
+    {
+      "title": "Log it however it arrives.",
+      "description": "A barcode. A nutrition label. A restaurant menu. A photo of your plate. Or just a sentence — two eggs, sourdough, half an avocado. Everything lands in the same day, with ten nutrient fields behind it."
+    },
+    {
+      "title": "Six sources before it ever guesses.",
+      "description": "Barcodes are checked against FatSecret, Open Food Facts, USDA, Open Beauty Facts, Go-UPC and UPCitemdb. Search merges results rather than dropping them, so USDA macros keep Open Food Facts ingredient lists. AI is the last resort, not the first."
+    },
+    {
+      "title": "It reads the ingredients, not just the calories.",
+      "description": "Seed oils, the NOVA ultra-processing rating, named additives with a severity for each, and allergen alerts — an ingredient-by-ingredient breakdown of what is actually in the packet."
+    }
+  ],
+  "plans": [
+    {
+      "name": "Free",
+      "tagline": "Anyone who’s getting started",
+      "price": "0",
+      "features": [
+        "Food logging",
+        "Database access",
+        "Manual meal entry",
+        "Daily calorie & macro summary",
+        "Basic progress tracking"
+      ]
+    },
+    {
+      "name": "Pro",
+      "tagline": "Users who want automation",
+      "price": "25",
+      "features": [
+        "Everything in Free",
+        "AI meals",
+        "Photo & barcode scan",
+        "Smart recommendations",
+        "Full progress analytics",
+        "Priority support"
+      ]
+    },
+    {
+      "name": "Gold",
+      "tagline": "People who want total control.",
+      "price": "75",
+      "features": [
+        "Everything in Pro",
+        "Advance analytics",
+        "Personal coach",
+        "App integrations",
+        "Exportable data & macros"
+      ]
+    }
+  ],
+  "icons": {
+    "Salad": "DdcOf9nmiPJ1zTiEdDZbmnBEw0E.png",
+    "Chocolate": "QWmGxYWnzskaWFqCfJISaEjAWU.png",
+    "Sandwhich": "HA7kXcw8w8ZQj57dGqE77ZbA.png",
+    "Ramen": "5q42xDiDVd7uCjZRSgqCTEV2g.png",
+    "Pizza": "USc8zAyNBpVcu2zAG06e8V5Lsw.png",
+    "Meat": "exvyuMLW33A3CCyhWsBJ0d7MA.png",
+    "Salmon": "mBmaqSTyHa0RElMRKJaSuowJCFo.png",
+    "Cheese Mix Salad": "2tu0SG2dTI1Q0cHrXoOy4AHEzLs.png",
+    "Korean Salad": "gMcJb9qEQBuao8t7puyMwMwYQ0.png",
+    "Cucumber Avacado Salad": "gabQmdXC7XlY6AaJyRLRJ06TEOg.png",
+    "Omelet": "ziqnaAZl9BEB8LHz3OJRKFSQHns.png",
+    "Cheese": "8dpa8kNyDtN8d94QcwTKwrFqDc.png",
+    "Chicken": "OWVbgfPGBp82YqONIRrRoiqZSw.png"
+  },
+  "faq": [
+    {
+      "q": "Do I need an account to try it?",
+      "a": "No. You answer the setup questions and see your finished plan first — calorie and macro targets, a goal timeline with dated milestones, and the goal that actually fits your body composition. Signing in with Apple or Google is the last screen, not the first. Quit halfway and it resumes on the same question with your answers intact."
+    },
+    {
+      "q": "What happens to my health data?",
+      "a": "CŌR reads steps, energy, workouts, heart rate, HRV, sleep, weight and body fat from Apple Health, and writes back your workouts, weight, body fat, water and meal macros. Your summaries sync to your private CŌR account so your history follows you across devices. AI coaching is a separate, explicit opt-in that stays off until you turn it on, with per-feature toggles in Settings. Your health data is never used for advertising and never sold."
+    },
+    {
+      "q": "What do I get without paying?",
+      "a": "The full manual workout tracker — live sessions, adaptive rest timer, set types, RPE, PR detection and the next-weight prediction. Food search across USDA, Open Food Facts and the community database. Manual logging and saved meals. Body measurements and Navy-formula body fat. Your weekly score with the complete pillar breakdown. Weight trend, fasting timer, and two-way Apple Health sync."
+    },
+    {
+      "q": "How is the score calculated?",
+      "a": "Four pillars: Nutrition 35, Training 35, Hydration 15, Recovery 15. Each shows points earned against its cap, so the four add up to your score and you can check the arithmetic yourself. If there is no sleep data, Recovery is dropped and the rest renormalise rather than filling in a made-up number — and a new account sees Building your baseline instead of a discouraging score on day one."
+    },
+    {
+      "q": "Does it work on Apple Watch?",
+      "a": "Yes. You can run a whole session from your wrist — log sets, edit weight and reps, and rate effort — and it stays in sync with your phone. While you train, the workout also runs as a Live Activity on your lock screen."
+    }
+  ]
+}
