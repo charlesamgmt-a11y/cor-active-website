@@ -1,0 +1,78 @@
+{
+  "app_source_commit": "ba0c183",
+  "availability": "coming soon",
+  "screens": [
+    "home",
+    "questions",
+    "nutrition",
+    "ingredients",
+    "strength",
+    "weight"
+  ],
+  "free_features": [
+    "Personalized plan and targets",
+    "Manual food logging and food search",
+    "Known barcode lookup",
+    "Workout tracking and rest timers",
+    "Strength history and progress",
+    "Apple Health integration"
+  ],
+  "pro_features": [
+    "Everything in the core app",
+    "Meal-photo and text estimates",
+    "Restaurant menu scanning",
+    "Nutrition-label photos and new-product lookup",
+    "AI coach and weekly coaching",
+    "AI workouts and workout-photo import"
+  ],
+  "faq": [
+    [
+      "When can I download COR?",
+      "COR is coming soon for iPhone, with a companion Apple Watch app. This page shows features built into the current app. Download links will be added when access opens."
+    ],
+    [
+      "What can I use without Pro?",
+      "Your plan, targets and manual workout tracking remain available without Pro. The core app also includes food search, manual logging, recognized barcode lookup, strength history and Apple Health integration. Pro adds AI tools such as meal estimates, menu scanning and coaching."
+    ],
+    [
+      "Are photo calories exact?",
+      "No. A photo result is an estimate. Before analyzing a meal, COR lets you add ingredients the camera may miss, choose a portion size and add notes. You can review and edit the nutrition before logging it."
+    ],
+    [
+      "What does the product grade mean?",
+      "COR applies its ingredient rules to the available ingredient list and explains the findings. Nutrition, allergens and processing references are shown separately where data is available. A product grade is information to help you compare foods, not a medical assessment."
+    ],
+    [
+      "How does the goal score work?",
+      "The score combines nutrition, training, hydration and measured recovery into a breakdown you can inspect. Missing data is handled explicitly instead of being treated as a measured result. It tracks progress toward your goals, not your overall health."
+    ],
+    [
+      "Does COR work with Apple Health and Apple Watch?",
+      "Yes. Apple Health connects supported activity, sleep, body measurements and nutrition data with your permission. The Watch companion lets you follow a workout, adjust reps and weight, complete sets and manage rest."
+    ],
+    [
+      "What happens when I use AI features?",
+      "AI features require consent and can send the content needed for the request to an external AI provider\u2014for example a meal photo or food description. The app includes separate AI privacy controls. Core manual tracking does not require those AI features."
+    ]
+  ],
+  "pricing": "No amounts or fixed trial promises; runtime store offerings",
+  "removed_claims": [
+    "Gold tier and unverified prices",
+    "template testimonials",
+    "competitor comparisons",
+    "seed oils framed as grade penalties",
+    "all scans query six sources",
+    "fake download and legal links"
+  ],
+  "evidence": {
+    "food_logging": "eatalyze/HomeView.swift:1160",
+    "photo_context": "eatalyze/PreAnalysisQuestionsView.swift:26",
+    "ingredients": "eatalyze/UnifiedProductView.swift:258",
+    "training": "eatalyze/ActiveWorkoutViewModel.swift:259",
+    "progression": "eatalyze/ProgressionEngine.swift:12",
+    "strength": "StrengthProgressionView.swift:41",
+    "plan": "eatalyze/OnboardingPlanRevealRules.swift:88",
+    "free_pro": "eatalyze/OnboardingProCard.swift:49",
+    "watch": "CORWatch Watch App/WatchSetEditorView.swift:96"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "app_commit": "ba0c183",
+  "capture_device": "iPhone 17 Pro simulator / iOS 27.0",
+  "source": "Native screenshots, original pixels, no AI rendering",
+  "data": "Local synthetic meal and goal records; existing strength and weight preview fixtures; app burger artwork",
+  "health": "Apple Health reads disabled in this dedicated unsigned simulator; no personal health records",
+  "composition": "CSS framing, rotation, glow and ingredient detail crop",
+  "screens": [
+    {
+      "file": "dist/assets/product/home.png",
+      "view": "ContentView / HomeView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "6ad7dffb02558b5e0930b982d89d3ac8e3b8ff65f997d8e5920b8198d3f8bb7a"
+    },
+    {
+      "file": "dist/assets/product/questions.png",
+      "view": "PreAnalysisQuestionsView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "8414642709ecc6563d41d89c3b28f112ba734711f33ac473148496e3dcfbc41b"
+    },
+    {
+      "file": "dist/assets/product/nutrition.png",
+      "view": "NutritionDetailView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "83c7628e884ca577ca85d3bd0eff11341d4b81c73e49423d16c8d013d88aa693"
+    },
+    {
+      "file": "dist/assets/product/ingredients.png",
+      "view": "UnifiedProductView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "2435e5a4373b750fa1bba08d16ff51fe630688af4089172a52dddbb05c5d0322"
+    },
+    {
+      "file": "dist/assets/product/strength.png",
+      "view": "StrengthProgressionView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "5c4b482d1338bc6b6b09ed6ead589581860bf18f7bac38ea123c39d6ba0a766f"
+    },
+    {
+      "file": "dist/assets/product/weight.png",
+      "view": "WeightDetailView",
+      "size": [
+        1206,
+        2622
+      ],
+      "sha256": "29ff5b1f6189e1091a6e3cca90e25a40bf323ef4e81c723d8d6e846055bfd802"
+    }
+  ]
+}
