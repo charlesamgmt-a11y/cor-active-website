@@ -1,70 +1,201 @@
-'use strict';
-const menuToggle = document.querySelector('.menu-toggle');
-const mobileMenu = document.getElementById('mobile-menu');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const root = document.documentElement;
+if (!reduceMotion) root.classList.add('js-motion');
+
+/* ── Logo preloader (once per visit) ───────────────────────────────── */
+(() => {
+  const pre = document.querySelector('.preloader');
+  if (!pre || root.classList.contains('skip-preloader') || reduceMotion) { pre && pre.remove(); return; }
+  document.body.classList.add('is-preloading');
+  const started = performance.now();
+  let finished = false;
+  const finish = () => {
+    if (finished) return;
+    finished = true;
+    pre.classList.add('is-done');
+    document.body.classList.remove('is-preloading');
+    try { sessionStorage.setItem('cor-preloaded', '1'); } catch (e) {}
+    setTimeout(() => pre.remove(), 900);
+  };
+  const whenReady = () => setTimeout(finish, Math.max(0, 1900 - (performance.now() - started)));
+  if (document.readyState === 'complete') whenReady(); else window.addEventListener('load', whenReady, { once: true });
+  setTimeout(finish, 3500); // never hold the page longer than this
+})();
+
+/* ── Reveal on scroll ──────────────────────────────────────────────── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      if (entry.target.matches('.reveal')) observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal, .meal-section, .results-section').forEach(el => observer.observe(el));
+
+/* ── Mobile menu ───────────────────────────────────────────────────── */
+const menuButton = document.querySelector('.menu-toggle');
+const mobileMenu = document.querySelector('#mobile-menu');
 function closeMenu() {
-  menuToggle.setAttribute('aria-expanded', 'false');
-  menuToggle.setAttribute('aria-label', 'Open navigation menu');
+  menuButton.setAttribute('aria-expanded', 'false');
   mobileMenu.hidden = true;
+  menuButton.setAttribute('aria-label', 'Open navigation menu');
 }
-menuToggle.addEventListener('click', () => {
-  const open = menuToggle.getAttribute('aria-expanded') !== 'true';
-  menuToggle.setAttribute('aria-expanded', String(open));
-  menuToggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
-  mobileMenu.hidden = !open;
+menuButton.addEventListener('click', () => {
+  const open = menuButton.getAttribute('aria-expanded') === 'true';
+  menuButton.setAttribute('aria-expanded', String(!open));
+  menuButton.setAttribute('aria-label', open ? 'Open navigation menu' : 'Close navigation menu');
+  mobileMenu.hidden = open;
 });
-mobileMenu.addEventListener('click', e => { if (e.target.closest('a')) closeMenu(); });
-document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) closeMenu(); });
 
-const viewer = document.getElementById('screen-viewer');
-const viewerImage = document.getElementById('viewer-image');
-document.addEventListener('click', e => {
-  const shot = e.target.closest('button[data-shot]');
-  if (!shot) return;
-  viewerImage.src = `/assets/product/${shot.dataset.shot}.png`;
-  viewerImage.alt = `${shot.dataset.title} — actual COR app screen with sample data`;
-  document.getElementById('viewer-title').textContent = shot.dataset.title;
-  viewer.showModal();
-});
-viewer.querySelector('.viewer-close').addEventListener('click', () => viewer.close());
-viewer.addEventListener('click', e => {
-  const bounds = viewer.getBoundingClientRect();
-  if (e.target === viewer && (e.clientX < bounds.left || e.clientX > bounds.right || e.clientY < bounds.top || e.clientY > bounds.bottom)) viewer.close();
-});
-
-const tabs = [...document.querySelectorAll('[role="tab"][data-screen]')];
-const panel = document.getElementById('nutrition-screen');
-function selectScreen(tab) {
-  tabs.forEach(item => {
-    const selected = item === tab;
-    item.setAttribute('aria-selected', String(selected));
-    item.tabIndex = selected ? 0 : -1;
+/* ── Focus Lens nav: nearest link sharpens, brackets glide to it ───── */
+(() => {
+  const bar = document.querySelector('.lens-bar');
+  if (!bar) return;
+  const links = [...bar.querySelectorAll('.lens-link')];
+  const lens = bar.querySelector('.lens');
+  let current = null;
+  function focusLink(link) {
+    if (current === link) return;
+    current = link;
+    links.forEach(l => l.classList.toggle('is-focus', l === link));
+    const b = bar.getBoundingClientRect(), r = link.getBoundingClientRect(), pad = 2;
+    lens.style.setProperty('--lx', `${r.left - b.left - pad}px`);
+    lens.style.setProperty('--ly', `${r.top - b.top - pad}px`);
+    lens.style.setProperty('--lw', `${r.width + pad * 2}px`);
+    lens.style.setProperty('--lh', `${r.height + pad * 2}px`);
+    bar.classList.add('is-focusing');
+  }
+  function clear() { current = null; bar.classList.remove('is-focusing'); links.forEach(l => l.classList.remove('is-focus')); }
+  bar.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    let best = null, bestD = Infinity;
+    links.forEach(l => { const r = l.getBoundingClientRect(); const d = Math.abs(e.clientX - (r.left + r.width / 2)); if (d < bestD) { bestD = d; best = l; } });
+    if (best) focusLink(best);
   });
-  const device = panel.querySelector('button[data-shot]');
-  device.dataset.shot = tab.dataset.screen;
-  device.dataset.title = tab.dataset.label;
-  device.setAttribute('aria-label', `Enlarge ${tab.dataset.label}`);
-  const img = device.querySelector('img');
-  img.src = `/assets/product/${tab.dataset.screen}.png`;
-  img.alt = `${tab.dataset.label} — actual COR app screen with sample data`;
-  panel.setAttribute('aria-label', tab.dataset.heading);
-  panel.querySelector('figcaption').firstChild.textContent = `${tab.dataset.heading} `;
+  bar.addEventListener('pointerleave', clear);
+  links.forEach(l => { l.addEventListener('focus', () => focusLink(l)); l.addEventListener('blur', clear); });
+})();
+
+/* ── Food suggestions ──────────────────────────────────────────────── */
+const foods = [...document.querySelectorAll('.food-orbit')];
+foods.forEach(button => button.addEventListener('click', () => {
+  const was = button.getAttribute('aria-pressed') === 'true';
+  foods.forEach(o => o.setAttribute('aria-pressed', 'false'));
+  button.setAttribute('aria-pressed', String(!was));
+}));
+const guide = document.querySelector('#food-guide');
+document.querySelector('.food-help').addEventListener('click', () => guide.showModal());
+document.querySelector('.dialog-close').addEventListener('click', () => guide.close());
+guide.addEventListener('click', e => { if (e.target === guide) guide.close(); });
+
+/* ── How it works ──────────────────────────────────────────────────── */
+const how = document.querySelector('.how-section');
+const howPhone = document.querySelector('.how-phone');
+const titles = [...document.querySelectorAll('.how-title')];
+const descs = [...document.querySelectorAll('.how-desc')];
+const dots = [...document.querySelectorAll('.how-dot')];
+let currentStep = -1, manualUntil = 0;
+function setStep(i) {
+  if (i === currentStep) return;
+  currentStep = i;
+  [titles, descs, dots].forEach(list => list.forEach((el, n) => el.classList.toggle('active', n === i)));
+  howPhone.classList.toggle('is-scanned', i > 0);
+  howPhone.classList.toggle('is-action', i === 2);
 }
-tabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => selectScreen(tab));
-  tab.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index + tabs.length - 1) % tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = tabs.length - 1;
-    if (next !== undefined) { event.preventDefault(); tabs[next].focus(); selectScreen(tabs[next]); }
+dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
+setStep(0);
+// On phones the section isn't sticky, so cycle the steps while it's on screen.
+let howTimer = null;
+new IntersectionObserver(([e]) => {
+  clearInterval(howTimer);
+  if (e.isIntersecting && innerWidth < 810 && !reduceMotion) {
+    howTimer = setInterval(() => { if (performance.now() > manualUntil) setStep((currentStep + 1) % 3); }, 3200);
+  }
+}, { threshold: .4 }).observe(how);
+
+/* ── Scroll-driven scenes ──────────────────────────────────────────── */
+const hero = document.querySelector('.hero');
+const heroScene = document.querySelector('.hero-scene');
+const heroPhone = document.querySelector('.hero-phone');
+const burger = document.querySelector('.burger-stage');
+const foodStage = document.querySelector('.food-stage');
+let pending = false;
+function onScroll() {
+  if (pending) return;
+  pending = true;
+  requestAnimationFrame(() => {
+    pending = false;
+    const h = heroScene.getBoundingClientRect();
+    hero.classList.toggle('hero-revealed', h.top < -80 || reduceMotion);
+    if (h.top < -120) heroPhone.classList.add('is-scanned');
+    else if (h.top > 60) heroPhone.classList.remove('is-scanned');
+    if (reduceMotion) return;
+    const b = burger.getBoundingClientRect();
+    const p = Math.max(0, Math.min(1, (innerHeight * .9 - b.top) / (innerHeight * .8)));
+    const eased = 1 - Math.pow(1 - p, 3);
+    burger.style.setProperty('--spread', `${eased * (innerWidth < 810 ? 70 : 150)}px`);
+    const f = foodStage.getBoundingClientRect();
+    const fp = (innerHeight / 2 - (f.top + f.height / 2)) / innerHeight; // about -1..1 around centre
+    foods.forEach((el, i) => el.style.setProperty('--py', `${fp * (i % 2 ? -70 : 50) * (1 + (i % 3) * .3)}px`));
+    if (innerWidth >= 810 && performance.now() > manualUntil) {
+      const r = how.getBoundingClientRect();
+      const prog = Math.max(0, Math.min(.999, -r.top / Math.max(1, r.height - innerHeight)));
+      setStep(Math.floor(prog * 3));
+    }
   });
-});
-if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  document.documentElement.classList.add('js-motion');
-  const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
-    if (entry.isIntersecting) { entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
-  }), { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
+}
+addEventListener('scroll', onScroll, { passive: true });
+addEventListener('resize', onScroll, { passive: true });
+onScroll();
+
+/* ── AI meal demo ──────────────────────────────────────────────────── */
+let mealTimers = [];
+const status = document.querySelector('.meal-status');
+const statusText = status.querySelector('span');
+function replayMeal() {
+  mealTimers.forEach(clearTimeout);
+  mealTimers = [];
+  document.querySelectorAll('.plate-layer').forEach((el, i) => el.classList.toggle('active', i === 0));
+  document.querySelectorAll('.ingredient').forEach(el => el.classList.remove('active'));
+  document.querySelector('.meal-total').classList.remove('active');
+  status.classList.remove('done');
+  statusText.textContent = 'COR AI is thinking';
+  ['Omelet', 'Cheese', 'Chicken'].forEach((name, i) => {
+    mealTimers.push(setTimeout(() => {
+      document.querySelectorAll('.plate-layer').forEach((el, n) => el.classList.toggle('active', n === i + 1));
+      document.querySelector(`.ingredient-${i}`).classList.add('active');
+      statusText.textContent = `Adding ${name}`;
+    }, reduceMotion ? 0 : 1300 + i * 1400));
+  });
+  mealTimers.push(setTimeout(() => {
+    status.classList.add('done');
+    statusText.textContent = 'Done ✓';
+    document.querySelector('.meal-total').classList.add('active');
+  }, reduceMotion ? 0 : 5600));
+}
+let mealSeen = false;
+new IntersectionObserver(entries => {
+  const vis = entries.some(e => e.isIntersecting);
+  if (vis && !mealSeen) replayMeal();
+  mealSeen = vis;
+}, { threshold: .35 }).observe(document.querySelector('.meal-demo'));
+document.querySelector('.prompt-demo').addEventListener('click', replayMeal);
+
+/* ── FAQ: Smooth FAQ Flow (one open at a time) ─────────────────────── */
+const flowItems = [...document.querySelectorAll('.flow-item')];
+flowItems.forEach(item => item.querySelector('.flow-q').addEventListener('click', () => {
+  const opening = !item.classList.contains('open');
+  flowItems.forEach(o => { o.classList.remove('open'); o.querySelector('.flow-q').setAttribute('aria-expanded', 'false'); });
+  if (opening) { item.classList.add('open'); item.querySelector('.flow-q').setAttribute('aria-expanded', 'true'); }
+}));
+
+/* ── Footer video: only play while visible ─────────────────────────── */
+const metal = document.querySelector('.footer-metal video');
+if (metal) {
+  if (reduceMotion) { metal.removeAttribute('autoplay'); metal.pause(); }
+  else new IntersectionObserver(([e]) => { e.isIntersecting ? metal.play().catch(() => {}) : metal.pause(); }).observe(metal);
 }
