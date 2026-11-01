@@ -2,13 +2,14 @@
 
 Layout, typography and motion follow the owner's Framer project
 (Calories copy, published at goodness-zebra-710061.framer.app).
-Copy comes from reference-data.json (text from that Framer project).
+Product copy comes from reference-data.json, reviewed against the COR app.
 
 Run:      python3 build.py
 Preview:  python3 -m http.server 4317 --bind 127.0.0.1 --directory dist
 """
 from pathlib import Path
 import json
+import hashlib
 from html import escape
 
 # ── Links: paste the real ones here before launch, then rebuild ─────────
@@ -23,9 +24,15 @@ ROOT = Path(__file__).parent
 data = json.loads((ROOT / 'reference-data.json').read_text())
 BRAND = 'COR'
 DOWNLOAD = APP_STORE_URL or '#download'
+DOWNLOAD_LABEL = 'Download for iPhone' if APP_STORE_URL else 'Coming soon'
+AVAILABILITY = 'Built for iPhone' if APP_STORE_URL else 'Coming soon for iPhone'
 ARROW = '<span aria-hidden="true">›</span>'
 APPSTORE = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#1d8cf8"/><path d="M8.1 16.6h7.8M9.6 16.6l3.9-8.9M14.4 16.6l-1.6-3.6M10.3 7.7l.8 1.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>'
-NAV = [('Features', '#features'), ('How it works', '#how-it-works'), ('Pricing', '#pricing'), ('FAQ', '#faq'), ('Legal', '#legal')]
+NAV = [('Features', '#features'), ('How it works', '#how-it-works'), ('Plans', '#pricing'), ('FAQ', '#faq'), ('App screens', '#screens')]
+
+def versioned_asset(name):
+    digest = hashlib.sha256((ROOT / 'dist' / name).read_bytes()).hexdigest()[:12]
+    return f'/{name}?v={digest}'
 
 
 def img(name, alt='', cls='', eager=False):
@@ -37,8 +44,8 @@ def icon(name, cls='deco'):
     return img(data['icons'][name], '', cls)
 
 
-def button(label='Download for iPhone', href=DOWNLOAD, cls='solid-button'):
-    return f'<a class="{cls}" href="{href}">{escape(label)}{ARROW}</a>'
+def button(label=DOWNLOAD_LABEL, href=DOWNLOAD, cls='solid-button'):
+    return f'<a class="{cls}" href="{escape(href, quote=True)}">{escape(label)}{ARROW}</a>'
 
 
 def section_header(index):
@@ -49,7 +56,7 @@ def section_header(index):
 
 # ── Phone (shared by hero + how-it-works) ───────────────────────────────
 NUTRIENT_ROWS = [('◎', '5g', 'Protein', 'n-protein'), ('⟋', '25g', 'Carbs', 'n-carbs'),
-                 ('◈', '36g', 'Sugar', 'n-sugar'), ('◐', '12g', 'Fats', 'n-fat')]
+                 ('◈', '12g', 'Sugar', 'n-sugar'), ('◐', '12g', 'Fats', 'n-fat')]
 nutrient_rows = ''.join(
     f'<li class="{c}"><i>{g}</i><span><b>{v}</b>{n}</span></li>' for g, v, n, c in NUTRIENT_ROWS)
 
@@ -60,10 +67,10 @@ def phone(cls=''):
     {img('JAkAjO3nzzlBXQIicczRvbDEEng.png', 'A packet of biscuits framed in the scanner', 'camera-photo', True)}
     <div class="phone-top"><span>‹</span><strong>Scan food</strong><span>···</span></div>
     <div class="scan-frame"><i></i><i></i><i></i><i></i><div class="scan-line"></div></div>
-    <div class="phone-camera"><span class="cam-thumb"></span><button class="shutter" tabindex="-1" aria-label="Preview food scan"></button><span>↻</span></div>
+    <div class="phone-camera"><span class="cam-thumb"></span><span class="shutter" aria-hidden="true"></span><span>↻</span></div>
     <div class="analysis-sheet">
       <span class="sheet-grabber"></span>
-      <div class="sheet-head">{img('JAkAjO3nzzlBXQIicczRvbDEEng.png', '', 'sheet-thumb')}<div><b>515 Calories</b><small>Nutella Biscuits</small></div></div>
+      <div class="sheet-head">{img('JAkAjO3nzzlBXQIicczRvbDEEng.png', '', 'sheet-thumb')}<div><b>228 Calories</b><small>Illustrative serving</small></div></div>
       <div class="sheet-actions"><span class="phone-log">Add to log</span><span>Edit</span></div>
       <p class="sheet-label">Nutritional data</p>
       <ul class="sheet-nutrients">{nutrient_rows}</ul>
@@ -77,10 +84,10 @@ def phone(cls=''):
 
 # ── Food suggestions ───────────────────────────────────────────────────
 FOOD = [  # name, good pick?, hint shown on hover
-    ('Salad', True, 'Good pick · high fibre'), ('Meat', True, 'Good pick · 26g protein'),
-    ('Ramen', False, 'Heavy on sodium'), ('Chocolate', False, 'High in sugar'),
-    ('Pizza', False, 'Over your fat target'), ('Sandwhich', True, 'Fits your macros'),
-    ('Salmon', True, 'Good pick · omega-3'),
+    ('Salad', True, 'Include the dressing'), ('Meat', True, 'Check the portion'),
+    ('Ramen', True, 'Review the ingredients'), ('Chocolate', True, 'Choose your serving'),
+    ('Pizza', True, 'Log by the slice'), ('Sandwhich', True, 'Add sauces and extras'),
+    ('Salmon', True, 'Include cooking oil'),
 ]
 food_orbit = ''.join(
     f'<button class="food-orbit food-{i}" data-recommendation="{"yes" if ok else "no"}" '
@@ -120,8 +127,8 @@ free = ['Personalized plan and targets', 'Manual food logging and food search', 
 pro = ['Everything in Free', 'Meal-photo and text estimates', 'Restaurant menu scanning',
        'Nutrition-label photos and new-product lookup', 'AI coach and weekly coaching', 'AI workouts and workout-photo import']
 pro_price = f'<b>${escape(PRO_PRICE)}</b> <span>/month</span>' if PRO_PRICE else '<b class="price-tba">In app</b> <span>at launch</span>'
-plans_data = [('Free', '<b>$0</b> <span>/month</span>', 'Anyone who’s getting started', free, 'Get started'),
-              (f'{BRAND} Pro', pro_price, 'Users who want automation', pro, 'Try Pro')]
+plans_data = [('Free', '<b>$0</b> <span>/month</span>', 'Your everyday tracking', free, 'Get started' if APP_STORE_URL else 'Coming soon'),
+              (f'{BRAND} Pro', pro_price, 'Optional AI tools', pro, 'Explore Pro' if APP_STORE_URL else 'Coming soon')]
 plans = ''.join(
     f'<article class="pricing-card plan-{i} reveal" style="--d:{i * 90}ms"><div class="price-heading"><h3>{escape(name)}</h3>'
     f'<p class="price">{price}</p><p>{escape(tag)}</p></div>{button(cta, DOWNLOAD, "solid-button plan-cta")}'
@@ -136,9 +143,9 @@ faq = ''.join(
     for i, f in enumerate(data['faq']))
 
 # ── How it works ───────────────────────────────────────────────────────
-steps = [('Scan your <br>food', 'Point your camera or scan a barcode the app instantly recognizes your meal with AI-powered accuracy.'),
-         ('Get <br>Nutritional <br>Insights', 'See exactly what’s on your plate, calories, macros, and key nutrients, all broken down in seconds.'),
-         ('Make Your <br>Action', 'Log it, tweak your plan, or ask AI for smarter alternatives all in one tap.')]
+steps = [('Log your <br>food', 'Search for a food, scan a recognized barcode, or use Pro to estimate a meal from a photo or description.'),
+         ('Review the <br>details', 'For photo estimates, add hidden ingredients and portion details. Review and edit the nutrition before saving.'),
+         ('Keep your <br>day in view', 'Save your meal to the daily log and see how it contributes to your calorie and macro targets.')]
 how_titles = ''.join(f'<h3 class="how-title{" active" if i == 0 else ""}">{t}</h3>' for i, (t, _) in enumerate(steps))
 how_descs = ''.join(f'<p class="how-desc{" active" if i == 0 else ""}">{escape(d)}</p>' for i, (_, d) in enumerate(steps))
 how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-step="{i}" aria-label="Step {i + 1}: {escape(t.replace("<br>", " "))}"></button>' for i, (t, _) in enumerate(steps))
@@ -146,7 +153,7 @@ how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-s
 # ── Real app screens (in place of the template's stock "results" photos) ──
 screens = [('weight', 'Weight trend'), ('home', 'Daily food log'), ('strength', 'Strength history')]
 screen_cards = ''.join(
-    f'<figure class="result-card result-{i}">{img("product/" + n + ".png", label + " — real COR screen with sample data")}</figure>'
+    f'<figure class="result-card result-{i}"><button class="screen-shot" data-screen="/assets/product/{n}.png" data-title="{label}" aria-label="Enlarge {label.lower()}">{img("product/" + n + ".png", label + " — real COR screen with sample data")}</button></figure>'
     for i, (n, label) in enumerate(screens))
 
 nav_links = ''.join(f'<a class="lens-link" href="{h}">{t}</a>' for t, h in NAV)
@@ -157,40 +164,46 @@ plates = [('CgUIeltv0Dq9CmMfit3NI4VHzY.png', 'Empty plate'), ('0S91gIGvUFBixLMM1
           ('gm6Geusoczh1lGedoY46WeMIBZs.png', 'Omelet and cheese'), ('RMrVeVtxfeVSJDV0ASPBXMU9U.png', 'Omelet, cheese and grilled chicken')]
 plate_html = ''.join(img(a, alt, f'plate-layer plate-{i}') for i, (a, alt) in enumerate(plates))
 ingredients = ''.join(f'<span class="ingredient ingredient-{i}">{icon(n)}</span>' for i, n in enumerate(['Omelet', 'Cheese', 'Chicken']))
-contact = f'mailto:{SUPPORT_EMAIL}' if SUPPORT_EMAIL else '#faq'
+contact_link = f'<a href="mailto:{escape(SUPPORT_EMAIL, quote=True)}">Contact</a>' if SUPPORT_EMAIL else ''
+legal_links = ''.join(f'<a href="{escape(url, quote=True)}">{label}</a>' for label, url in [('Privacy Policy', PRIVACY_URL), ('Terms &amp; Conditions', TERMS_URL)] if url)
+footer_info = f'<h3>Legal</h3>{legal_links}' if legal_links else '<h3>Explore</h3><a href="#screens">App screens</a><a href="#faq">Questions</a>'
+final_cta = button() if APP_STORE_URL else button('Explore the app', '#features')
 
 html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>COR Active</title>
-<meta name="description" content="COR Active — the nutrition and training app that shows its work. Scan food, see what’s in it, log your lifts, and get one score with the arithmetic printed underneath.">
+<meta name="description" content="COR Active — coming soon for iPhone and Apple Watch. Explore food logging, nutrition estimates, workout tracking and real screens from COR.">
+<link rel="canonical" href="https://coractive.co/">
+<meta property="og:url" content="https://coractive.co/">
 <meta name="theme-color" content="#030505">
-<meta property="og:title" content="COR Active"><meta property="og:description" content="The nutrition and training app that shows its work on every number."><meta property="og:image" content="/icon-512.png">
+<meta property="og:title" content="COR Active"><meta property="og:description" content="The nutrition and training app that shows its work on every number."><meta property="og:image" content="https://coractive.co/icon-512.png">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/assets/brand/cor-metal-wordmark.webp" as="image">
-<link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
 <script>try{{if(sessionStorage.getItem('cor-preloaded'))document.documentElement.classList.add('skip-preloader')}}catch(e){{}}</script>
-<script src="/app.js" defer></script></head>
+<script src="{versioned_asset('app.js')}" defer></script></head>
 <body>
 <div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-metal-wordmark.webp" alt=""><span class="preloader-shine"></span></div></div>
 <a class="skip-link" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} Active home"><span class="brand-star">✱</span><span>{BRAND}</span></a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button(cls='solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
 <main id="main">
-<section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">{APPSTORE} Built for iPhone</span><h1>The app that<br><mark>shows its work</mark><br>on every number.</h1><p>{escape(hero_copy)}</p>{button(cls='solid-button hero-cta')}</header>
+<section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">{APPSTORE} {AVAILABILITY}</span><h1>The app that<br><mark>shows its work</mark><br>on every number.</h1><p>{escape(hero_copy)}</p>{button(cls='solid-button hero-cta')}</header>
 <div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{phone('hero-phone')}
 <div class="float-food float-salad">{icon('Salad')}</div><div class="float-food float-ramen">{icon('Ramen')}</div><div class="float-food float-pizza">{icon('Pizza')}</div><div class="float-food float-chocolate">{icon('Chocolate')}</div>
-<div class="nutrition-toast toast-carbs"><i>⟋</i><span><b>25g</b>Carbs</span></div><div class="nutrition-toast toast-protein"><i>◎</i><span><b>5g</b>Protein</span></div><div class="nutrition-toast toast-sugar"><i>◈</i><span><b>36g</b>Sugar</span></div><div class="nutrition-toast toast-fat"><i>◐</i><span><b>12g</b>Fats</span></div>
-<h2 class="know-heading">Know what<br>you’re eating</h2></div></div></div></section>
-<section class="food-suggestions section" id="food-suggestions"><div class="food-stage"><h2 class="reveal">Helps you find<br>what you should<br>eat.</h2>{food_orbit}<button class="food-help"><span aria-hidden="true">ⓘ</span> Hover over these icons</button></div><dialog id="food-guide"><button class="dialog-close" aria-label="Close guide">×</button>{icon('Salad')}<h3>Hover over the elements</h3><p>The 3D food icons are interactable — hovering over them shows which food you should probably eat. That’s what the app does for you.</p><p class="touch-help">On a touch screen, tap an icon to explore it.</p></dialog></section>
+<div class="nutrition-toast toast-carbs"><i>⟋</i><span><b>25g</b>Carbs</span></div><div class="nutrition-toast toast-protein"><i>◎</i><span><b>5g</b>Protein</span></div><div class="nutrition-toast toast-sugar"><i>◈</i><span><b>12g</b>Sugar</span></div><div class="nutrition-toast toast-fat"><i>◐</i><span><b>12g</b>Fats</span></div>
+<h2 class="know-heading">Know what<br>you’re eating</h2></div></div></div><p class="demo-note">Animated illustration with sample values. <a href="#screens">See real COR screens</a>.</p></section>
+<section class="food-suggestions section" id="food-suggestions"><div class="food-stage"><h2 class="reveal">Make room for<br>the details<br>in every meal.</h2>{food_orbit}<button class="food-help"><span aria-hidden="true">ⓘ</span> Tap or hover to explore</button></div><dialog id="food-guide"><button class="dialog-close" aria-label="Close guide">×</button>{icon('Salad')}<h3>Details make a difference</h3><p>Explore examples of portion and ingredient details you can include when logging a meal. These illustrations are prompts, not personalized food recommendations.</p><p class="touch-help">On a touch screen, tap an icon to explore it.</p></dialog></section>
 <section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("CŌR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
-<section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div></div></div></section>
-<section class="features-section section" id="features">{section_header(4)}<div class="feature-grid">{features}</div></section>
-<section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>{BRAND} AI is thinking</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Replay the meal demo"><span class="prompt-text">Make me a 30g protein dish under 300Kcal</span><span class="prompt-tools"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button></div></section>
-<section class="results-section section" id="screens"><header class="section-header reveal"><h2>Real screens. Real numbers.</h2><p>Everything here comes from the app itself — shown with sample data, so you can see exactly what you’ll get.</p></header><div class="result-cards">{screen_cards}</div><a class="pill-link" href="#how-it-works">See it in action {ARROW}</a></section>
-<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-grid">{plans}</div><p class="pricing-footnote">Subscriptions, prices and any eligible trial are shown in the app before you buy.</p></section>
+<section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Illustrated flow · sample values</p></div></div></section>
+<section class="features-section section" id="features">{section_header(4)}<div class="feature-grid">{features}</div><p class="demo-note">Illustrated feature previews. <a href="#screens">Explore the real app screens</a>.</p></section>
+<section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Replay the meal demo"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
+<section class="results-section section" id="screens"><header class="section-header reveal"><h2>Real screens. Real numbers.</h2><p>Captured from the current COR app with sample data. Tap a screen to view it in full.</p></header><div class="result-cards">{screen_cards}</div><a class="pill-link" href="#how-it-works">See it in action {ARROW}</a></section>
+<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-grid">{plans}</div><p class="pricing-footnote">COR is coming soon. Subscriptions, prices and any eligible trial will be shown in the app before purchase. AI usage limits apply.</p></section>
 <section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
-<section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}{img('vfwd58TDMrxP0cuErxsVbpt2Qs.png', '', 'crown')}</div><span class="iphone-badge">{APPSTORE} Built for iPhone</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and the goal that actually fits your body composition. Sign in only if you want to keep it.</p>{button()}</section>
+<section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}{img('vfwd58TDMrxP0cuErxsVbpt2Qs.png', '', 'crown')}</div><span class="iphone-badge">{APPSTORE} {AVAILABILITY}</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
 </main>
-<footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><a class="footer-brand" href="#top">{BRAND}</a><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Pricing</a><a href="{DOWNLOAD}">Download</a><a href="{contact}">Contact</a></div><div><h3>Legal</h3><a href="{PRIVACY_URL or '#legal'}">Privacy Policy</a><a href="{TERMS_URL or '#legal'}">Terms &amp; Conditions</a></div></div>
+<dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>Real app screen · sample data</p><img alt=""></dialog>
+<footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><a class="footer-brand" href="#top">{BRAND}</a><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="{DOWNLOAD}">{DOWNLOAD_LABEL}</a>{contact_link}</div><div>{footer_info}</div></div>
 <div class="copyright">© 2026 COR Active. All rights reserved.</div>
 <a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="metadata" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a></footer>
 </body></html>'''

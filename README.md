@@ -9,15 +9,15 @@ python3 build.py
 python3 -m http.server 4317 --bind 127.0.0.1 --directory dist
 ```
 
-`build.py` writes `dist/index.html`. Text comes from `reference-data.json` (copied from the Framer project). Styles are in `dist/fonts.css` + `dist/style.css`; all motion and interaction is in `dist/app.js` (no libraries).
+`build.py` writes `dist/index.html`. Product copy comes from `reference-data.json`, reviewed against the COR app. Styles are in `dist/fonts.css` + `dist/style.css`; all motion and interaction is in `dist/app.js` (no libraries).
 
 ## Before launch
 
 Fill in the block at the top of `build.py`, then rebuild:
 
-- `APP_STORE_URL`: every "Download for iPhone" button points here (until it is set they scroll to the download section)
-- `PRIVACY_URL`, `TERMS_URL`: footer legal links (App Store Connect needs public URLs for these)
-- `SUPPORT_EMAIL`: footer Contact link
+- `APP_STORE_URL`: enables real download links; until set, the site says Coming soon
+- `PRIVACY_URL`, `TERMS_URL`: footer legal links; omitted until real public URLs are configured
+- `SUPPORT_EMAIL`: footer Contact link; omitted until configured
 - `PRO_PRICE`: shown on the COR Pro card (until it is set the card says "In app")
 
 ## What's on the page
@@ -25,10 +25,10 @@ Fill in the block at the top of `build.py`, then rebuild:
 - **Logo preloader**: the liquid-metal COR wordmark rises in, holds, then fades. It shows once per browser session.
 - **Focus Lens nav**: the link nearest the cursor sharpens, the others blur, and corner brackets glide to it.
 - **Hero**: the phone scans, the nutrition sheet slides up, and macro cards fly in ("Know what you're eating").
-- **Food suggestions**: blurred 3D foods come into focus on hover or tap, with a good-pick or avoid hint.
+- **Food suggestions**: blurred 3D foods come into focus on hover or tap, with a portion or ingredient detail to consider.
 - **Exploded burger**: the layers spread apart on scroll, with labels for hidden calories.
 - **How it works**: a sticky phone with three steps (scan, insights, action) driven by scroll.
-- **Feature cards, AI meal demo, a fan of real app screens, Free/Pro pricing.**
+- **Feature cards, AI meal demo, a fan of expandable real app screens, Free/Pro pricing.**
 - **FAQ**: Smooth-FAQ-Flow-style glass cards. One is open at a time, with an animated height change and a +/− icon.
 - **Footer**: the liquid-metal wordmark video (`dist/assets/brand/`).
 
@@ -39,3 +39,9 @@ The favicon is the "C" from the liquid-metal logo (`dist/favicon-*.png`, `apple-
 ## Publishing
 
 Keep `.openai/hosting.json` and publish the static `dist` folder.
+
+## Review and release notes
+
+The animated phone, feature widgets and meal scenes are labeled illustrations with sample values. The expandable screenshot gallery uses authentic COR captures. Coming-soon labels remain until an App Store URL is supplied. The loader cannot block the page when JavaScript is disabled, FAQ answers have accessible expanded states, and narrow mobile layouts are checked before publication.
+
+The public custom domain is `https://coractive.co`. Brevo waitlist integration and public legal/support pages are still separate unfinished tasks; this redesign does not collect emails.

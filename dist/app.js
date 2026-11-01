@@ -1,5 +1,6 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const root = document.documentElement;
+root.classList.add('js-enabled');
 if (!reduceMotion) root.classList.add('js-motion');
 
 /* ── Logo preloader (once per visit) ───────────────────────────────── */
@@ -103,6 +104,8 @@ function setStep(i) {
   if (i === currentStep) return;
   currentStep = i;
   [titles, descs, dots].forEach(list => list.forEach((el, n) => el.classList.toggle('active', n === i)));
+  [...titles, ...descs].forEach((el, n) => el.setAttribute('aria-hidden', String(n % 3 !== i)));
+  dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
   howPhone.classList.toggle('is-scanned', i > 0);
   howPhone.classList.toggle('is-action', i === 2);
 }
@@ -163,12 +166,12 @@ function replayMeal() {
   document.querySelectorAll('.ingredient').forEach(el => el.classList.remove('active'));
   document.querySelector('.meal-total').classList.remove('active');
   status.classList.remove('done');
-  statusText.textContent = 'COR AI is thinking';
+  statusText.textContent = 'Estimating nutrition';
   ['Omelet', 'Cheese', 'Chicken'].forEach((name, i) => {
     mealTimers.push(setTimeout(() => {
       document.querySelectorAll('.plate-layer').forEach((el, n) => el.classList.toggle('active', n === i + 1));
       document.querySelector(`.ingredient-${i}`).classList.add('active');
-      statusText.textContent = `Adding ${name}`;
+      statusText.textContent = `Reading ${name}`;
     }, reduceMotion ? 0 : 1300 + i * 1400));
   });
   mealTimers.push(setTimeout(() => {
@@ -187,11 +190,24 @@ document.querySelector('.prompt-demo').addEventListener('click', replayMeal);
 
 /* ── FAQ: Smooth FAQ Flow (one open at a time) ─────────────────────── */
 const flowItems = [...document.querySelectorAll('.flow-item')];
+flowItems.forEach(item => item.querySelector('.flow-a').setAttribute('aria-hidden', String(!item.classList.contains('open'))));
 flowItems.forEach(item => item.querySelector('.flow-q').addEventListener('click', () => {
   const opening = !item.classList.contains('open');
-  flowItems.forEach(o => { o.classList.remove('open'); o.querySelector('.flow-q').setAttribute('aria-expanded', 'false'); });
-  if (opening) { item.classList.add('open'); item.querySelector('.flow-q').setAttribute('aria-expanded', 'true'); }
+  flowItems.forEach(o => { o.classList.remove('open'); o.querySelector('.flow-q').setAttribute('aria-expanded', 'false'); o.querySelector('.flow-a').setAttribute('aria-hidden', 'true'); });
+  if (opening) { item.classList.add('open'); item.querySelector('.flow-q').setAttribute('aria-expanded', 'true'); item.querySelector('.flow-a').setAttribute('aria-hidden', 'false'); }
 }));
+
+/* Real app screenshots: full-size viewing with native dialog focus handling. */
+const screenViewer = document.querySelector('#screen-viewer');
+document.querySelectorAll('.screen-shot').forEach(button => button.addEventListener('click', () => {
+  const image = screenViewer.querySelector('img');
+  image.src = button.dataset.screen;
+  image.alt = `${button.dataset.title} — real COR screen with sample data`;
+  screenViewer.querySelector('h2').textContent = button.dataset.title;
+  screenViewer.showModal();
+}));
+screenViewer.querySelector('.screen-close').addEventListener('click', () => screenViewer.close());
+screenViewer.addEventListener('click', e => { if (e.target === screenViewer) screenViewer.close(); });
 
 /* ── Footer video: only play while visible ─────────────────────────── */
 const metal = document.querySelector('.footer-metal video');
