@@ -688,3 +688,5 @@ body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
   .nav-wordmark{width:44px;max-height:22px}
   .menu-toggle{flex-basis:32px;width:32px;height:32px}
 }
+/* Blend the dark source canvas of the metal wordmark into the glass nav. */
+.nav-wordmark{mix-blend-mode:lighten;filter:none}
