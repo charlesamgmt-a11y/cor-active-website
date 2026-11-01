@@ -42,6 +42,6 @@ Keep `.openai/hosting.json` and publish the static `dist` folder.
 
 ## Review and release notes
 
-The animated phone, feature widgets and meal scenes are labeled illustrations with sample values. The expandable screenshot gallery uses authentic COR captures. Coming-soon labels remain until an App Store URL is supplied. The loader cannot block the page when JavaScript is disabled, FAQ answers have accessible expanded states, and narrow mobile layouts are checked before publication.
+The animated phone, feature widgets and meal scenes are labeled illustrations with sample values. The app gallery uses six native COR captures in a swipeable strip: daily dashboard, meal photo context, estimate review, product ingredients, strength and weight. A light progressive blur softens only the lower image edge; tapping a screen opens the unblurred capture. Coming-soon labels remain until an App Store URL is supplied. The loader cannot block the page when JavaScript is disabled, FAQ answers have accessible expanded states, and narrow mobile layouts are checked before publication.
 
 The public custom domain is `https://coractive.co`. Brevo waitlist integration and public legal/support pages are still separate unfinished tasks; this redesign does not collect emails.

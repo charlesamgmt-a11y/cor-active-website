@@ -4,7 +4,7 @@
       "name": "Hero",
       "texts": [
         "The app that shows its workon every number.",
-        "Log food your way. Review ingredients and nutrition, track your lifts, and see your daily targets and progress together in COR.",
+        "Build a goal and daily targets, log food by search, barcode or manual entry, and keep nutrition, workouts and progress together in COR.",
         "Know what you’re eating"
       ]
     },
@@ -31,29 +31,29 @@
     {
       "name": "Features",
       "texts": [
-        "More context for your everyday choices.",
-        "Your targets, food log and ingredient details, together in one app."
+        "One view for food, training, and progress.",
+        "See your calorie and macro targets alongside meals, hydration, workouts, weight and strength trends."
       ]
     },
     {
       "name": "AI Meals",
       "texts": [
-        "Describe your meal. Review the estimate.",
-        "Type what you ate and use COR Pro to estimate its nutrition. Add portions and ingredients, review the result, and adjust the numbers before saving it to your day."
+        "AI tools you can review before they become a log.",
+        "COR Pro can estimate a meal from a photo or description and scan menus or nutrition labels. Add context first, inspect the result, and edit it before saving."
       ]
     },
     {
       "name": "Results",
       "texts": [
-        "People who got results.",
-        "Real people. Real data. Real progress. Our users are transforming their health through simple, consistent tracking."
+        "Product shots from the app, not concept art.",
+        "Explore real COR screens captured in the iPhone app. The records shown are local samples."
       ]
     },
     {
       "name": "Pricing Plans",
       "texts": [
-        "Free tracking. Optional AI tools.",
-        "Start with the core app. COR Pro adds meal estimates, menu scanning and coaching."
+        "Start with the core app. Add AI tools when you want them.",
+        "COR includes food, nutrition and workout tracking. COR Pro adds selected AI-assisted features. Current pricing and any eligible trial will be shown in the app before purchase."
       ]
     },
     {
@@ -66,58 +66,47 @@
   ],
   "features": [
     {
-      "title": "A plan you can review first.",
-      "description": "Use your setup answers to explore a suggested goal and personalized calorie and macro targets. Review your plan before signing in to keep it."
+      "title": "Know your plan before signing in.",
+      "description": "Answer setup questions to see suggested calorie and macro targets and a goal timeline. Review the plan first; sign in when you want to keep it."
     },
     {
-      "title": "Log it however it arrives.",
-      "description": "Search, scan a recognized barcode or log manually. COR Pro adds meal-photo estimates, nutrition-label photos, menu scanning and text estimates, all saved to your daily log."
+      "title": "Log food how you have it.",
+      "description": "Search food records, use COR Intelligence to refine a search, scan a recognized barcode or enter a meal yourself. COR Pro adds photo and text estimates, nutrition-label scans and restaurant menu scans; review and edit before saving."
     },
     {
-      "title": "Food data with context.",
-      "description": "Search food databases and recognized products. Where available, review nutrition and ingredient information before choosing a serving and saving it to your log."
+      "title": "See why COR grades a product.",
+      "description": "Review ingredient findings and the reasons behind a grade. Nutrition, allergens and processing references appear separately when the source record includes them. The rubric evaluates the information available to COR."
     },
     {
-      "title": "Look beyond the calories.",
-      "description": "See an ingredient-by-ingredient breakdown and the reasons behind COR’s product grade. Allergens, nutrition and processing references are shown separately where information is available."
+      "title": "Bring nutrition and training together.",
+      "description": "Track daily calories, macros and water alongside workouts, weight and strength trends. Connect supported Apple Health data with permission and manage workouts on Apple Watch. COR Pro adds coaching and AI workout tools."
     }
   ],
   "plans": [
     {
       "name": "Free",
-      "tagline": "Anyone who’s getting started",
+      "tagline": "Your everyday tracking",
       "price": "0",
       "features": [
-        "Food logging",
-        "Database access",
-        "Manual meal entry",
-        "Daily calorie & macro summary",
-        "Basic progress tracking"
+        "Preview a personalized plan and targets",
+        "Food search, manual logging and recognized barcode lookup",
+        "Daily calories, macros and hydration",
+        "Workout logging and rest timers",
+        "Weight and strength progress",
+        "Apple Health connection with permission"
       ]
     },
     {
-      "name": "Pro",
-      "tagline": "Users who want automation",
-      "price": "25",
+      "name": "COR Pro",
+      "tagline": "Optional AI tools",
+      "price": "In app at launch",
       "features": [
         "Everything in Free",
-        "AI meals",
-        "Photo & barcode scan",
-        "Smart recommendations",
-        "Full progress analytics",
-        "Priority support"
-      ]
-    },
-    {
-      "name": "Gold",
-      "tagline": "People who want total control.",
-      "price": "75",
-      "features": [
-        "Everything in Pro",
-        "Advance analytics",
-        "Personal coach",
-        "App integrations",
-        "Exportable data & macros"
+        "Meal-photo and text estimates",
+        "Restaurant menu scanning",
+        "Nutrition-label photos and new-product lookup",
+        "AI coach and weekly coaching",
+        "AI workouts and workout-photo import"
       ]
     }
   ],
@@ -139,35 +128,43 @@
   "faq": [
     {
       "q": "When can I download COR?",
-      "a": "COR is coming soon for iPhone, with a companion Apple Watch app. This page shows features built into the current app. Download links will be added when access opens."
+      "a": "COR is coming soon for iPhone, with a companion Apple Watch app. This page shows features built into the current app. Download links will appear when access opens."
     },
     {
-      "q": "Do I need an account to try it?",
-      "a": "You can answer the setup questions and review your suggested plan before signing in. COR supports Sign in with Apple and Google when you are ready to save it."
+      "q": "Do I need an account to see my plan?",
+      "a": "No. You can answer the setup questions and review suggested targets and a goal timeline before signing in. Sign in when you want to keep and sync your plan."
     },
     {
-      "q": "What can I use without Pro?",
-      "a": "Your plan, targets and manual workout tracking remain available without Pro. The core app also includes food search, manual logging, recognized barcode lookup, strength history and Apple Health integration. Pro adds AI tools such as meal estimates, menu scanning and coaching."
+      "q": "What can I use without COR Pro?",
+      "a": "The core app includes your plan and targets, food search, manual entries, recognized barcode lookup, calorie and macro tracking, workout logging, strength and weight progress, and supported Apple Health connections. COR Pro adds select AI-assisted features; the exact offer is shown in the app."
     },
     {
-      "q": "Are photo calories exact?",
-      "a": "No. A photo result is an estimate. Before analyzing a meal, COR lets you add ingredients the camera may miss, choose a portion size and add notes. You can review and edit the nutrition before logging it."
+      "q": "How does COR Intelligence search work?",
+      "a": "It can refine a food search into focused catalog queries and return likely database matches. Check the product, brand and serving before logging."
     },
     {
-      "q": "What does the product grade mean?",
-      "a": "COR applies its ingredient rules to the available ingredient list and explains the findings. Nutrition, allergens and processing references are shown separately where data is available. A product grade is information to help you compare foods, not a medical assessment."
+      "q": "Are meal-photo calories exact?",
+      "a": "No. Photo and text results are estimates. Before a photo analysis, you can add hidden ingredients, choose a portion and leave a note. Review and edit the result before saving it to your day."
     },
     {
-      "q": "How does the goal score work?",
-      "a": "The score combines nutrition, training, hydration and measured recovery into a breakdown you can inspect. Missing data is handled explicitly instead of being treated as a measured result. It tracks progress toward your goals, not your overall health."
+      "q": "How does a product grade work?",
+      "a": "COR applies its scoring rubric to the ingredient information it has and explains the findings. Nutrition, allergens and processing data are shown separately when available. If AI helps read a label, its confidence alone does not verify that label. A grade is for food comparison, not medical advice."
+    },
+    {
+      "q": "Does COR’s daily score measure my health?",
+      "a": "No. It summarizes available logged nutrition, training, hydration and recovery data against your goals. Missing readings are not treated as measured results. It is a progress signal, not a diagnosis or overall health assessment."
     },
     {
       "q": "Does COR work with Apple Health and Apple Watch?",
-      "a": "Yes. Apple Health connects supported activity, sleep, body measurements and nutrition data with your permission. The Watch companion lets you follow a workout, adjust reps and weight, complete sets and manage rest."
+      "a": "With your permission, COR can connect supported Apple Health activity, sleep, body measurements and nutrition data. The companion Watch app can follow a workout, record sets and manage rest."
     },
     {
-      "q": "What happens when I use AI features?",
-      "a": "AI features require consent and can send the content needed for the request to an external AI provider—for example a meal photo or food description. The app includes separate AI privacy controls. Core manual tracking does not require those AI features."
+      "q": "What happens when I use an AI feature?",
+      "a": "COR asks for permission before sending content you choose to analyze, such as a meal photo, food description or menu image, to an external AI provider. Separate AI controls are available in the app. Manual logging does not require those AI analyses."
+    },
+    {
+      "q": "What will COR Pro cost?",
+      "a": "The final subscription price and any eligible trial will be shown in the app before you purchase. No launch price is being advertised on this page yet."
     }
   ]
 }

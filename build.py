@@ -122,8 +122,9 @@ features = ''.join(
     for i, f in enumerate(data['features']))
 
 # ── Pricing (real tiers only: Free + COR Pro) ──────────────────────────
-free = ['Personalized plan and targets', 'Manual food logging and food search', 'Known barcode lookup',
-        'Workout tracking and rest timers', 'Strength history and progress', 'Apple Health integration']
+free = ['Plan and daily targets', 'Food search, manual logging and recognized barcode lookup',
+        'Daily calories, macros and hydration', 'Workout tracking and rest timers',
+        'Weight and strength progress', 'Apple Health connection with permission']
 pro = ['Everything in Free', 'Meal-photo and text estimates', 'Restaurant menu scanning',
        'Nutrition-label photos and new-product lookup', 'AI coach and weekly coaching', 'AI workouts and workout-photo import']
 pro_price = f'<b>${escape(PRO_PRICE)}</b> <span>/month</span>' if PRO_PRICE else '<b class="price-tba">In app</b> <span>at launch</span>'
@@ -150,11 +151,18 @@ how_titles = ''.join(f'<h3 class="how-title{" active" if i == 0 else ""}">{t}</h
 how_descs = ''.join(f'<p class="how-desc{" active" if i == 0 else ""}">{escape(d)}</p>' for i, (_, d) in enumerate(steps))
 how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-step="{i}" aria-label="Step {i + 1}: {escape(t.replace("<br>", " "))}"></button>' for i, (t, _) in enumerate(steps))
 
-# ── Real app screens (in place of the template's stock "results" photos) ──
-screens = [('weight', 'Weight trend'), ('home', 'Daily food log'), ('strength', 'Strength history')]
+# ── Real app screens (in place of template stock-result photography) ──
+screens = [
+    ('home', 'Daily dashboard', 'Food log, calorie and macro progress, hydration, and your next action.'),
+    ('questions', 'Meal photo context', 'Add ingredients the camera may miss, choose a portion, and leave a note.'),
+    ('nutrition', 'Review a meal estimate', 'Inspect calories and macros, adjust the entry, then choose whether to log it.'),
+    ('ingredients', 'Product ingredients', 'Read the ingredient breakdown and the reasons behind a product grade.'),
+    ('strength', 'Strength and training load', 'See recent volume, training sessions, personal records, and trends.'),
+    ('weight', 'Weight trend', 'Follow the rolling average, goal range, and longer-term progress.')
+]
 screen_cards = ''.join(
-    f'<figure class="result-card result-{i}"><button class="screen-shot" data-screen="/assets/product/{n}.png" data-title="{label}" aria-label="Enlarge {label.lower()}">{img("product/" + n + ".png", label + " — real COR screen with sample data")}</button></figure>'
-    for i, (n, label) in enumerate(screens))
+    f'<article class="result-card"><button class="screen-shot" data-screen="/assets/product/{name}.png" data-title="{title}" aria-label="Enlarge {title.lower()}">{img("product/" + name + ".png", title + " — COR app screen with sample data")}</button><div class="screen-caption"><h3>{escape(title)}</h3><p>{escape(description)}</p></div></article>'
+    for name, title, description in screens)
 
 nav_links = ''.join(f'<a class="lens-link" href="{h}">{t}</a>' for t, h in NAV)
 hero_copy = data['sections'][0]['texts'][1].replace('CŌR', BRAND)
@@ -198,8 +206,8 @@ html = f'''<!doctype html>
 <section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Illustrated flow · sample values</p></div></div></section>
 <section class="features-section section" id="features">{section_header(4)}<div class="feature-grid">{features}</div><p class="demo-note">Illustrated feature previews. <a href="#screens">Explore the real app screens</a>.</p></section>
 <section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Replay the meal demo"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
-<section class="results-section section" id="screens"><header class="section-header reveal"><h2>Real screens. Real numbers.</h2><p>Captured from the current COR app with sample data. Tap a screen to view it in full.</p></header><div class="result-cards">{screen_cards}</div><a class="pill-link" href="#how-it-works">See it in action {ARROW}</a></section>
-<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-grid">{plans}</div><p class="pricing-footnote">COR is coming soon. Subscriptions, prices and any eligible trial will be shown in the app before purchase. AI usage limits apply.</p></section>
+<section class="results-section section" id="screens"><header class="section-header reveal"><h2>Real app screens. Sample data.</h2><p>These are native COR captures, not AI-redrawn mockups. Explore food logging, estimate review, product details, strength and weight trends.</p></header><div class="result-cards" role="region" aria-label="COR app screen gallery" tabindex="0">{screen_cards}</div><p class="demo-note">Scroll or swipe to explore all six screens. Select one to open it at full size.</p></section>
+<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-grid">{plans}</div><p class="pricing-footnote">COR is coming soon. The app will show the final price and any eligible trial before purchase. AI usage limits may apply.</p></section>
 <section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
 <section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}{img('vfwd58TDMrxP0cuErxsVbpt2Qs.png', '', 'crown')}</div><span class="iphone-badge">{APPSTORE} {AVAILABILITY}</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
 </main>
