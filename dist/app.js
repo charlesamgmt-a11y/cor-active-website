@@ -49,7 +49,12 @@ menuButton.addEventListener('click', () => {
   mobileMenu.hidden = open;
 });
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    closeMenu();
+    menuButton.focus();
+  }
+});
 document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) closeMenu(); });
 
 /* ── Focus Lens nav: nearest link sharpens, brackets glide to it ───── */
@@ -208,6 +213,15 @@ document.querySelectorAll('.screen-shot').forEach(button => button.addEventListe
 }));
 screenViewer.querySelector('.screen-close').addEventListener('click', () => screenViewer.close());
 screenViewer.addEventListener('click', e => { if (e.target === screenViewer) screenViewer.close(); });
+
+/* Give keyboard and touch users explicit controls for the horizontal gallery. */
+const screenGallery = document.querySelector('.result-cards');
+document.querySelectorAll('[data-gallery-direction]').forEach(button => button.addEventListener('click', () => {
+  const direction = Number(button.dataset.galleryDirection);
+  const card = screenGallery.querySelector('.result-card');
+  const step = card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(screenGallery).columnGap || '0') : screenGallery.clientWidth * .8;
+  screenGallery.scrollBy({ left: direction * step * 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+}));
 
 /* ── Footer video: only play while visible ─────────────────────────── */
 const metal = document.querySelector('.footer-metal video');

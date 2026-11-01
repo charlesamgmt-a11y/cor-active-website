@@ -710,3 +710,13 @@ body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
 #screen-viewer img{width:auto;height:auto;object-fit:contain}
 @media(max-width:640px){.result-cards{grid-auto-columns:minmax(205px,72vw);gap:16px;padding-inline:20px;scroll-padding-inline:20px;margin-top:28px}.screen-shot{border-radius:24px}.screen-shot img{border-radius:18px}.screen-shot::after{border-radius:0 0 17px 17px}}
 @media(prefers-reduced-motion:reduce){.result-card{transition:none}.result-card:hover{transform:none}}
+
+/* Accessibility pass: keep the operating system pointer available alongside the visual cursor. */
+html.has-custom-cursor,html.has-custom-cursor *{cursor:auto!important}
+html.has-custom-cursor a,html.has-custom-cursor button,html.has-custom-cursor [role="button"]{cursor:pointer!important}
+html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cursor select,[contenteditable="true"]{cursor:text!important}
+.gallery-controls{display:flex;justify-content:center;gap:12px;margin:0 auto 8px}
+.gallery-control{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(244,242,235,.55);border-radius:50%;background:#121719;color:var(--ivory);font-size:28px;line-height:1}
+.gallery-control:hover{background:#26343b}
+.gallery-control:focus-visible{outline:3px solid #a4c5ef;outline-offset:4px}
+@media(max-width:809px){.gallery-control{width:44px;height:44px}}
