@@ -675,3 +675,16 @@ body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
 @media(max-width:640px){.preloader-mark{width:min(260px,68vw)}}
 @keyframes pre-in{to{opacity:1;transform:none;filter:brightness(2.8)}}
 @keyframes pre-out{from{opacity:1;transform:none;filter:brightness(2.8)}to{opacity:0;transform:translateY(-18px) scale(1.02);filter:brightness(2.8) blur(6px)}}
+
+/* Compact mobile header: keep the logo and menu on one row at narrow widths. */
+@media(max-width:640px){
+  .nav-bar{top:12px;width:calc(100% - 24px);min-height:56px;padding:8px 14px;gap:10px;border-radius:22px;flex-wrap:wrap}
+  .nav-download{display:none}
+  .nav-wordmark{width:52px;max-height:24px}
+  .menu-toggle{flex:0 0 36px;width:36px;height:36px;margin-left:auto;align-items:center}
+}
+@media(max-width:380px){
+  .nav-bar{top:10px;width:calc(100% - 20px);min-height:52px;padding:7px 10px;gap:8px;border-radius:19px}
+  .nav-wordmark{width:44px;max-height:22px}
+  .menu-toggle{flex-basis:32px;width:32px;height:32px}
+}
