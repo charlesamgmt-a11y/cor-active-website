@@ -215,3 +215,51 @@ if (metal) {
   if (reduceMotion) { metal.removeAttribute('autoplay'); metal.pause(); }
   else new IntersectionObserver(([e]) => { e.isIntersecting ? metal.play().catch(() => {}) : metal.pause(); }).observe(metal);
 }
+
+/* ── Custom circle cursor: desktop fine pointers only ──────────────── */
+(() => {
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const cursor = document.querySelector('.custom-cursor');
+  if (!cursor || !finePointer.matches) return;
+
+  const ring = cursor.querySelector('.cursor-ring');
+  const dot = cursor.querySelector('.cursor-dot');
+  let targetX = -100, targetY = -100, ringX = targetX, ringY = targetY;
+  let frame = 0;
+  const moveRing = () => {
+    frame = 0;
+    ringX += (targetX - ringX) * 0.22;
+    ringY += (targetY - ringY) * 0.22;
+    ring.style.transform = `translate3d(${ringX}px,${ringY}px,0) translate(-50%,-50%)`;
+    if (Math.abs(targetX - ringX) > 0.15 || Math.abs(targetY - ringY) > 0.15) frame = requestAnimationFrame(moveRing);
+    else { ringX = targetX; ringY = targetY; }
+  };
+  const isEditable = target => target instanceof Element && target.closest('input, textarea, select, [contenteditable="true"]');
+  const isInteractive = target => target instanceof Element && target.closest('a, button, [role="button"], summary, label');
+
+  document.documentElement.classList.add('has-custom-cursor');
+  document.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse') return;
+    targetX = event.clientX;
+    targetY = event.clientY;
+    dot.style.transform = `translate3d(${targetX}px,${targetY}px,0) translate(-50%,-50%)`;
+    const editing = Boolean(isEditable(event.target));
+    cursor.classList.toggle('is-editing', editing);
+    document.documentElement.classList.toggle('cursor-native', editing);
+    cursor.classList.toggle('is-hovering', Boolean(isInteractive(event.target)));
+    cursor.classList.add('is-visible');
+    if (reduceMotion) {
+      ringX = targetX; ringY = targetY;
+      ring.style.transform = `translate3d(${ringX}px,${ringY}px,0) translate(-50%,-50%)`;
+    } else if (!frame) frame = requestAnimationFrame(moveRing);
+  }, { passive: true });
+  document.addEventListener('pointerdown', event => { if (event.pointerType === 'mouse') cursor.classList.add('is-pressed'); });
+  window.addEventListener('pointerup', () => cursor.classList.remove('is-pressed'));
+  window.addEventListener('blur', () => cursor.classList.remove('is-visible', 'is-hovering', 'is-pressed'));
+  document.addEventListener('pointerout', event => {
+    if (event.pointerType === 'mouse' && !event.relatedTarget) cursor.classList.remove('is-visible', 'is-hovering', 'is-pressed');
+  });
+  finePointer.addEventListener?.('change', event => {
+    if (!event.matches) document.documentElement.classList.remove('has-custom-cursor');
+  });
+})();

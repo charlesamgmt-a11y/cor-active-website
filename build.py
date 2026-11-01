@@ -184,6 +184,7 @@ html = f'''<!doctype html>
 <script src="{versioned_asset('app.js')}" defer></script></head>
 <body>
 <div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-metal-wordmark.webp" alt=""><span class="preloader-shine"></span></div></div>
+<div class="custom-cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span></div>
 <a class="skip-link" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} Active home">{img('brand/cor-metal-wordmark.webp', 'COR', 'nav-wordmark', True)}</a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button(cls='solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
 <main id="main">
