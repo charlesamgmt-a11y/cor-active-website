@@ -668,8 +668,10 @@ html.has-custom-cursor:not(.cursor-native),html.has-custom-cursor:not(.cursor-na
 
 /* Keep the loading moment clean: no cursor or navigation over the wordmark. */
 .preloader{z-index:1200;background:#000}
-.preloader-mark{width:min(300px,64vw);-webkit-mask-image:none;mask-image:none;filter:brightness(.9) blur(2px)}
+.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-metal-wordmark.webp');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-metal-wordmark.webp');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
 .preloader-mark img{object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 20px rgba(180,205,230,.16))}
 body.is-preloading .nav-bar{visibility:hidden}
 body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
 @media(max-width:640px){.preloader-mark{width:min(260px,68vw)}}
+@keyframes pre-in{to{opacity:1;transform:none;filter:brightness(2.8)}}
+@keyframes pre-out{from{opacity:1;transform:none;filter:brightness(2.8)}to{opacity:0;transform:translateY(-18px) scale(1.02);filter:brightness(2.8) blur(6px)}}
