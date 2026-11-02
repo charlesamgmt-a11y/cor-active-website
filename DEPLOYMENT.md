@@ -2,8 +2,9 @@
 
 ## Current status — November 2, 2026
 
-GitHub synchronization and Cloudflare Pages setup are in progress. Until cutover
-is verified here, https://coractive.co remains on Sites version 13, source commit
+GitHub is synchronized with the published site. Cloudflare Pages is awaiting
+authorization of its GitHub app for this repository. Until cutover is verified
+here, https://coractive.co remains on Sites version 13, source commit
 `3a50737d83ff8a158a401def78379c098fd837bf`. A GitHub push is not yet proof of a live release.
 
 ## Target configuration
@@ -37,7 +38,7 @@ deployment token belongs in the source code.
 
 ## Initial cutover
 
-- [ ] Latest site reconciled with GitHub, preserving both histories.
+- [x] Latest site reconciled with GitHub, preserving both histories.
 - [ ] Cloudflare GitHub app authorized for this repository only.
 - [ ] Pages project created with the settings above.
 - [ ] Successful build and pages.dev preview checked.
@@ -57,6 +58,10 @@ The prior Sites project is retained during migration:
 `appgprj_6ae2aaa1a36c8191a9adf4989b253526`, with `.openai/hosting.json` preserved.
 Domain rollback requires restoring the verified prior DNS records and checking
 HTTPS. Do not delete the old project during cutover.
+
+Pre-cutover DNS observed on November 2: two apex A records, `172.66.3.26` and
+`162.159.143.30`, both Proxied with Auto TTL. Preserve the existing verification
+TXT records. No www or MX record was present; inbound email setup remains separate.
 
 ## References
 

@@ -5,8 +5,8 @@ Shared repository: https://github.com/charlesamgmt-a11y/cor-active-website
 
 Read [AGENTS.md](AGENTS.md) for shared editing conventions and
 [DEPLOYMENT.md](DEPLOYMENT.md) for the verified hosting state and release process.
-Cloudflare Pages Git integration is being connected; until verified, publishing
-still uses the existing Sites host.
+GitHub has the latest published source. Cloudflare Pages Git integration awaits
+repository authorization; until verified, publishing still uses the Sites host.
 
 ## Build and preview
 
