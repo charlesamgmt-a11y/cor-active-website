@@ -6,7 +6,7 @@ Shared repository: https://github.com/charlesamgmt-a11y/cor-active-website
 Read [AGENTS.md](AGENTS.md) for shared editing conventions and
 [DEPLOYMENT.md](DEPLOYMENT.md) for the verified hosting state and release process.
 Cloudflare Pages is connected to GitHub: branches receive previews and `main`
-deploys production. See the deployment checklist for custom-domain verification.
+deploys production at https://coractive.co. HTTPS and the www redirect are active.
 The generated `/deployment.json` reports the hosted Git commit for release checks.
 
 ## Build and preview
