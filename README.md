@@ -1,63 +1,62 @@
 # COR Active website
 
-A static homepage that follows the owner's Framer project ("Calories copy", published at goodness-zebra-710061.framer.app): the same sections, Boska + Satoshi type, dark blue/ivory palette and scroll animations, rebranded as **COR Active**.
+The static marketing website for https://coractive.co.
+Shared repository: https://github.com/charlesamgmt-a11y/cor-active-website
+
+Read [AGENTS.md](AGENTS.md) for shared editing conventions and
+[DEPLOYMENT.md](DEPLOYMENT.md) for the verified hosting state and release process.
+Cloudflare Pages Git integration is being connected; until verified, publishing
+still uses the existing Sites host.
 
 ## Build and preview
 
-```
-python3 build.py
+Requires Python 3 and Node.js. No packages need installing.
+
+```sh
+bash scripts/build-site.sh
 python3 -m http.server 4317 --bind 127.0.0.1 --directory dist
 ```
 
-`build.py` writes `dist/index.html`. Product copy comes from `reference-data.json`, reviewed against the COR app. Styles are in `dist/fonts.css` + `dist/style.css`; all motion and interaction is in `dist/app.js` (no libraries).
+Open http://127.0.0.1:4317/. The build validates JavaScript, local links/assets,
+unique IDs and hosting file limits.
 
-## Before launch
+## Where to edit
 
-Fill in the block at the top of `build.py`, then rebuild:
+- `build.py`: homepage, legal/confirmation pages, metadata and SEO files.
+- `reference-data.json`: product copy and FAQs.
+- `dist/style.css`, `dist/fonts.css`: source styles.
+- `dist/app.js`: source interactions and animation.
+- `dist/assets/`: logos, videos, product screens, bezels and fonts.
 
-- `APP_STORE_URL`: enables real download links; until set, the site says Coming soon
-- `PRIVACY_URL`, `TERMS_URL`: footer legal links; omitted until real public URLs are configured
-- `SUPPORT_EMAIL`: footer Contact link; omitted until configured
-- `PRO_PRICE`: shown on the COR Pro card (until it is set the card says "In app")
+Do not delete `dist`: it contains source styles, scripts and original assets,
+as well as generated HTML. Edit the generator instead of generated HTML and
+commit rebuilt pages with source changes. `dist/product.css`, `dist/favicon.svg`
+and `curated-content.json` are older unused assets.
 
-## What's on the page
+## Current launch state
 
-- **Logo preloader**: the liquid-metal COR wordmark rises in, holds, then fades. It shows once per browser session.
-- **Focus Lens nav**: the link nearest the cursor sharpens, the others blur, and corner brackets glide to it.
-- **Hero**: the phone scans, the nutrition sheet slides up, and macro cards fly in ("Know what you're eating").
-- **Food suggestions**: blurred 3D foods come into focus on hover or tap, with a portion or ingredient detail to consider.
-- **Exploded burger**: the layers spread apart on scroll, with labels for hidden calories.
-- **How it works**: a sticky phone with three steps (scan, insights, action) driven by scroll.
-- **Feature cards, AI meal demo, a fan of expandable real app screens, Free/Pro pricing.**
-- **FAQ**: Smooth-FAQ-Flow-style glass cards. One is open at a time, with an animated height change and a +/− icon.
-- **Footer**: the liquid-metal wordmark video (`dist/assets/brand/`).
+The app is coming soon. Business/tab name: COR Active; in-page app name: CŌR.
+Pricing stays “Free to start. CŌR Pro available in the app.” Real app captures use
+illustrative records; the Duo render is a concept preview. Updated captures and
+Charles's background photos are pending.
 
-The favicon is the "C" from the liquid-metal logo (`dist/favicon-*.png`, `apple-touch-icon.png`). The real app screenshots in `dist/assets/product/` are simulator captures with sample data.
+`/privacy/` and `/terms/` are public DRAFT review pages with placeholders, not
+approved final policies. `support@coractive.co` is displayed, but delivery has
+not been verified. The waitlist is disabled and collects no addresses.
 
-`dist/product.css`, `dist/favicon.svg` and `curated-content.json` belong to the previous version and are no longer used.
+## Waitlist integration
 
-## Publishing
+Replace the `BREVO EMBED GOES HERE` preview form in `build.py`, inside `#waitlist`,
+with the configured Brevo form. Complete the account, sender-domain and double
+confirmation setup first. Keep API keys out of frontend code.
 
-Keep `.openai/hosting.json` and publish the static `dist` folder.
+Published redirect pages:
 
-## Waitlist connection
+- After submission: https://coractive.co/waitlist/check-email/
+- After confirmation: https://coractive.co/waitlist/confirmed/
 
-The signup form is still a disabled preview. The `BREVO EMBED GOES HERE` marker in
-`build.py` identifies where the generated Brevo form must replace it. Brevo account
-access and sender-domain authentication are still pending; no contacts are collected.
+Both are noindex and excluded from the sitemap. Opening them does not subscribe
+or verify anyone: Brevo owns storage and confirmation. Waitlist membership is
+separate from Supabase app accounts.
 
-Two branded redirect pages are generated for Brevo's double-confirmation flow:
-
-- After form submission: `https://coractive.co/waitlist/check-email/`
-- After the visitor clicks the confirmation email: `https://coractive.co/waitlist/confirmed/`
-
-These pages currently exist only in the local review build. Publish them before
-using their public URLs in Brevo. They are `noindex` and excluded from the sitemap.
-Opening either page does not subscribe or verify anyone; Brevo must perform the
-confirmation and list insertion. Use the local equivalents on port 4317 for design review.
-
-## Review and release notes
-
-The animated phone, feature widgets and meal scenes are labeled illustrations with sample values. The app gallery uses six native COR captures in a swipeable strip: daily dashboard, meal photo context, estimate review, product ingredients, strength and weight. A light progressive blur softens only the lower image edge; tapping a screen opens the unblurred capture. Coming-soon labels remain until an App Store URL is supplied. The loader cannot block the page when JavaScript is disabled, FAQ answers have accessible expanded states, and narrow mobile layouts are checked before publication.
-
-The public custom domain is `https://coractive.co`. Brevo waitlist integration and public legal/support pages are still separate unfinished tasks; this redesign does not collect emails.
+[Release notes and remaining work in Notion](https://app.notion.com/p/3dec8d97165e8182923acd936d5737d3).
