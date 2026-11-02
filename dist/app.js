@@ -207,27 +207,95 @@ const screenViewer = document.querySelector('#screen-viewer');
 document.querySelectorAll('.screen-shot').forEach(button => button.addEventListener('click', () => {
   const image = screenViewer.querySelector('img');
   image.src = button.dataset.screen;
-  image.alt = `${button.dataset.title} — real COR screen with sample data`;
+  image.alt = `${button.dataset.title} — CŌR app screen with illustrative records`;
   screenViewer.querySelector('h2').textContent = button.dataset.title;
   screenViewer.showModal();
 }));
 screenViewer.querySelector('.screen-close').addEventListener('click', () => screenViewer.close());
 screenViewer.addEventListener('click', e => { if (e.target === screenViewer) screenViewer.close(); });
 
-/* Give keyboard and touch users explicit controls for the horizontal gallery. */
-const screenGallery = document.querySelector('.result-cards');
-document.querySelectorAll('[data-gallery-direction]').forEach(button => button.addEventListener('click', () => {
-  const direction = Number(button.dataset.galleryDirection);
-  const card = screenGallery.querySelector('.result-card');
-  const step = card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(screenGallery).columnGap || '0') : screenGallery.clientWidth * .8;
-  screenGallery.scrollBy({ left: direction * step * 2, behavior: reduceMotion ? 'auto' : 'smooth' });
-}));
+/* Feature showcase: tabs keep the product story orderly and one screen in focus. */
+const showcaseTabs = [...document.querySelectorAll('.showcase-tab')];
+const showcaseCapture = document.querySelector('.showcase-capture');
+const showcaseCount = document.querySelector('.capture-count');
+const showcaseStage = document.querySelector('.showcase-stage');
+const showcasePanel = document.querySelector('#showcase-panel');
+function selectShowcase(index, moveFocus = false) {
+  if (!showcaseTabs.length || !showcaseCapture) return;
+  const safeIndex = (index + showcaseTabs.length) % showcaseTabs.length;
+  showcaseTabs.forEach((tab, i) => {
+    const active = i === safeIndex;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-selected', String(active));
+    tab.tabIndex = active ? 0 : -1;
+  });
+  const current = showcaseTabs[safeIndex];
+  if (showcasePanel) showcasePanel.setAttribute('aria-labelledby', current.id);
+  if (showcaseStage) showcaseStage.style.setProperty('--showcase-background', current.dataset.background ? `url("${current.dataset.background}")` : 'none');
+  showcaseCapture.dataset.screen = current.dataset.screen;
+  showcaseCapture.dataset.title = current.dataset.title;
+  showcaseCapture.setAttribute('aria-label', `Enlarge ${current.dataset.title} app screen`);
+  const image = showcaseCapture.querySelector('img');
+  image.src = current.dataset.screen;
+  image.alt = `${current.dataset.title} — CŌR app screen with illustrative records`;
+  if (showcaseCount) showcaseCount.textContent = `${String(safeIndex + 1).padStart(2, '0')} — ${String(showcaseTabs.length).padStart(2, '0')}`;
+  if (moveFocus) current.focus();
+}
+showcaseTabs.forEach((tab, index) => {
+  tab.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse' || event.pointerType === 'pen') selectShowcase(index);
+  });
+  tab.addEventListener('focus', () => selectShowcase(index));
+  tab.addEventListener('click', () => selectShowcase(index));
+  tab.addEventListener('keydown', event => {
+    const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1, Home: -index, End: showcaseTabs.length - 1 - index };
+    if (!(event.key in keys)) return;
+    event.preventDefault();
+    selectShowcase(index + keys[event.key], true);
+  });
+});
 
 /* ── Footer video: only play while visible ─────────────────────────── */
 const metal = document.querySelector('.footer-metal video');
-if (metal) {
-  if (reduceMotion) { metal.removeAttribute('autoplay'); metal.pause(); }
-  else new IntersectionObserver(([e]) => { e.isIntersecting ? metal.play().catch(() => {}) : metal.pause(); }).observe(metal);
+const metalToggle = document.querySelector('.footer-motion-toggle');
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+if (metal && metalToggle) {
+  let userPaused = false;
+  let footerVisible = false;
+  const syncFooterMotion = () => {
+    if (motionPreference.matches) {
+      metal.removeAttribute('autoplay');
+      metal.pause();
+      metalToggle.hidden = false;
+      metalToggle.disabled = true;
+      metalToggle.textContent = 'Animation paused (reduced motion)';
+      metalToggle.setAttribute('aria-label', 'Animation paused because reduced motion is enabled');
+      metalToggle.setAttribute('aria-pressed', 'true');
+      return;
+    }
+    metalToggle.hidden = false;
+    metalToggle.disabled = false;
+    const label = userPaused ? 'Resume animation' : 'Pause animation';
+    metalToggle.textContent = label;
+    metalToggle.setAttribute('aria-label', label);
+    metalToggle.setAttribute('aria-pressed', String(userPaused));
+    if (footerVisible && !userPaused) metal.play().catch(() => {});
+    else metal.pause();
+  };
+  metalToggle.addEventListener('click', () => {
+    userPaused = !userPaused;
+    const label = userPaused ? 'Resume animation' : 'Pause animation';
+    metalToggle.textContent = label;
+    metalToggle.setAttribute('aria-label', label);
+    metalToggle.setAttribute('aria-pressed', String(userPaused));
+    syncFooterMotion();
+  });
+  new IntersectionObserver(([entry]) => {
+    footerVisible = entry.isIntersecting;
+    syncFooterMotion();
+  }).observe(metal);
+  motionPreference.addEventListener('change', syncFooterMotion);
+  syncFooterMotion();
 }
 
 /* ── Custom circle cursor: desktop fine pointers only ──────────────── */

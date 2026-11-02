@@ -40,6 +40,22 @@ The favicon is the "C" from the liquid-metal logo (`dist/favicon-*.png`, `apple-
 
 Keep `.openai/hosting.json` and publish the static `dist` folder.
 
+## Waitlist connection
+
+The signup form is still a disabled preview. The `BREVO EMBED GOES HERE` marker in
+`build.py` identifies where the generated Brevo form must replace it. Brevo account
+access and sender-domain authentication are still pending; no contacts are collected.
+
+Two branded redirect pages are generated for Brevo's double-confirmation flow:
+
+- After form submission: `https://coractive.co/waitlist/check-email/`
+- After the visitor clicks the confirmation email: `https://coractive.co/waitlist/confirmed/`
+
+These pages currently exist only in the local review build. Publish them before
+using their public URLs in Brevo. They are `noindex` and excluded from the sitemap.
+Opening either page does not subscribe or verify anyone; Brevo must perform the
+confirmation and list insertion. Use the local equivalents on port 4317 for design review.
+
 ## Review and release notes
 
 The animated phone, feature widgets and meal scenes are labeled illustrations with sample values. The app gallery uses six native COR captures in a swipeable strip: daily dashboard, meal photo context, estimate review, product ingredients, strength and weight. A light progressive blur softens only the lower image edge; tapping a screen opens the unblurred capture. Coming-soon labels remain until an App Store URL is supplied. The loader cannot block the page when JavaScript is disabled, FAQ answers have accessible expanded states, and narrow mobile layouts are checked before publication.
