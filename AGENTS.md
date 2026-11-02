@@ -30,9 +30,10 @@ Follow the user's current instructions and publication scope.
 ## Publishing
 
 - Branches are for development/previews; merging to `main` releases production
-  once Cloudflare Git integration is active. Honor the user's publication scope.
+  through Cloudflare Pages. Honor the user's publication scope.
 - After an authorized release, verify the exact commit's successful deployment
-  and the live affected pages. A push or local build alone is not a deployment.
+  and the live affected pages. Check `/deployment.json` against the commit SHA.
+  A push or local build alone is not a deployment.
 - Keep `.openai/hosting.json` as the legacy Sites configuration. After cutover,
   do not switch the domain or use the old host unless performing an authorized rollback.
 - Keep meaningful release status and unfinished launch work in the existing
