@@ -86,21 +86,10 @@ document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) clo
   links.forEach(l => { l.addEventListener('focus', () => focusLink(l)); l.addEventListener('blur', clear); });
 })();
 
-/* ── Food suggestions ──────────────────────────────────────────────── */
-const foods = [...document.querySelectorAll('.food-orbit')];
-foods.forEach(button => button.addEventListener('click', () => {
-  const was = button.getAttribute('aria-pressed') === 'true';
-  foods.forEach(o => o.setAttribute('aria-pressed', 'false'));
-  button.setAttribute('aria-pressed', String(!was));
-}));
-const guide = document.querySelector('#food-guide');
-document.querySelector('.food-help').addEventListener('click', () => guide.showModal());
-document.querySelector('.dialog-close').addEventListener('click', () => guide.close());
-guide.addEventListener('click', e => { if (e.target === guide) guide.close(); });
-
 /* ── How it works ──────────────────────────────────────────────────── */
 const how = document.querySelector('.how-section');
 const howPhone = document.querySelector('.how-phone');
+const howCapture = howPhone.querySelector('.how-capture');
 const titles = [...document.querySelectorAll('.how-title')];
 const descs = [...document.querySelectorAll('.how-desc')];
 const dots = [...document.querySelectorAll('.how-dot')];
@@ -111,26 +100,21 @@ function setStep(i) {
   [titles, descs, dots].forEach(list => list.forEach((el, n) => el.classList.toggle('active', n === i)));
   [...titles, ...descs].forEach((el, n) => el.setAttribute('aria-hidden', String(n % 3 !== i)));
   dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
-  howPhone.classList.toggle('is-scanned', i > 0);
-  howPhone.classList.toggle('is-action', i === 2);
+  howCapture.src = dots[i].dataset.screen;
+  howCapture.alt = `${titles[i].textContent} — CŌR app screen with illustrative records`;
+  howPhone.dataset.screen = dots[i].dataset.screen;
+  howPhone.dataset.title = titles[i].textContent;
+  howPhone.setAttribute('aria-label', `Enlarge ${titles[i].textContent} app screen`);
 }
 dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
 setStep(0);
-// On phones the section isn't sticky, so cycle the steps while it's on screen.
-let howTimer = null;
-new IntersectionObserver(([e]) => {
-  clearInterval(howTimer);
-  if (e.isIntersecting && innerWidth < 810 && !reduceMotion) {
-    howTimer = setInterval(() => { if (performance.now() > manualUntil) setStep((currentStep + 1) % 3); }, 3200);
-  }
-}, { threshold: .4 }).observe(how);
+// On phones and with reduced motion, readers choose each step at their own pace.
 
 /* ── Scroll-driven scenes ──────────────────────────────────────────── */
 const hero = document.querySelector('.hero');
 const heroScene = document.querySelector('.hero-scene');
 const heroPhone = document.querySelector('.hero-phone');
 const burger = document.querySelector('.burger-stage');
-const foodStage = document.querySelector('.food-stage');
 let pending = false;
 function onScroll() {
   if (pending) return;
@@ -146,9 +130,6 @@ function onScroll() {
     const p = Math.max(0, Math.min(1, (innerHeight * .9 - b.top) / (innerHeight * .8)));
     const eased = 1 - Math.pow(1 - p, 3);
     burger.style.setProperty('--spread', `${eased * (innerWidth < 810 ? 70 : 150)}px`);
-    const f = foodStage.getBoundingClientRect();
-    const fp = (innerHeight / 2 - (f.top + f.height / 2)) / innerHeight; // about -1..1 around centre
-    foods.forEach((el, i) => el.style.setProperty('--py', `${fp * (i % 2 ? -70 : 50) * (1 + (i % 3) * .3)}px`));
     if (innerWidth >= 810 && performance.now() > manualUntil) {
       const r = how.getBoundingClientRect();
       const prog = Math.max(0, Math.min(.999, -r.top / Math.max(1, r.height - innerHeight)));
