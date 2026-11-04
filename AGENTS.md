@@ -21,7 +21,8 @@ Follow the user's current instructions and publication scope.
 - Business/tab name: COR Active. In-page app name: CŌR.
 - App is coming soon. Do not invent download links, dates, prices, trials,
   feature support, or database marketing claims.
-- Preserve legal draft labels and the disabled waitlist until actually ready.
+- Preserve legal draft labels. Keep signup hidden until the waitlist is actually
+  configured and verified; the launch-status section must not collect addresses.
 - App captures use illustrative records; concept device renders do not prove
   device compatibility. Do not present sample records as customer data.
 - Never expose credentials, subscriber/health data or home addresses in this

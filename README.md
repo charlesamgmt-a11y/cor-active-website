@@ -43,11 +43,11 @@ Charles's background photos are pending.
 
 `/privacy/` and `/terms/` are public DRAFT review pages with placeholders, not
 approved final policies. `support@coractive.co` is displayed, but delivery has
-not been verified. The waitlist is disabled and collects no addresses.
+not been verified. Signup is hidden; the launch-status section collects no addresses.
 
 ## Waitlist integration
 
-Replace the `BREVO EMBED GOES HERE` preview form in `build.py`, inside `#waitlist`,
+Replace the `BREVO EMBED GOES HERE` launch-status section in `build.py`, inside `#waitlist`,
 with the configured Brevo form. Complete the account, sender-domain and double
 confirmation setup first. Keep API keys out of frontend code.
 
@@ -59,5 +59,13 @@ Published redirect pages:
 Both are noindex and excluded from the sitemap. Opening them does not subscribe
 or verify anyone: Brevo owns storage and confirmation. Waitlist membership is
 separate from Supabase app accounts.
+
+## Image delivery
+
+The original PNG captures stay in `dist/assets/product/`. The page uses committed
+WebP variants selected by `image-variants.json`, including for enlarged views.
+Run `python3 scripts/optimize-images.py` locally with `cwebp` installed to regenerate
+them after replacing an original. Then run the normal site build. Cloudflare
+does not need the codec. Keep screenshots readable when tuning compression.
 
 [Release notes and remaining work in Notion](https://app.notion.com/p/3dec8d97165e8182923acd936d5737d3).
