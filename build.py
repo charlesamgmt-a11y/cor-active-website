@@ -1,207 +1,67 @@
-"""Build the COR Active homepage.
-
-Layout, typography and motion follow the owner's Framer project
-(Calories copy, published at goodness-zebra-710061.framer.app).
-Product copy comes from reference-data.json, reviewed against the COR app.
-
-Run:      python3 build.py
-Preview:  python3 -m http.server 4317 --bind 127.0.0.1 --directory dist
-"""
+"""Build the COR preview from verified copy and unchanged native app captures."""
 from pathlib import Path
 import json
 import hashlib
 from html import escape
 
-# ── Links: paste the real ones here before launch, then rebuild ─────────
-APP_STORE_URL = ''          # e.g. https://apps.apple.com/app/id0000000000
-PRIVACY_URL = ''            # public privacy policy page
-TERMS_URL = ''              # public terms page
-SUPPORT_EMAIL = 'support@coractive.co'
-PRO_PRICE = ''              # e.g. '9.99'  (leave empty to show "In app")
-# ────────────────────────────────────────────────────────────────────────
-
 ROOT = Path(__file__).parent
 data = json.loads((ROOT / 'reference-data.json').read_text())
+site = data['website']
 BRAND = 'COR'
+SUPPORT_EMAIL = 'support@coractive.co'
 DEVICE_FRAME = 'brand/iphone-18-pro-max-glacier-apple.png'
 IMAGE_VARIANTS = json.loads((ROOT / 'image-variants.json').read_text())
-DOWNLOAD = APP_STORE_URL or '#download'
-DOWNLOAD_LABEL = 'Download for iPhone' if APP_STORE_URL else 'Coming soon'
-AVAILABILITY = 'Built for iPhone' if APP_STORE_URL else 'Coming soon for iPhone'
-ARROW = '<span aria-hidden="true">›</span>'
-NAV = [('Features', '#features'), ('How it works', '#how-it-works'), ('Plans', '#pricing'), ('FAQ', '#faq'), ('App screens', '#screens')]
+ARROW = '<span aria-hidden="true">↗</span>'
+NAV = [('Nutrition', '#nutrition'), ('Strength', '#strength'), ('The week', '#weekly-review'), ('App screens', '#screens')]
 
 def versioned_asset(name):
     digest = hashlib.sha256((ROOT / 'dist' / name).read_bytes()).hexdigest()[:12]
     return f'/{name}?v={digest}'
 
-
 def asset_url(name):
     return '/assets/' + IMAGE_VARIANTS.get(name, name)
-
 
 def img(name, alt='', cls='', eager=False):
     return (f'<img src="{escape(asset_url(name))}" alt="{escape(alt)}" class="{cls}" '
             f'loading="{"eager" if eager else "lazy"}" decoding="async">')
 
-
-def icon(name, cls='deco'):
-    return img(data['icons'][name], '', cls)
-
-
-def button(label=DOWNLOAD_LABEL, href=DOWNLOAD, cls='solid-button'):
+def button(label='See launch status', href='#waitlist', cls='solid-button'):
     return f'<a class="{cls}" href="{escape(href, quote=True)}">{escape(label)}{ARROW}</a>'
 
+def device(screen, label, cls='', eager=False):
+    source = asset_url('product/' + screen + '.png')
+    return f'''<div class="device {cls}"><button type="button" class="screen-shot device-screen-bed" data-screen="{source}" data-title="{escape(label)}" aria-label="Enlarge {escape(label)} app screen"><img src="{source}" alt="COR {escape(label)} screen with illustrative records" loading="{'eager' if eager else 'lazy'}" decoding="async" {'fetchpriority="high"' if eager else ''}></button><img class="device-bezel" src="{asset_url(DEVICE_FRAME)}" width="1470" height="3000" alt="" aria-hidden="true" loading="{'eager' if eager else 'lazy'}" decoding="async"></div>'''
 
-def section_header(index):
-    t = data['sections'][index]['texts']
-    return (f'<header class="section-header reveal"><h2>{escape(t[0])}</h2>'
-            f'<p>{escape(t[1].replace("COR", BRAND))}</p></header>')
-
-
-# ── Native app captures, using illustrative records ────────────────────
-def device_frame(cls='device-bezel', eager=False):
-    # Exact, unmodified PNG supplied in Apple's iPhone 18 bezel package.
-    return (f'<img src="{asset_url(DEVICE_FRAME)}" class="{cls}" width="1470" height="3000" '
-            f'alt="" aria-hidden="true" loading="{"eager" if eager else "lazy"}" decoding="async">')
-
-
-def phone(cls=''):
-    return f'''<div class="phone {cls}"><button type="button" class="screen-shot device-screen-bed how-screen-button" data-screen="{asset_url('product/questions.png')}" data-title="Add the details" aria-label="Enlarge Add the details app screen">{img('product/questions.png', 'COR meal details screen with illustrative records', 'how-capture')}</button>{device_frame()}</div>'''
-
-
-def pro_max_hero():
-    # Preserve native app content beneath Apple's unmodified device artwork.
-    # The composition is illustrative, not a device compatibility test.
-    return f'''<div class="hero-phone hero-pro-max" role="img" aria-label="iPhone 18 Pro Max in Glacier showing a captured COR nutrition screen">
-  <div class="device-screen-bed" aria-hidden="true">
-    <img src="{asset_url("product/nutrition.png")}" width="1000" height="2175" alt="" fetchpriority="high">
-  </div>
-  {device_frame(eager=True)}
-</div>'''
-
-
-# ── Burger ─────────────────────────────────────────────────────────────
-burger_layers = [('HvjQmDxRBTKIbqDxNzJ0cUAK4fU.png', 'Top bun', 'Butter'),
-                 ('H8sG3UXknbtlYDaq7sAodIzbnI.png', 'Grilled onion and tomato', 'Sauce'),
-                 ('7eX4TRQB9ImxpRvIjFUsm5MYYI.png', 'Patty and cheese', 'Cooked in oil'),
-                 ('tMaKfYWjAnAWOIq0SI15iAwub4.png', 'Lettuce', 'Dressing'),
-                 ('O4R9JTspTUUYe3YUs6qsV3HZ09k.png', 'Bottom bun', 'Large portion')]
-(ROOT / 'burger-layers.json').write_text(json.dumps(burger_layers))
-burger = ''.join(
-    f'<div class="burger-layer layer-{i}">{img(asset, alt)}'
-    f'<span class="ingredient-tag"><span class="tag-thumb" style="background-image:url({asset_url(asset)})"></span>{label}<i></i></span></div>'
-    for i, (asset, alt, label) in enumerate(burger_layers))
-
-# ── Feature cards ──────────────────────────────────────────────────────
-graphics = [
-    '<div class="calorie-widget"><div><span>Calorie Intake</span><small>388 Kcal 🥑</small></div><p><b>1,612</b> <em>/ 2000</em></p></div><div class="week">'
-    + ''.join(f'<span class="{"selected" if day == "Sat" else ""}"><small>{day}</small>{i + 11}</span>' for i, day in enumerate(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])) + '</div>',
-    '<div class="food-plan"><div><b>Monday<br><span>6 Items</span></b><small>1,526 Kcal</small></div><div class="mini-foods">'
-    + ''.join(icon(n) for n in ['Salad', 'Meat', 'Sandwhich', 'Meat']) + '<span>+2</span></div></div><div class="food-plan plan-ghost"><b>Tuesday<br><span>5 Items</span></b><small>1,544 Kcal</small></div>',
-    '<div class="search-widget"><b>Search food items</b><div class="search-box"><span class="typed">Green Salads</span><span>⌕</span></div><p class="searching">Searching <i></i></p><div class="search-results"><p>' + icon('Salad') + '<span>Lettuce Tomato Salad<br><small>100 Kcal</small></span><i>›</i></p></div></div>',
-    '<div class="barcode-widget"><div class="barcode"></div><i></i><i></i><i></i><i></i><div class="barcode-light"></div></div>',
-]
-features = ''.join(
-    f'<article class="feature-card reveal" style="--d:{i % 2 * 90}ms"><div class="feature-graphic graphic-{i}">{graphics[i]}</div>'
-    f'<div class="feature-copy"><h3>{escape(f["title"])}</h3><p>{escape(f["description"])}</p></div></article>'
-    for i, f in enumerate(data['features']))
-
-# ── Pricing (real tiers only: Free + COR Pro) ──────────────────────────
-free = ['Plan and daily targets', 'Food search, manual logging and recognized barcode lookup',
-        'Daily calories, macros and hydration', 'Workout tracking and rest timers',
-        'Weight and strength progress', 'Apple Health connection with permission']
-pro = ['Everything in Free', 'Meal-photo and text estimates', 'Restaurant menu scanning',
-       'Nutrition-label photos and new-product lookup', 'AI coach and weekly coaching', 'AI workouts and workout-photo import']
-plans_data = [('Free', '<b>Free to start</b>', 'Your everyday tracking', free, 'See launch status'),
-              (f'{BRAND} Pro', '<b>Available in the app</b>', 'Optional AI tools', pro, 'See launch status')]
-plans = ''.join(
-    f'<article class="pricing-card plan-{i} reveal" style="--d:{i * 90}ms"><div class="price-heading"><h3>{escape(name)}</h3>'
-    f'<p class="price">{price}</p><p>{escape(tag)}</p></div>{button(cta, "#waitlist", "solid-button plan-cta")}'
-    f'<div class="includes">Includes<ul>' + ''.join(f'<li>{escape(x)}</li>' for x in feats) + '</ul></div></article>'
-    for i, (name, price, tag, feats, cta) in enumerate(plans_data))
-
-# ── FAQ (Smooth FAQ Flow style) ────────────────────────────────────────
-faq = ''.join(
-    f'<div class="flow-item reveal{" open" if i == 0 else ""}" style="--d:{i * 60}ms"><h3><button class="flow-q" aria-expanded="{"true" if i == 0 else "false"}" '
-    f'aria-controls="faq-a{i}" id="faq-q{i}"><span>{escape(f["q"].replace("COR", BRAND))}</span><span class="flow-icon" aria-hidden="true"><i></i><i></i></span></button></h3>'
-    f'<div class="flow-a" id="faq-a{i}" role="region" aria-labelledby="faq-q{i}"><div><p>{escape(f["a"].replace("COR", BRAND))}</p></div></div></div>'
-    for i, f in enumerate(data['faq']))
-
-# ── How it works ───────────────────────────────────────────────────────
-steps = [('Add the <br>details', 'For a meal-photo estimate, choose your portion and add ingredients the camera may miss.'),
-         ('Review your <br>meal', 'See the estimated calories and macros. Check the details and adjust them before saving.'),
-         ('Keep your <br>day in view', 'Save your meal to the daily log and see how it contributes to your calorie and macro targets.')]
-how_titles = ''.join(f'<h3 class="how-title{" active" if i == 0 else ""}">{t}</h3>' for i, (t, _) in enumerate(steps))
-how_descs = ''.join(f'<p class="how-desc{" active" if i == 0 else ""}">{escape(d)}</p>' for i, (_, d) in enumerate(steps))
-how_screens = ['questions', 'nutrition', 'home']
-how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-step="{i}" data-screen="{asset_url("product/" + how_screens[i] + ".png")}" aria-label="Step {i + 1}: {escape(t.replace("<br>", " "))}"></button>' for i, (t, _) in enumerate(steps))
-
-# ── Product showcase: one current app capture at a time ────────────────
-showcase_items = [
-    ('food', 'Food & meals', 'questions', 'Add the details a photo can miss.',
-     'Choose hidden ingredients and a portion size, then review the estimate before saving.'),
-    ('training', 'Training', 'strength', 'Train with a clearer picture.',
-     'See recent training load, session history, and personal records together.'),
-    ('progress', 'Progress', 'weight', 'See change over time.',
-     'Follow your rolling average and recent weight trend.')
-]
-showcase_tabs = ''.join(
-    f'<button type="button" class="showcase-tab{" active" if i == 0 else ""}" role="tab" id="showcase-tab-{key}" '
-    f'aria-controls="showcase-panel" aria-selected="{"true" if i == 0 else "false"}" tabindex="{"0" if i == 0 else "-1"}" '
-    f'data-showcase="{key}" data-screen="{asset_url("product/" + image_name + ".png")}" data-title="{escape(label)}" data-background="">'
-    f'<span class="showcase-tab-number">0{i + 1}</span><span class="showcase-tab-title">{escape(label)}</span><span class="showcase-tab-arrow" aria-hidden="true">↗</span>'
-    f'<span class="showcase-tab-description">{escape(description)}</span></button>'
-    for i, (key, label, image_name, _, description) in enumerate(showcase_items))
-showcase_image = img('product/questions.png', 'COR food details screen, shown with illustrative records', 'showcase-screen')
-
-nav_links = ''.join(f'<a class="lens-link" href="{h}">{t}</a>' for t, h in NAV)
-hero_copy = data['sections'][0]['texts'][1].replace('COR', BRAND)
-meal = data['sections'][2]['texts']
-ai = data['sections'][5]['texts']
-plates = [('CgUIeltv0Dq9CmMfit3NI4VHzY.png', 'Empty plate'), ('0S91gIGvUFBixLMM13HRQUucNwc.png', 'Omelet on plate'),
-          ('gm6Geusoczh1lGedoY46WeMIBZs.png', 'Omelet and cheese'), ('RMrVeVtxfeVSJDV0ASPBXMU9U.png', 'Omelet, cheese and grilled chicken')]
-plate_html = ''.join(img(a, alt, f'plate-layer plate-{i}') for i, (a, alt) in enumerate(plates))
-ingredients = ''.join(f'<span class="ingredient ingredient-{i}">{icon(n)}</span>' for i, n in enumerate(['Omelet', 'Cheese', 'Chicken']))
-legal_links = '<a href="/privacy/">Privacy policy</a><a href="/terms/">Terms of use</a>'
-final_cta = button('See launch status', '#waitlist')
-
+hero = site['hero']
+nav_links = ''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)
+pillars = ''.join(f'''<article class="pillar" id="{p['id']}"><p class="eyebrow">{escape(p['label'])}</p><h3>{escape(p['title'])}</h3><p class="pillar-copy">{escape(p['copy'])}</p><div class="pillar-device-wrap">{device(p['screen'],p['screen_label'],'pillar-device')}</div><ul>{''.join(f'<li>{escape(x)}</li>' for x in p['points'])}</ul><a class="text-link" href="#screens">Explore {p['id']} in COR <span aria-hidden="true">↗</span></a></article>''' for p in site['pillars'])
+journey = ''.join(f'<li><span class="step-number">0{i+1}</span><h3>{escape(j["title"])}</h3><p>{escape(j["copy"])}</p></li>' for i,j in enumerate(site['journey']))
+tabs = ''.join(f'''<button class="showcase-tab{' active' if i==0 else ''}" type="button" role="tab" id="screen-tab-{s['key']}" aria-controls="showcase-panel" aria-selected="{'true' if i==0 else 'false'}" tabindex="{'0' if i==0 else '-1'}" data-screen="{asset_url('product/'+s['image']+'.png')}" data-title="{escape(s['title'])}"><span class="tab-number">0{i+1}</span><span><span class="tab-title">{escape(s['title'])}</span><span class="tab-description">{escape(s['copy'])}</span></span><span aria-hidden="true">↗</span></button>''' for i,s in enumerate(site['screens']))
+ecosystem = ''.join(f'<article><span class="ecosystem-index" aria-hidden="true">0{i+1}</span><h3>{escape(e["title"])}</h3><p>{escape(e["copy"])}</p></article>' for i,e in enumerate(site['ecosystem']))
+plans = ''.join(f'''<article class="pricing-card"><span class="eyebrow">{'Everyday essentials' if i==0 else 'Optional AI tools'}</span><h3>{escape(p['name'])}</h3><p class="price">{'Free to start' if i==0 else 'In app at launch'}</p><ul>{''.join(f'<li>{escape(x)}</li>' for x in p['features'])}</ul>{button()}</article>''' for i,p in enumerate(data['plans']))
+faq = ''.join(f'<details class="faq-item"><summary>{escape(f["q"])}</summary><p>{escape(f["a"])}</p></details>' for f in data['faq'] if f['q'] in ['When can I download COR?','Do I need an account to see my plan?','What can I use without COR Pro?','Are meal-photo calories exact?','Does COR work with Apple Health and Apple Watch?','What happens when I use an AI feature?'])
 html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>COR Active – Track the work. See the payoff.</title>
-<meta name="description" content="Meals, weight, sets, reps and body fat—plus calories, ingredients and a score that shows the math. COR Active is coming soon for iPhone.">
-<link rel="canonical" href="https://coractive.co/">
-<meta property="og:url" content="https://coractive.co/">
-<meta name="theme-color" content="#030505">
-<meta property="og:type" content="website"><meta property="og:title" content="COR Active – Track the work. See the payoff."><meta property="og:description" content="Meals, weight, sets, reps and body fat—plus calories, ingredients and a score that shows the math. COR Active is coming soon for iPhone."><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="COR nutrition and training app screen with the message Track the work. See the payoff.">
+<title>{escape(site['title'])}</title><meta name="description" content="{escape(site['description'])}">
+<link rel="canonical" href="https://coractive.co/"><meta name="theme-color" content="#050706">
+<meta property="og:url" content="https://coractive.co/"><meta property="og:type" content="website"><meta property="og:title" content="{escape(site['title'])}"><meta property="og:description" content="{escape(site['description'])}"><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="COR nutrition and training app with an authentic daily view capture">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/assets/brand/cor-metal-wordmark.webp" as="image">
-<link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
-<script>try{{if(sessionStorage.getItem('cor-preloaded'))document.documentElement.classList.add('skip-preloader')}}catch(e){{}}</script>
-<script src="{versioned_asset('app.js')}" defer></script></head>
-<body>
-<div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-metal-wordmark.webp" alt=""><span class="preloader-shine"></span></div></div>
-<div class="custom-cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span></div>
-<a class="skip-link" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
-<nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} home">{img('brand/cor-nav-wordmark.svg', BRAND, 'nav-wordmark', True)}</a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button('Explore the app', '#features', 'solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
+<link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}"><script src="{versioned_asset('app.js')}" defer></script></head>
+<body><a class="skip-link" href="#main">Skip to content</a>
+<nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="COR home">{img('brand/cor-nav-wordmark.svg','COR','nav-wordmark',True)}</a><div class="nav-links">{nav_links}</div>{button('Coming soon','#waitlist','solid-button nav-cta')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{nav_links}<a href="#pricing">Free &amp; Pro</a><a href="#waitlist">Launch status</a></div></nav>
 <main id="main" tabindex="-1">
-<section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">Coming soon for iPhone</span><h1>Track the work.<br><mark>See the payoff.</mark></h1><p>{escape(hero_copy)}</p>{button('Explore the app', '#features', 'solid-button hero-cta')}</header>
-<div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{pro_max_hero()}
-</div></div></div><p class="demo-note">iPhone 18 Pro Max in Glacier · captured COR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
-<section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("COR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
-<section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Captured in COR · illustrative records</p></div></div></section>
-<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore COR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot device-screen-bed showcase-capture" data-screen="{asset_url("product/questions.png")}" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}</button>{device_frame('showcase-bezel')}</div><figcaption><span class="capture-count">01 — 03</span><span>COR for iPhone</span></figcaption></figure></div></div></section>
-<section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Estimate this meal: omelet, cheese and chicken — replay example"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools" aria-hidden="true"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
-<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-statement">Free to start. {BRAND} Pro available in the app.</div><div class="pricing-grid">{plans}</div><p class="pricing-footnote">The app will show any subscription details before purchase.</p></section>
-<section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
-<section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}</div><span class="iphone-badge">Coming soon for iPhone</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
-<section class="waitlist-section section" id="waitlist"><header class="section-header"><span class="eyebrow">Launch status</span><h2>Coming soon for iPhone.</h2><p>We’re getting COR ready for launch. Download and signup details will appear here when they’re available.</p></header><!-- BREVO EMBED GOES HERE: replace this launch-status section with the verified Brevo form when signup is ready. No addresses are collected by this page. --></section>
-<section class="contact-section section" id="contact"><h2>Questions? Get in touch.</h2><p>For support or launch questions, email <a href="mailto:{escape(SUPPORT_EMAIL)}">{escape(SUPPORT_EMAIL)}</a>.</p></section>
+<section class="hero section" id="top"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span>{escape(hero['eyebrow'])}</p><h1>{escape(hero['title'])}<br><em>{escape(hero['emphasis'])}</em></h1><p class="hero-description">{escape(hero['copy'])}</p><div class="hero-actions">{button('Explore COR','#features')}<a class="text-link" href="#waitlist">Coming soon for iPhone</a></div><div class="hero-footnote"><span>Plan.</span><span>Fuel.</span><span>Train.</span><span>Review.</span></div></div><div class="hero-product"><div class="hero-device-pair"><figure>{device('home','daily view','hero-device',True)}<figcaption>Daily nutrition</figcaption></figure><figure>{device('strength','strength progression','hero-device',True)}<figcaption>Strength progression</figcaption></figure></div><p class="capture-note">Real COR screens · illustrative records</p></div></section>
+<section class="pillars-section section" id="features"><div class="section-heading"><p class="eyebrow">The same commitment. Both sides.</p><h2>What you eat.<br>What you lift.</h2><p>Nutrition and strength deserve the same attention. Your progress connects the two.</p></div><div class="pillars-grid">{pillars}</div></section>
+<section class="journey-section section" id="how-it-works"><div class="section-heading horizontal"><div><p class="eyebrow">A rhythm you can return to</p><h2>From a plan<br>to a pattern.</h2></div><p>Start with a direction. Build the record one day and one session at a time.</p></div><ol class="journey-grid">{journey}</ol></section>
+<section class="screens-section section" id="screens"><div class="showcase-layout"><div class="showcase-content"><p class="eyebrow">Inside COR</p><h2>Your work,<br>in the picture.</h2><p class="section-intro">Actual screens from the iPhone app. Explore the details, then tap a screen to take a closer look.</p><div class="showcase-tabs" role="tablist" aria-label="Explore COR app screens" aria-orientation="vertical">{tabs}</div><p class="capture-note">Screens use illustrative records, not customer results.</p></div><figure class="showcase-stage" id="showcase-panel" role="tabpanel" aria-labelledby="screen-tab-daily">{device('home','Your daily view','showcase-device')}<figcaption><span class="capture-count">01 / 04</span><span class="capture-title">Your daily view</span></figcaption></figure></div></section>
+<section class="weekly-section section" id="weekly-review"><div class="weekly-copy"><p class="eyebrow">The connected week</p><h2>{escape(site['weekly']['title']).replace(chr(10),'<br>')}</h2><p>{escape(site['weekly']['copy'])}</p><p class="weekly-caveat">Coaching is guidance, not a diagnosis or a guarantee of results.</p><a class="text-link" href="#pricing">Explore COR Pro <span aria-hidden="true">↗</span></a></div><div class="weekly-story" aria-label="How nutrition, training and progress connect"><p class="eyebrow">Look back. Keep the context.</p><ol><li><span>01</span><div><h3>Nutrition</h3><p>The meals and targets behind your days.</p></div></li><li><span>02</span><div><h3>Training</h3><p>The sessions behind your strength.</p></div></li><li><span>03</span><div><h3>Progress</h3><p>The trends that take more than a day.</p></div></li></ol><div class="weekly-summary"><span aria-hidden="true">↳</span><p>A fuller picture<br><strong>for your next week.</strong></p></div><p class="capture-note">A guide to the COR workflow, not an app screen.</p></div></section>
+<section class="ecosystem-section section" id="apple"><div class="section-heading horizontal"><div><p class="eyebrow">On the devices you use</p><h2>Part of your<br>Apple routine.</h2></div><p>Keep the context close, with supported health connections and a companion for your wrist.</p></div><div class="ecosystem-grid">{ecosystem}</div><p class="capture-note">Apple Health access is optional. Available data depends on your permissions and supported devices.</p></section>
+<section class="pricing-section section" id="pricing"><div class="section-heading"><p class="eyebrow">Free &amp; COR Pro</p><h2>A strong foundation.<br>Extra help, when you want it.</h2><p>Everyday tracking comes first. COR Pro adds selected AI-assisted tools you choose to use.</p></div><div class="pricing-grid">{plans}</div><p class="capture-note">Final pricing, subscription terms and any eligible trial will be shown in the app before purchase.</p></section>
+<section class="faq-section section" id="faq"><div class="section-heading"><p class="eyebrow">Before you begin</p><h2>A little more clarity.</h2></div><div class="faq-list">{faq}</div></section>
+<section class="launch-section section" id="waitlist"><span id="download" class="anchor-alias"></span><p class="eyebrow"><span class="status-dot"></span>Launch status</p><h2>Your next chapter.<br><em>Coming soon.</em></h2><p>COR is getting ready for iPhone, with a companion Apple Watch app. Download and signup details will appear here when they’re available.</p><p class="launch-note">No signup is open on this preview.</p><a class="text-link" href="mailto:{SUPPORT_EMAIL}">Questions? {SUPPORT_EMAIL} <span aria-hidden="true">↗</span></a><!-- Replace only with the verified Brevo form when signup is ready. --></section>
 </main>
-<dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>COR interface · illustrative records</p><img alt=""></dialog>
-<footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Launch status</a><a href="#contact">Contact</a></div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
-<div class="copyright">© 2026 COR Active. All rights reserved.<br>Apple and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries.</div>
-<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div></footer>
+<dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>Original app capture · illustrative records</p><img alt=""></dialog>
+<footer class="footer" id="legal"><div class="footer-top"><p>Nutrition and strength.<br><span>One direction.</span></p><div><a href="#screens">The app</a><a href="#pricing">Free &amp; Pro</a><a href="#faq">FAQ</a><a href="mailto:{SUPPORT_EMAIL}">Contact</a></div><div><a href="/privacy/">Privacy policy</a><a href="/terms/">Terms of use</a></div></div><div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div><div class="copyright"><span>© 2026 COR Active. All rights reserved.</span><span>Apple and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries.</span></div></footer>
 </body></html>'''
 (ROOT / 'dist/index.html').write_text(html)
 

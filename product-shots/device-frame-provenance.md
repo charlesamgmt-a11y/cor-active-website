@@ -1,7 +1,7 @@
 # Official iPhone 18 Pro Max Glacier artwork
 
-The November 6, 2026 preview uses Apple's original portrait PNG in the hero,
-all three walkthrough steps, and all three app-screen showcase tabs. The same
+The November 6, 2026 preview uses Apple's original portrait PNG in both hero phones,
+all three nutrition/strength/progress product stages, and the app-screen showcase. The same
 artwork also appears in the social-share composition. The enlarged-screen
 dialog intentionally shows the original capture without hardware so readers
 can inspect the app content.
