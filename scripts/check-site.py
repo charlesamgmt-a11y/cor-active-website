@@ -33,6 +33,11 @@ def main():
         page = Page()
         page.feed(file.read_text())
         pages[file] = page
+    for suffix in ("*.html", "*.css", "*.js", "*.svg"):
+        for file in ROOT.rglob(suffix):
+            text = file.read_text()
+            if "CŌR" in text or "CO\u0304R" in text:
+                errors.append(f"{file.relative_to(ROOT)}: use COR without a macron")
     for name in ("index.html", "404.html", "robots.txt", "sitemap.xml"):
         if not (ROOT / name).is_file():
             errors.append(f"Missing required output: {name}")

@@ -101,7 +101,7 @@ function setStep(i) {
   [...titles, ...descs].forEach((el, n) => el.setAttribute('aria-hidden', String(n % 3 !== i)));
   dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
   howCapture.src = dots[i].dataset.screen;
-  howCapture.alt = `${titles[i].textContent} — CŌR app screen with illustrative records`;
+  howCapture.alt = `${titles[i].textContent} — COR app screen with illustrative records`;
   howPhone.dataset.screen = dots[i].dataset.screen;
   howPhone.dataset.title = titles[i].textContent;
   howPhone.setAttribute('aria-label', `Enlarge ${titles[i].textContent} app screen`);
@@ -188,7 +188,7 @@ const screenViewer = document.querySelector('#screen-viewer');
 document.querySelectorAll('.screen-shot').forEach(button => button.addEventListener('click', () => {
   const image = screenViewer.querySelector('img');
   image.src = button.dataset.screen;
-  image.alt = `${button.dataset.title} — CŌR app screen with illustrative records`;
+  image.alt = `${button.dataset.title} — COR app screen with illustrative records`;
   screenViewer.querySelector('h2').textContent = button.dataset.title;
   screenViewer.showModal();
 }));
@@ -218,7 +218,7 @@ function selectShowcase(index, moveFocus = false) {
   showcaseCapture.setAttribute('aria-label', `Enlarge ${current.dataset.title} app screen`);
   const image = showcaseCapture.querySelector('img');
   image.src = current.dataset.screen;
-  image.alt = `${current.dataset.title} — CŌR app screen with illustrative records`;
+  image.alt = `${current.dataset.title} — COR app screen with illustrative records`;
   if (showcaseCount) showcaseCount.textContent = `${String(safeIndex + 1).padStart(2, '0')} — ${String(showcaseTabs.length).padStart(2, '0')}`;
   if (moveFocus) current.focus();
 }

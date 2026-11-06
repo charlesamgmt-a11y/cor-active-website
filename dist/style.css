@@ -668,7 +668,7 @@ html,body{background:#000}
 @media(max-width:900px){.footer-top{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.nav-wordmark{width:62px;max-height:24px}.footer-top{grid-template-columns:1fr 1fr}.legal-details{grid-template-columns:1fr;gap:22px;margin-top:30px;padding-top:22px}}
 
-/* CŌR product story: editorial feature navigator + one authentic screen. */
+/* COR product story: editorial feature navigator + one authentic screen. */
 .features-section{isolation:isolate}
 .anchor-alias{display:block;position:relative;top:-110px;visibility:hidden}
 .showcase-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,390px);align-items:center;gap:clamp(56px,10vw,148px);max-width:1040px;margin:76px auto 0}
@@ -703,7 +703,7 @@ html,body{background:#000}
 @media(prefers-reduced-motion:reduce){.showcase-tab,.showcase-tab-arrow,.capture-zoom{transition:none}.showcase-capture:after{backdrop-filter:none;-webkit-backdrop-filter:none}}
 #screen-viewer img{width:min(390px,100%);height:min(560px,68dvh);object-fit:cover;object-position:top;max-height:none}
 
-/* Smooth FAQ Flow visual treatment, tuned for CŌR's black canvas. */
+/* Smooth FAQ Flow visual treatment, tuned for COR's black canvas. */
 .faq-section{isolation:isolate;overflow:hidden}
 .flow-list{position:relative;isolation:isolate;gap:12px}
 .flow-list:before{content:"";position:absolute;z-index:-1;inset:-38px -50px -50px;pointer-events:none;background:radial-gradient(ellipse 70% 45% at 50% 28%,rgba(202,188,163,.13),transparent 76%),radial-gradient(ellipse 52% 45% at 14% 72%,rgba(153,174,189,.08),transparent 80%);filter:blur(30px)}

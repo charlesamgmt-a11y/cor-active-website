@@ -49,7 +49,7 @@ func drawText(_ text: String, at point: NSPoint, font: NSFont, color: NSColor, t
 
 let ivory = NSColor(calibratedRed: 0.96, green: 0.95, blue: 0.92, alpha: 1)
 let muted = NSColor(calibratedRed: 0.76, green: 0.79, blue: 0.79, alpha: 1)
-drawText("CŌR ACTIVE  ·  COMING SOON", at: NSPoint(x: 74, y: 526),
+drawText("COR ACTIVE  ·  COMING SOON", at: NSPoint(x: 74, y: 526),
          font: .systemFont(ofSize: 15, weight: .semibold), color: muted, tracking: 2.2)
 drawText("Track the work.\nSee the payoff.", at: NSPoint(x: 70, y: 324),
          font: NSFont(name: "Georgia", size: 62)!, color: ivory)
@@ -59,7 +59,7 @@ drawText("Meals, weight, sets, reps, and body fat —\nplus calories, ingredient
 let pill = NSBezierPath(roundedRect: NSRect(x: 74, y: 100, width: 190, height: 42), xRadius: 21, yRadius: 21)
 NSColor(calibratedRed: 0.94, green: 0.93, blue: 0.89, alpha: 1).setFill()
 pill.fill()
-drawText("Join the waitlist", at: NSPoint(x: 94, y: 113), font: .systemFont(ofSize: 16, weight: .semibold), color: NSColor.black)
+drawText("Coming soon", at: NSPoint(x: 94, y: 113), font: .systemFont(ofSize: 16, weight: .semibold), color: NSColor.black)
 
 // Frame a real native COR screen capture; do not redraw or fabricate app UI.
 let frameRect = NSRect(x: 826, y: 38, width: 296, height: 554)
@@ -80,4 +80,4 @@ guard let data = bitmap.representation(using: .jpeg, properties: [.compressionFa
     fatalError("Could not encode Open Graph image")
 }
 try data.write(to: output, options: .atomic)
-print("Wrote \(output.path) (1200x630) using the native CŌR dashboard screenshot")
+print("Wrote \(output.path) (1200x630) using the native COR dashboard screenshot")

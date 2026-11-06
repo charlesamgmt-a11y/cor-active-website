@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>COR Active — Track the work. See the payoff.</title>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#334f64" stop-opacity=".35"/><stop offset="1" stop-color="#050505" stop-opacity="0"/></radialGradient>
+    <clipPath id="screen"><rect x="844" y="46" width="248" height="538" rx="30"/></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#050505"/>
+  <ellipse cx="880" cy="310" rx="350" ry="300" fill="url(#glow)"/>
+  <text x="74" y="100" font-family="Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="2.2" fill="#c2c9c9">COR ACTIVE · COMING SOON</text>
+  <g font-family="Georgia, 'Noto Serif', serif" font-size="60" fill="#f5f2eb">
+    <text x="70" y="220">Track the work.</text>
+    <text x="70" y="292">See the payoff.</text>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="21" fill="#c2c9c9">
+    <text x="74" y="384">Meals, weight, sets, reps, and body fat —</text>
+    <text x="74" y="411">plus calories, ingredients, and a score</text>
+    <text x="74" y="438">that shows the math.</text>
+  </g>
+  <rect x="74" y="488" width="190" height="42" rx="21" fill="#f0ede3"/>
+  <text x="104" y="515" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#050505">Coming soon</text>
+  <rect x="836" y="38" width="264" height="554" rx="38" fill="#8c5733" stroke="#e09457" stroke-width="2"/>
+  <image x="844" y="46" width="248" height="538" preserveAspectRatio="xMidYMid meet" xlink:href="../dist/assets/product/home.png" clip-path="url(#screen)"/>
+</svg>

@@ -22,7 +22,7 @@ PRO_PRICE = ''              # e.g. '9.99'  (leave empty to show "In app")
 
 ROOT = Path(__file__).parent
 data = json.loads((ROOT / 'reference-data.json').read_text())
-BRAND = 'CŌR'
+BRAND = 'COR'
 IMAGE_VARIANTS = json.loads((ROOT / 'image-variants.json').read_text())
 DOWNLOAD = APP_STORE_URL or '#download'
 DOWNLOAD_LABEL = 'Download for iPhone' if APP_STORE_URL else 'Coming soon'
@@ -55,19 +55,19 @@ def button(label=DOWNLOAD_LABEL, href=DOWNLOAD, cls='solid-button'):
 def section_header(index):
     t = data['sections'][index]['texts']
     return (f'<header class="section-header reveal"><h2>{escape(t[0])}</h2>'
-            f'<p>{escape(t[1].replace("CŌR", BRAND))}</p></header>')
+            f'<p>{escape(t[1].replace("COR", BRAND))}</p></header>')
 
 
 # ── Native app captures, using illustrative records ────────────────────
 def phone(cls=''):
-    return f'''<button type="button" class="phone screen-shot {cls}" data-screen="{asset_url('product/questions.png')}" data-title="Add the details" aria-label="Enlarge Add the details app screen">{img('product/questions.png', 'CŌR meal details screen with illustrative records', 'how-capture')}</button>'''
+    return f'''<button type="button" class="phone screen-shot {cls}" data-screen="{asset_url('product/questions.png')}" data-title="Add the details" aria-label="Enlarge Add the details app screen">{img('product/questions.png', 'COR meal details screen with illustrative records', 'how-capture')}</button>'''
 
 
 def duo_hero():
-    # One authentic CŌR capture is layered beneath the supplied closed Duo
+    # One authentic COR capture is layered beneath the supplied closed Duo
     # bezel. Keep the source asset unmodified and label the presentation as a
     # concept preview until Duo-specific behavior is verified.
-    return f'''<div class="hero-phone hero-duo" role="img" aria-label="Illustrative iPhone Duo preview showing a captured CŌR nutrition screen">
+    return f'''<div class="hero-phone hero-duo" role="img" aria-label="Illustrative iPhone Duo preview showing a captured COR nutrition screen">
   <div class="duo-screen-bed duo-closed-bed" aria-hidden="true">
     <img src="{asset_url("product/nutrition.png")}" width="1000" height="2174" alt="" fetchpriority="high">
   </div>
@@ -118,8 +118,8 @@ plans = ''.join(
 # ── FAQ (Smooth FAQ Flow style) ────────────────────────────────────────
 faq = ''.join(
     f'<div class="flow-item reveal{" open" if i == 0 else ""}" style="--d:{i * 60}ms"><h3><button class="flow-q" aria-expanded="{"true" if i == 0 else "false"}" '
-    f'aria-controls="faq-a{i}" id="faq-q{i}"><span>{escape(f["q"].replace("CŌR", BRAND))}</span><span class="flow-icon" aria-hidden="true"><i></i><i></i></span></button></h3>'
-    f'<div class="flow-a" id="faq-a{i}" role="region" aria-labelledby="faq-q{i}"><div><p>{escape(f["a"].replace("CŌR", BRAND))}</p></div></div></div>'
+    f'aria-controls="faq-a{i}" id="faq-q{i}"><span>{escape(f["q"].replace("COR", BRAND))}</span><span class="flow-icon" aria-hidden="true"><i></i><i></i></span></button></h3>'
+    f'<div class="flow-a" id="faq-a{i}" role="region" aria-labelledby="faq-q{i}"><div><p>{escape(f["a"].replace("COR", BRAND))}</p></div></div></div>'
     for i, f in enumerate(data['faq']))
 
 # ── How it works ───────────────────────────────────────────────────────
@@ -147,10 +147,10 @@ showcase_tabs = ''.join(
     f'<span class="showcase-tab-number">0{i + 1}</span><span class="showcase-tab-title">{escape(label)}</span><span class="showcase-tab-arrow" aria-hidden="true">↗</span>'
     f'<span class="showcase-tab-description">{escape(description)}</span></button>'
     for i, (key, label, image_name, _, description) in enumerate(showcase_items))
-showcase_image = img('product/questions.png', 'CŌR food details screen, shown with illustrative records', 'showcase-screen')
+showcase_image = img('product/questions.png', 'COR food details screen, shown with illustrative records', 'showcase-screen')
 
 nav_links = ''.join(f'<a class="lens-link" href="{h}">{t}</a>' for t, h in NAV)
-hero_copy = data['sections'][0]['texts'][1].replace('CŌR', BRAND)
+hero_copy = data['sections'][0]['texts'][1].replace('COR', BRAND)
 meal = data['sections'][2]['texts']
 ai = data['sections'][5]['texts']
 plates = [('CgUIeltv0Dq9CmMfit3NI4VHzY.png', 'Empty plate'), ('0S91gIGvUFBixLMM13HRQUucNwc.png', 'Omelet on plate'),
@@ -167,7 +167,7 @@ html = f'''<!doctype html>
 <link rel="canonical" href="https://coractive.co/">
 <meta property="og:url" content="https://coractive.co/">
 <meta name="theme-color" content="#030505">
-<meta property="og:type" content="website"><meta property="og:title" content="COR Active – Track the work. See the payoff."><meta property="og:description" content="Meals, weight, sets, reps and body fat—plus calories, ingredients and a score that shows the math. COR Active is coming soon for iPhone."><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="CŌR nutrition and training app screen with the message Track the work. See the payoff.">
+<meta property="og:type" content="website"><meta property="og:title" content="COR Active – Track the work. See the payoff."><meta property="og:description" content="Meals, weight, sets, reps and body fat—plus calories, ingredients and a score that shows the math. COR Active is coming soon for iPhone."><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="COR nutrition and training app screen with the message Track the work. See the payoff.">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/assets/brand/cor-metal-wordmark.webp" as="image">
 <link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
@@ -181,18 +181,18 @@ html = f'''<!doctype html>
 <main id="main" tabindex="-1">
 <section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">Coming soon for iPhone</span><h1>Track the work.<br><mark>See the payoff.</mark></h1><p>{escape(hero_copy)}</p>{button('Explore the app', '#features', 'solid-button hero-cta')}</header>
 <div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{duo_hero()}
-</div></div></div><p class="demo-note">iPhone Duo concept preview · captured CŌR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
-<section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("CŌR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
-<section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Captured in CŌR · illustrative records</p></div></div></section>
-<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore CŌR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="{asset_url("product/questions.png")}" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="{asset_url("brand/iphone-duo-star-white-outer-closed-portrait.png")}" loading="lazy" decoding="async" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 03</span><span>CŌR for iPhone</span></figcaption></figure></div></div></section>
+</div></div></div><p class="demo-note">iPhone Duo concept preview · captured COR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
+<section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("COR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
+<section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Captured in COR · illustrative records</p></div></div></section>
+<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore COR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="{asset_url("product/questions.png")}" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="{asset_url("brand/iphone-duo-star-white-outer-closed-portrait.png")}" loading="lazy" decoding="async" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 03</span><span>COR for iPhone</span></figcaption></figure></div></div></section>
 <section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Estimate this meal: omelet, cheese and chicken — replay example"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools" aria-hidden="true"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
 <section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-statement">Free to start. {BRAND} Pro available in the app.</div><div class="pricing-grid">{plans}</div><p class="pricing-footnote">The app will show any subscription details before purchase.</p></section>
 <section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
 <section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}</div><span class="iphone-badge">Coming soon for iPhone</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
-<section class="waitlist-section section" id="waitlist"><header class="section-header"><span class="eyebrow">Launch status</span><h2>Coming soon for iPhone.</h2><p>We’re getting CŌR ready for launch. Download and signup details will appear here when they’re available.</p></header><!-- BREVO EMBED GOES HERE: replace this launch-status section with the verified Brevo form when signup is ready. No addresses are collected by this page. --></section>
+<section class="waitlist-section section" id="waitlist"><header class="section-header"><span class="eyebrow">Launch status</span><h2>Coming soon for iPhone.</h2><p>We’re getting COR ready for launch. Download and signup details will appear here when they’re available.</p></header><!-- BREVO EMBED GOES HERE: replace this launch-status section with the verified Brevo form when signup is ready. No addresses are collected by this page. --></section>
 <section class="contact-section section" id="contact"><h2>Questions? Get in touch.</h2><p>For support or launch questions, email <a href="mailto:{escape(SUPPORT_EMAIL)}">{escape(SUPPORT_EMAIL)}</a>.</p></section>
 </main>
-<dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">CŌR app screen</h2><p>CŌR interface · illustrative records</p><img alt=""></dialog>
+<dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>COR interface · illustrative records</p><img alt=""></dialog>
 <footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Launch status</a><a href="#contact">Contact</a></div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
 <div class="copyright">© 2026 COR Active. All rights reserved.</div>
 <div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div></footer>
@@ -212,31 +212,31 @@ def legal_page(title, slug, description, body):
 </main></body></html>'''
 
 privacy_body = '''
-<p><strong>Draft for review:</strong> This page describes the intended practices supplied for CŌR. Confirm the bracketed operational details and have the final policy reviewed before making it public.</p>
-<h2>Who this policy covers</h2><p>This policy covers the CŌR iPhone and Apple Watch apps, the COR Active website, and the launch waitlist. “CŌR,” “we,” and “our” refer to COR Active. For privacy questions, contact <a href="mailto:support@coractive.co">support@coractive.co</a>.</p>
+<p><strong>Draft for review:</strong> This page describes the intended practices supplied for COR. Confirm the bracketed operational details and have the final policy reviewed before making it public.</p>
+<h2>Who this policy covers</h2><p>This policy covers the COR iPhone and Apple Watch apps, the COR Active website, and the launch waitlist. “COR,” “we,” and “our” refer to COR Active. For privacy questions, contact <a href="mailto:support@coractive.co">support@coractive.co</a>.</p>
 <h2>Information you provide</h2><ul><li>Account details supplied through Sign in with Apple or Google, such as an account identifier, name, or email address, handled through Supabase.</li><li>Profile and app information you choose to enter, including goals, meals, nutrition, workouts, weight, measurements, and feedback.</li><li>Health information you choose to connect through Apple Health, subject to the permissions you grant. Supported information may include steps, workouts, heart rate, sleep, weight, body fat, and meal calories or macros. You can manage access in Apple Health and iOS settings.</li><li>Photos, descriptions, and other content you submit when you choose an AI feature. A feature may send the content needed for that request to its AI service provider.</li><li>If you join the launch waitlist, your email address and subscription or confirmation status, handled through Brevo.</li></ul>
-<h2>How information is used</h2><p>We use information to operate and personalize CŌR, sync your account, show the health and fitness features you request, answer support messages, process an AI request you choose to make, and send waitlist or launch updates you signed up to receive.</p>
-<h2>Apple Health information</h2><p>HealthKit access is permission-based. You can grant or deny supported read and write permissions separately. We use health information to provide CŌR health and fitness functionality. We do not sell health data and do not use it for advertising. Health data is not used to target ads. Information already written to Apple Health may remain there after you delete your CŌR account; manage or remove those records in Apple Health.</p>
-<h2>Optional AI features</h2><p>AI features are optional. When you choose one, CŌR may send the text, image, or other information shown in that feature to an AI provider so it can return an estimate or response. Review the in-app notice before sending. <strong>[Before publication, list the active AI providers, the types of inputs each receives, and their retention or model-training terms.]</strong></p>
+<h2>How information is used</h2><p>We use information to operate and personalize COR, sync your account, show the health and fitness features you request, answer support messages, process an AI request you choose to make, and send waitlist or launch updates you signed up to receive.</p>
+<h2>Apple Health information</h2><p>HealthKit access is permission-based. You can grant or deny supported read and write permissions separately. We use health information to provide COR health and fitness functionality. We do not sell health data and do not use it for advertising. Health data is not used to target ads. Information already written to Apple Health may remain there after you delete your COR account; manage or remove those records in Apple Health.</p>
+<h2>Optional AI features</h2><p>AI features are optional. When you choose one, COR may send the text, image, or other information shown in that feature to an AI provider so it can return an estimate or response. Review the in-app notice before sending. <strong>[Before publication, list the active AI providers, the types of inputs each receives, and their retention or model-training terms.]</strong></p>
 <h2>Service providers and sharing</h2><p>We use service providers to operate the product: Supabase for authentication and app services, Apple and Google for sign-in, Apple HealthKit when you connect it, Brevo for waitlist email, and AI providers only when you choose an AI feature. We do not sell personal or health information and do not use health data for advertising. We may disclose information if required by law or to protect the service and its users.</p>
 <h2>How long we keep information</h2><p>We keep account information while your account is active and for the time needed to provide the service, meet legal obligations, resolve disputes, and protect the service. Waitlist information is kept until you unsubscribe or ask us to remove it. <strong>[Confirm the actual retention period for backups, support messages, and provider logs before publication.]</strong></p>
-<h2>Your choices and deletion</h2><ul><li>Change Apple Health permissions in Apple Health or iOS Settings.</li><li>Delete your CŌR account in the app’s Settings under “Delete Account.” Account deletion removes the account and associated CŌR data from active systems; <strong>[confirm backup deletion timing and any records that must be retained]</strong>.</li><li>Use the unsubscribe link in a Brevo email to stop waitlist messages, or email <a href="mailto:support@coractive.co">support@coractive.co</a> to request removal.</li><li>Contact us to ask about access, correction, or deletion of information.</li></ul>
-<h2>Security and children</h2><p>We use technical and organizational safeguards designed to protect information. No online service can guarantee absolute security. CŌR is not designed for children under 13, and we do not knowingly ask children under 13 to create an account.</p>
-<h2>Changes to this policy</h2><p>We may update this policy as CŌR changes. We will update the date above and provide additional notice when required.</p>
+<h2>Your choices and deletion</h2><ul><li>Change Apple Health permissions in Apple Health or iOS Settings.</li><li>Delete your COR account in the app’s Settings under “Delete Account.” Account deletion removes the account and associated COR data from active systems; <strong>[confirm backup deletion timing and any records that must be retained]</strong>.</li><li>Use the unsubscribe link in a Brevo email to stop waitlist messages, or email <a href="mailto:support@coractive.co">support@coractive.co</a> to request removal.</li><li>Contact us to ask about access, correction, or deletion of information.</li></ul>
+<h2>Security and children</h2><p>We use technical and organizational safeguards designed to protect information. No online service can guarantee absolute security. COR is not designed for children under 13, and we do not knowingly ask children under 13 to create an account.</p>
+<h2>Changes to this policy</h2><p>We may update this policy as COR changes. We will update the date above and provide additional notice when required.</p>
 '''
 
 terms_body = '''
-<p><strong>Draft for review:</strong> This draft describes the intended CŌR service. Confirm the bracketed company and jurisdiction details and review the final terms before publication.</p>
-<h2>About CŌR</h2><p>CŌR is a nutrition and fitness app from COR Active. It offers food logging, nutrition information, workout tracking, progress tools, Apple Health connections, and optional AI-assisted features. The app is coming soon.</p>
-<h2>Accounts</h2><p>You may create an account using Sign in with Apple or Google. Keep your sign-in details secure and provide accurate information. You can delete your account through Settings in the app. Account deletion removes your CŌR account and associated data from active systems, subject to the retention details in the Privacy Policy.</p>
-<h2>Health and fitness information</h2><p>CŌR is for general wellness and fitness information. Calorie, nutrition, body-fat, workout, and AI-generated values may be estimates and can be incomplete or inaccurate. They are not medical advice, diagnosis, or treatment, and should not replace advice from a qualified health professional. Use your judgment and stop any activity that feels unsafe.</p>
+<p><strong>Draft for review:</strong> This draft describes the intended COR service. Confirm the bracketed company and jurisdiction details and review the final terms before publication.</p>
+<h2>About COR</h2><p>COR is a nutrition and fitness app from COR Active. It offers food logging, nutrition information, workout tracking, progress tools, Apple Health connections, and optional AI-assisted features. The app is coming soon.</p>
+<h2>Accounts</h2><p>You may create an account using Sign in with Apple or Google. Keep your sign-in details secure and provide accurate information. You can delete your account through Settings in the app. Account deletion removes your COR account and associated data from active systems, subject to the retention details in the Privacy Policy.</p>
+<h2>Health and fitness information</h2><p>COR is for general wellness and fitness information. Calorie, nutrition, body-fat, workout, and AI-generated values may be estimates and can be incomplete or inaccurate. They are not medical advice, diagnosis, or treatment, and should not replace advice from a qualified health professional. Use your judgment and stop any activity that feels unsafe.</p>
 <h2>Apple Health and connected services</h2><p>Apple Health access is optional and controlled by permissions on your device. You are responsible for reviewing those permissions and any third-party service terms that apply to services you choose to connect.</p>
 <h2>Optional AI features</h2><p>AI-assisted features are optional and may produce inaccurate or incomplete results. You are responsible for reviewing an estimate or response before relying on it or saving it. When you choose an AI feature, the information shown in that feature may be sent to a service provider to generate a result.</p>
-<h2>Subscriptions and payments</h2><p>CŌR is free to start, with CŌR Pro available in the app. Any price, trial, renewal period, and cancellation terms will be shown before you confirm a purchase. App Store subscriptions are managed through your Apple account. <strong>[Confirm subscription terms and any trial details before launch.]</strong></p>
-<h2>Acceptable use</h2><p>Do not misuse CŌR, interfere with its operation, attempt unauthorized access, or use it unlawfully. Do not submit content you do not have the right to use or that violates another person’s rights.</p>
+<h2>Subscriptions and payments</h2><p>COR is free to start, with COR Pro available in the app. Any price, trial, renewal period, and cancellation terms will be shown before you confirm a purchase. App Store subscriptions are managed through your Apple account. <strong>[Confirm subscription terms and any trial details before launch.]</strong></p>
+<h2>Acceptable use</h2><p>Do not misuse COR, interfere with its operation, attempt unauthorized access, or use it unlawfully. Do not submit content you do not have the right to use or that violates another person’s rights.</p>
 <h2>Service availability and changes</h2><p>We may update, suspend, or discontinue features to maintain or improve the service, comply with law, or address safety or security concerns. We will provide notice where required.</p>
-<h2>Intellectual property</h2><p>COR Active owns or licenses CŌR, its software, branding, and content. These terms give you a personal, limited, non-transferable right to use the app for its intended purpose. You keep ownership of content you submit, and authorize us to process it only as needed to provide the features you choose.</p>
-<h2>Disclaimers and liability</h2><p>To the extent permitted by law, CŌR is provided as available and without guarantees that every result will be accurate, uninterrupted, or suitable for your needs. Nothing in these terms removes rights that cannot legally be limited. <strong>[Have counsel complete jurisdiction-specific warranty and liability language.]</strong></p>
+<h2>Intellectual property</h2><p>COR Active owns or licenses COR, its software, branding, and content. These terms give you a personal, limited, non-transferable right to use the app for its intended purpose. You keep ownership of content you submit, and authorize us to process it only as needed to provide the features you choose.</p>
+<h2>Disclaimers and liability</h2><p>To the extent permitted by law, COR is provided as available and without guarantees that every result will be accurate, uninterrupted, or suitable for your needs. Nothing in these terms removes rights that cannot legally be limited. <strong>[Have counsel complete jurisdiction-specific warranty and liability language.]</strong></p>
 <h2>Governing law and contact</h2><p><strong>[Confirm the contracting legal entity and governing-law jurisdiction before publication.]</strong> For questions, contact <a href="mailto:support@coractive.co">support@coractive.co</a>.</p>
 '''
 
@@ -248,7 +248,7 @@ for slug, title, description, body in [
     target.mkdir(parents=True, exist_ok=True)
     (target / 'index.html').write_text(legal_page(title, slug, description, body))
 
-not_found = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | COR Active</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"></head><body><main class="not-found"><h1>Page not found.</h1><p>That address doesn’t lead to a CŌR page. Head back to the site and keep going.</p><a class="solid-button" href="/">Back to COR Active</a></main></body></html>'''
+not_found = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | COR Active</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"></head><body><main class="not-found"><h1>Page not found.</h1><p>That address doesn’t lead to a COR page. Head back to the site and keep going.</p><a class="solid-button" href="/">Back to COR Active</a></main></body></html>'''
 (ROOT / 'dist' / '404.html').write_text(not_found)
 (ROOT / 'dist' / 'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: https://coractive.co/sitemap.xml\n')
 (ROOT / 'dist' / 'sitemap.xml').write_text('''<?xml version="1.0" encoding="UTF-8"?>
@@ -274,7 +274,7 @@ def waitlist_status_page(title, heading, message, detail, confirmed=False):
 <svg class="waitlist-result-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{symbol}</svg>
 <p class="waitlist-result-eyebrow">COR Active · Launch waitlist</p><h1>{escape(heading)}</h1>
 <p class="waitlist-result-message">{escape(message)}</p><p class="waitlist-result-detail">{detail}</p>
-<a class="solid-button" href="/#features">Explore CŌR {ARROW}</a>
+<a class="solid-button" href="/#features">Explore COR {ARROW}</a>
 <p class="waitlist-result-help">Need a hand? <a href="mailto:{escape(SUPPORT_EMAIL, quote=True)}">{escape(SUPPORT_EMAIL)}</a></p>
 </main><footer class="waitlist-result-footer"><a href="/privacy/">Privacy policy</a><span>© 2026 COR Active</span></footer>
 </body></html>'''
@@ -284,7 +284,7 @@ for slug, title, heading, message, detail, confirmed in [
      'Check your inbox for an email from COR Active. Follow the confirmation link to join the waitlist.',
      'No email yet? Check your spam folder. If you entered the wrong address, <a href="/#waitlist">try again</a>.', False),
     ('confirmed', 'Welcome to the waitlist', 'You’re on the list.',
-     'Thanks for confirming your email. We’ll send you early access news and let you know when CŌR launches.',
+     'Thanks for confirming your email. We’ll send you early access news and let you know when COR launches.',
      'You can unsubscribe at any time using the link in our emails.', True)
 ]:
     target = ROOT / 'dist' / 'waitlist' / slug

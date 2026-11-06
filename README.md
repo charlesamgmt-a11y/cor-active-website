@@ -36,8 +36,8 @@ and `curated-content.json` are older unused assets.
 
 ## Current launch state
 
-The app is coming soon. Business/tab name: COR Active; in-page app name: CŌR.
-Pricing stays “Free to start. CŌR Pro available in the app.” Real app captures use
+The app is coming soon. Business/tab name: COR Active; in-page app name: COR.
+Pricing stays “Free to start. COR Pro available in the app.” Real app captures use
 illustrative records; the Duo render is a concept preview. Updated captures and
 Charles's background photos are pending.
 
@@ -69,3 +69,10 @@ them after replacing an original. Then run the normal site build. Cloudflare
 does not need the codec. Keep screenshots readable when tuning compression.
 
 [Release notes and remaining work in Notion](https://app.notion.com/p/3dec8d97165e8182923acd936d5737d3).
+
+## Social preview artwork
+
+The committed Open Graph image uses COR without a macron and states Coming soon.
+`product-shots/cor-og-preview.svg` is its editable vector layout, referencing the
+unchanged native home screenshot. Render at 1200 × 630 with Inkscape, then encode
+as JPEG. The Swift generator is retained as the macOS alternative.

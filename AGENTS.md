@@ -18,7 +18,7 @@ Follow the user's current instructions and publication scope.
 ## Product constraints
 
 - Preserve the black/ivory/glass style and approved logo proportions.
-- Business/tab name: COR Active. In-page app name: CŌR.
+- Business/tab name: COR Active. In-page app name: COR.
 - App is coming soon. Do not invent download links, dates, prices, trials,
   feature support, or database marketing claims.
 - Preserve legal draft labels. Keep signup hidden until the waitlist is actually
