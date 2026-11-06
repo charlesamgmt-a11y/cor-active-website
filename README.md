@@ -36,18 +36,18 @@ and `curated-content.json` are older unused assets.
 
 ## Current launch state
 
-The app is coming soon. Business/tab name: COR Active; in-page app name: CŌR.
-Pricing stays “Free to start. CŌR Pro available in the app.” Real app captures use
-illustrative records; the Duo render is a concept preview. Updated captures and
+The app is coming soon. Business/tab name: COR Active; in-page app name: COR.
+Pricing stays “Free to start. COR Pro available in the app.” Real app captures use
+illustrative records; the official iPhone 18 Pro Max Glacier artwork is an illustrative composition. Updated captures and
 Charles's background photos are pending.
 
 `/privacy/` and `/terms/` are public DRAFT review pages with placeholders, not
 approved final policies. `support@coractive.co` is displayed, but delivery has
-not been verified. The waitlist is disabled and collects no addresses.
+not been verified. Signup is hidden; the launch-status section collects no addresses.
 
 ## Waitlist integration
 
-Replace the `BREVO EMBED GOES HERE` preview form in `build.py`, inside `#waitlist`,
+Replace the `BREVO EMBED GOES HERE` launch-status section in `build.py`, inside `#waitlist`,
 with the configured Brevo form. Complete the account, sender-domain and double
 confirmation setup first. Keep API keys out of frontend code.
 
@@ -60,4 +60,25 @@ Both are noindex and excluded from the sitemap. Opening them does not subscribe
 or verify anyone: Brevo owns storage and confirmation. Waitlist membership is
 separate from Supabase app accounts.
 
+## Image delivery
+
+The original PNG captures stay in `dist/assets/product/`. The page uses committed
+WebP variants selected by `image-variants.json`, including for enlarged views.
+Run `python3 scripts/optimize-images.py` locally with `cwebp` installed to regenerate
+them after replacing an original. Then run the normal site build. Cloudflare
+does not need the codec. Keep screenshots readable when tuning compression.
+
 [Release notes and remaining work in Notion](https://app.notion.com/p/3dec8d97165e8182923acd936d5737d3).
+
+## Social preview artwork
+
+The committed Open Graph image uses COR without a macron and states Coming soon.
+`product-shots/cor-og-preview.svg` is its editable vector layout, referencing the
+unchanged native home screenshot. Render at 1200 × 630 with Inkscape, then encode
+as JPEG. The Swift generator is retained as the macOS alternative.
+
+Glacier is Apple’s light-blue finish. The hero, walkthrough, showcase and
+social-share image now use the original Apple-supplied portrait artwork.
+Phone shadows, motion and on-screen decorations are disabled. The enlarged
+screenshot viewer remains unframed. See `product-shots/device-frame-provenance.md`
+for the asset source, measurements, license and unchanged capture provenance.

@@ -86,21 +86,11 @@ document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) clo
   links.forEach(l => { l.addEventListener('focus', () => focusLink(l)); l.addEventListener('blur', clear); });
 })();
 
-/* ── Food suggestions ──────────────────────────────────────────────── */
-const foods = [...document.querySelectorAll('.food-orbit')];
-foods.forEach(button => button.addEventListener('click', () => {
-  const was = button.getAttribute('aria-pressed') === 'true';
-  foods.forEach(o => o.setAttribute('aria-pressed', 'false'));
-  button.setAttribute('aria-pressed', String(!was));
-}));
-const guide = document.querySelector('#food-guide');
-document.querySelector('.food-help').addEventListener('click', () => guide.showModal());
-document.querySelector('.dialog-close').addEventListener('click', () => guide.close());
-guide.addEventListener('click', e => { if (e.target === guide) guide.close(); });
-
 /* ── How it works ──────────────────────────────────────────────────── */
 const how = document.querySelector('.how-section');
 const howPhone = document.querySelector('.how-phone');
+const howCapture = howPhone.querySelector('.how-capture');
+const howScreenButton = howPhone.querySelector('.how-screen-button');
 const titles = [...document.querySelectorAll('.how-title')];
 const descs = [...document.querySelectorAll('.how-desc')];
 const dots = [...document.querySelectorAll('.how-dot')];
@@ -111,26 +101,21 @@ function setStep(i) {
   [titles, descs, dots].forEach(list => list.forEach((el, n) => el.classList.toggle('active', n === i)));
   [...titles, ...descs].forEach((el, n) => el.setAttribute('aria-hidden', String(n % 3 !== i)));
   dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
-  howPhone.classList.toggle('is-scanned', i > 0);
-  howPhone.classList.toggle('is-action', i === 2);
+  howCapture.src = dots[i].dataset.screen;
+  howCapture.alt = `${titles[i].textContent} — COR app screen with illustrative records`;
+  howScreenButton.dataset.screen = dots[i].dataset.screen;
+  howScreenButton.dataset.title = titles[i].textContent;
+  howScreenButton.setAttribute('aria-label', `Enlarge ${titles[i].textContent} app screen`);
 }
 dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
 setStep(0);
-// On phones the section isn't sticky, so cycle the steps while it's on screen.
-let howTimer = null;
-new IntersectionObserver(([e]) => {
-  clearInterval(howTimer);
-  if (e.isIntersecting && innerWidth < 810 && !reduceMotion) {
-    howTimer = setInterval(() => { if (performance.now() > manualUntil) setStep((currentStep + 1) % 3); }, 3200);
-  }
-}, { threshold: .4 }).observe(how);
+// On phones and with reduced motion, readers choose each step at their own pace.
 
 /* ── Scroll-driven scenes ──────────────────────────────────────────── */
 const hero = document.querySelector('.hero');
 const heroScene = document.querySelector('.hero-scene');
 const heroPhone = document.querySelector('.hero-phone');
 const burger = document.querySelector('.burger-stage');
-const foodStage = document.querySelector('.food-stage');
 let pending = false;
 function onScroll() {
   if (pending) return;
@@ -146,9 +131,6 @@ function onScroll() {
     const p = Math.max(0, Math.min(1, (innerHeight * .9 - b.top) / (innerHeight * .8)));
     const eased = 1 - Math.pow(1 - p, 3);
     burger.style.setProperty('--spread', `${eased * (innerWidth < 810 ? 70 : 150)}px`);
-    const f = foodStage.getBoundingClientRect();
-    const fp = (innerHeight / 2 - (f.top + f.height / 2)) / innerHeight; // about -1..1 around centre
-    foods.forEach((el, i) => el.style.setProperty('--py', `${fp * (i % 2 ? -70 : 50) * (1 + (i % 3) * .3)}px`));
     if (innerWidth >= 810 && performance.now() > manualUntil) {
       const r = how.getBoundingClientRect();
       const prog = Math.max(0, Math.min(.999, -r.top / Math.max(1, r.height - innerHeight)));
@@ -207,7 +189,7 @@ const screenViewer = document.querySelector('#screen-viewer');
 document.querySelectorAll('.screen-shot').forEach(button => button.addEventListener('click', () => {
   const image = screenViewer.querySelector('img');
   image.src = button.dataset.screen;
-  image.alt = `${button.dataset.title} — CŌR app screen with illustrative records`;
+  image.alt = `${button.dataset.title} — COR app screen with illustrative records`;
   screenViewer.querySelector('h2').textContent = button.dataset.title;
   screenViewer.showModal();
 }));
@@ -237,7 +219,7 @@ function selectShowcase(index, moveFocus = false) {
   showcaseCapture.setAttribute('aria-label', `Enlarge ${current.dataset.title} app screen`);
   const image = showcaseCapture.querySelector('img');
   image.src = current.dataset.screen;
-  image.alt = `${current.dataset.title} — CŌR app screen with illustrative records`;
+  image.alt = `${current.dataset.title} — COR app screen with illustrative records`;
   if (showcaseCount) showcaseCount.textContent = `${String(safeIndex + 1).padStart(2, '0')} — ${String(showcaseTabs.length).padStart(2, '0')}`;
   if (moveFocus) current.focus();
 }
@@ -255,39 +237,34 @@ showcaseTabs.forEach((tab, index) => {
   });
 });
 
-/* ── Footer video: only play while visible ─────────────────────────── */
+/* ── Footer video: the logo itself is the accessible motion control ── */
 const metal = document.querySelector('.footer-metal video');
-const metalToggle = document.querySelector('.footer-motion-toggle');
+const metalControl = document.querySelector('button.footer-metal');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-if (metal && metalToggle) {
+if (metal && metalControl) {
   let userPaused = false;
   let footerVisible = false;
+  let playAttempt = 0;
   const syncFooterMotion = () => {
-    if (motionPreference.matches) {
-      metal.removeAttribute('autoplay');
-      metal.pause();
-      metalToggle.hidden = false;
-      metalToggle.disabled = true;
-      metalToggle.textContent = 'Animation paused (reduced motion)';
-      metalToggle.setAttribute('aria-label', 'Animation paused because reduced motion is enabled');
-      metalToggle.setAttribute('aria-pressed', 'true');
-      return;
-    }
-    metalToggle.hidden = false;
-    metalToggle.disabled = false;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
-    if (footerVisible && !userPaused) metal.play().catch(() => {});
-    else metal.pause();
+    const attempt = ++playAttempt;
+    const reduced = motionPreference.matches;
+    const shouldPause = reduced || userPaused || !footerVisible || document.hidden;
+    const label = reduced ? 'COR logo, animation paused for reduced motion' :
+      userPaused ? 'Resume logo animation' : 'Pause logo animation';
+    metalControl.disabled = reduced;
+    metalControl.setAttribute('aria-label', label);
+    metalControl.title = label;
+    if (shouldPause) metal.pause();
+    else metal.play().catch((error) => {
+      // Visibility changes can cancel an older, still-pending play request.
+      if (attempt !== playAttempt || error?.name === 'AbortError') return;
+      userPaused = true;
+      syncFooterMotion();
+    });
   };
-  metalToggle.addEventListener('click', () => {
+  metalControl.addEventListener('click', () => {
+    if (motionPreference.matches) return;
     userPaused = !userPaused;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
     syncFooterMotion();
   });
   new IntersectionObserver(([entry]) => {
@@ -295,6 +272,7 @@ if (metal && metalToggle) {
     syncFooterMotion();
   }).observe(metal);
   motionPreference.addEventListener('change', syncFooterMotion);
+  document.addEventListener('visibilitychange', syncFooterMotion);
   syncFooterMotion();
 }
 

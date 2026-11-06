@@ -49,7 +49,7 @@ func drawText(_ text: String, at point: NSPoint, font: NSFont, color: NSColor, t
 
 let ivory = NSColor(calibratedRed: 0.96, green: 0.95, blue: 0.92, alpha: 1)
 let muted = NSColor(calibratedRed: 0.76, green: 0.79, blue: 0.79, alpha: 1)
-drawText("CŌR ACTIVE  ·  COMING SOON", at: NSPoint(x: 74, y: 526),
+drawText("COR ACTIVE  ·  COMING SOON", at: NSPoint(x: 74, y: 526),
          font: .systemFont(ofSize: 15, weight: .semibold), color: muted, tracking: 2.2)
 drawText("Track the work.\nSee the payoff.", at: NSPoint(x: 70, y: 324),
          font: NSFont(name: "Georgia", size: 62)!, color: ivory)
@@ -59,25 +59,32 @@ drawText("Meals, weight, sets, reps, and body fat —\nplus calories, ingredient
 let pill = NSBezierPath(roundedRect: NSRect(x: 74, y: 100, width: 190, height: 42), xRadius: 21, yRadius: 21)
 NSColor(calibratedRed: 0.94, green: 0.93, blue: 0.89, alpha: 1).setFill()
 pill.fill()
-drawText("Join the waitlist", at: NSPoint(x: 94, y: 113), font: .systemFont(ofSize: 16, weight: .semibold), color: NSColor.black)
+drawText("Coming soon", at: NSPoint(x: 94, y: 113), font: .systemFont(ofSize: 16, weight: .semibold), color: NSColor.black)
 
-// Frame a real native COR screen capture; do not redraw or fabricate app UI.
-let frameRect = NSRect(x: 826, y: 38, width: 296, height: 554)
-let frame = NSBezierPath(roundedRect: frameRect, xRadius: 39, yRadius: 39)
-NSColor(calibratedRed: 0.55, green: 0.34, blue: 0.20, alpha: 1).setFill()
-frame.fill()
-NSColor(calibratedRed: 0.88, green: 0.58, blue: 0.34, alpha: 1).setStroke()
-frame.lineWidth = 2
-frame.stroke()
-
-let screenRect = NSRect(x: 834, y: 46, width: 280, height: 538)
-let clip = NSBezierPath(roundedRect: screenRect, xRadius: 32, yRadius: 32)
-clip.addClip()
-screenshot.draw(in: screenRect, from: .zero, operation: .sourceOver, fraction: 1)
+// Frame native COR content with Apple's original, upright device artwork.
+let deviceURL = root.appendingPathComponent("dist/assets/brand/iphone-18-pro-max-glacier-apple.png")
+guard let device = NSImage(contentsOf: deviceURL) else {
+    fatalError("Missing official Apple device artwork: \(deviceURL.path)")
+}
+let scale: CGFloat = 554.0 / 3000.0
+let frameRect = NSRect(x: 832, y: 38, width: 1470 * scale, height: 554)
+let screenRect = NSRect(x: frameRect.minX + 75 * scale, y: frameRect.minY + 66 * scale,
+                        width: 1320 * scale, height: 2868 * scale)
+NSGraphicsContext.saveGraphicsState()
+NSBezierPath(roundedRect: screenRect, xRadius: 250 * scale, yRadius: 250 * scale).addClip()
+let fit = min(screenRect.width / screenshot.size.width, screenRect.height / screenshot.size.height)
+let imageRect = NSRect(x: screenRect.midX - screenshot.size.width * fit / 2,
+                       y: screenRect.midY - screenshot.size.height * fit / 2,
+                       width: screenshot.size.width * fit, height: screenshot.size.height * fit)
+screenshot.draw(in: imageRect, from: .zero, operation: .sourceOver, fraction: 1)
+NSGraphicsContext.restoreGraphicsState()
+device.draw(in: frameRect, from: .zero, operation: .sourceOver, fraction: 1)
+drawText("iPhone is a trademark of Apple Inc., registered in the U.S. and other countries.",
+         at: NSPoint(x: 74, y: 20), font: .systemFont(ofSize: 11), color: muted)
 
 NSGraphicsContext.restoreGraphicsState()
 guard let data = bitmap.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) else {
     fatalError("Could not encode Open Graph image")
 }
 try data.write(to: output, options: .atomic)
-print("Wrote \(output.path) (1200x630) using the native CŌR dashboard screenshot")
+print("Wrote \(output.path) (1200x630) using the native COR dashboard screenshot")

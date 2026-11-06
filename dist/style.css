@@ -668,7 +668,7 @@ html,body{background:#000}
 @media(max-width:900px){.footer-top{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){.nav-wordmark{width:62px;max-height:24px}.footer-top{grid-template-columns:1fr 1fr}.legal-details{grid-template-columns:1fr;gap:22px;margin-top:30px;padding-top:22px}}
 
-/* CŌR product story: editorial feature navigator + one authentic screen. */
+/* COR product story: editorial feature navigator + one authentic screen. */
 .features-section{isolation:isolate}
 .anchor-alias{display:block;position:relative;top:-110px;visibility:hidden}
 .showcase-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,390px);align-items:center;gap:clamp(56px,10vw,148px);max-width:1040px;margin:76px auto 0}
@@ -703,7 +703,7 @@ html,body{background:#000}
 @media(prefers-reduced-motion:reduce){.showcase-tab,.showcase-tab-arrow,.capture-zoom{transition:none}.showcase-capture:after{backdrop-filter:none;-webkit-backdrop-filter:none}}
 #screen-viewer img{width:min(390px,100%);height:min(560px,68dvh);object-fit:cover;object-position:top;max-height:none}
 
-/* Smooth FAQ Flow visual treatment, tuned for CŌR's black canvas. */
+/* Smooth FAQ Flow visual treatment, tuned for COR's black canvas. */
 .faq-section{isolation:isolate;overflow:hidden}
 .flow-list{position:relative;isolation:isolate;gap:12px}
 .flow-list:before{content:"";position:absolute;z-index:-1;inset:-38px -50px -50px;pointer-events:none;background:radial-gradient(ellipse 70% 45% at 50% 28%,rgba(202,188,163,.13),transparent 76%),radial-gradient(ellipse 52% 45% at 14% 72%,rgba(153,174,189,.08),transparent 80%);filter:blur(30px)}
@@ -714,7 +714,7 @@ html,body{background:#000}
 @media(prefers-reduced-motion:reduce){.flow-item,.flow-icon i,.flow-a,.flow-a p{transition:none!important}.flow-list:before{filter:none}}
 
 /* Frosted glass navigation and COR circle cursor */
-.nav-bar{background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025) 48%,rgba(148,177,203,.055)),rgba(14,16,19,.47);backdrop-filter:blur(30px) saturate(175%);-webkit-backdrop-filter:blur(30px) saturate(175%);border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(255,255,255,.035),0 18px 46px rgba(0,0,0,.4),0 0 28px -16px rgba(183,211,235,.45)}
+.nav-bar{background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.025) 48%,rgba(148,177,203,.055)),rgba(14,16,19,.82);backdrop-filter:blur(30px) saturate(175%);-webkit-backdrop-filter:blur(30px) saturate(175%);border-color:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(255,255,255,.035),0 18px 46px rgba(0,0,0,.4),0 0 28px -16px rgba(183,211,235,.45)}
 html.has-custom-cursor:not(.cursor-native),html.has-custom-cursor:not(.cursor-native) *{cursor:none!important}
 .custom-cursor{position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:0;mix-blend-mode:difference;transition:opacity .18s ease}
 .custom-cursor.is-visible{opacity:1}
@@ -730,7 +730,7 @@ html.has-custom-cursor:not(.cursor-native),html.has-custom-cursor:not(.cursor-na
 
 /* Keep the loading moment clean: no cursor or navigation over the wordmark. */
 .preloader{z-index:1200;background:#000}
-.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-metal-wordmark.webp');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-metal-wordmark.webp');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
+.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-nav-wordmark.svg');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-nav-wordmark.svg');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
 .preloader-mark img{object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 20px rgba(180,205,230,.16))}
 body.is-preloading .nav-bar{visibility:hidden}
 body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
@@ -806,9 +806,6 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .contact-section p{color:#d1d5d4;line-height:1.6}
 .contact-section a{text-decoration:underline;text-underline-offset:4px}
 .footer-mark-wrap{position:relative}
-.footer-motion-toggle{position:absolute;right:8%;bottom:16px;z-index:3;min-height:44px;padding:10px 16px;border:1px solid #f4f2eb;border-radius:999px;background:#090c0e;color:#f4f2eb;font:600 14px var(--body)}
-.footer-motion-toggle[hidden]{display:none}
-.footer-motion-toggle:disabled{opacity:1;color:#f4f2eb;background:#090c0e;cursor:default}
 .legal-document{min-height:100vh;padding:120px 24px 80px;background:#000;color:#f4f2eb}
 .legal-document header,.legal-document article{width:min(820px,100%);margin-inline:auto}
 .legal-document header{margin-bottom:28px}
@@ -826,7 +823,7 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .not-found p{margin:0 auto 24px;color:#d1d5d4;max-width:480px}
 .not-found a{display:inline-flex;justify-self:center}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #a4c5ef;outline-offset:4px}
-@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}.footer-motion-toggle{right:6%;bottom:10px}}
+@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}}
 
 /* Glass Material inspired surfaces: soft refraction, layered rims and reflected light. */
 .features-section,.pricing-section,.waitlist-section{position:relative;isolation:isolate}
@@ -841,18 +838,17 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .flow-item{backdrop-filter:blur(24px) saturate(155%) contrast(1.04);-webkit-backdrop-filter:blur(24px) saturate(155%) contrast(1.04)}
 @media(prefers-reduced-transparency:reduce){.feature-card,.pricing-card,.waitlist-preview,.showcase-device,.flow-item,.nav-bar{backdrop-filter:none;-webkit-backdrop-filter:none;background-color:#101416}}
 
-/* ── Apple iPhone Duo launch hero ── */
-.hero-phone-group:has(.hero-duo){width:min(820px,100%);height:auto;display:flex;justify-content:center}
-.hero-duo{position:relative;isolation:isolate;width:min(760px,calc(100vw - 80px));height:auto;aspect-ratio:2247/3093;flex:none;filter:drop-shadow(0 38px 60px #0009);transition:transform .9s cubic-bezier(.22,1,.36,1)}
-.duo-screen-bed{position:absolute;z-index:-1;inset:3.9% 5.25% 3.8%;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;border-radius:5.2%;background:#030705}
-.duo-screen-bed img{display:block;width:100%;height:100%;min-width:0;object-fit:contain;object-position:center top;background:#030705}
-.duo-screen-bed img+img{border-left:2px solid #090d0d;box-shadow:inset 1px 0 #ffffff10}
-.duo-bezel{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:2;pointer-events:none}
-.hero-revealed .hero-duo{transform:scale(1.035) translateY(-10px)}
-.hero-scene:has(.hero-duo) .float-food,.hero-scene:has(.hero-duo) .nutrition-toast,.hero-scene:has(.hero-duo) .know-heading{display:none}
-@media(max-width:809px){.hero-phone-group:has(.hero-duo){width:100%;height:auto}.hero-duo{width:min(620px,calc(100vw - 26px));filter:drop-shadow(0 24px 35px #0009)}}
+/* Official iPhone 18 Pro Max Glacier: unmodified artwork, native app content. */
+.hero-phone-group:has(.hero-pro-max){width:min(560px,100%);height:auto;display:flex;justify-content:center;align-items:flex-start}
+.hero-pro-max{position:relative;isolation:isolate;width:min(440px,calc(100vw - 48px));height:auto;aspect-ratio:1470/3000;align-self:flex-start;flex:none;filter:none;transition:none}
+.device-screen-bed{position:absolute;z-index:0;inset:auto;left:5.102041%;top:2.2%;width:89.795918%;height:95.6%;aspect-ratio:auto;overflow:hidden;border:0;padding:0;border-radius:19% / 8.75%;background:#030705;box-shadow:none}
+.device-screen-bed:after{display:none}
+.device-screen-bed img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;border-radius:0;background:#030705}
+.device-bezel{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;pointer-events:none}
+.hero-revealed .hero-pro-max{transform:none}
+@media(max-width:809px){.hero-phone-group:has(.hero-pro-max){width:100%;height:auto}.hero-pro-max{width:min(340px,calc(100vw - 48px));filter:none}}
 
-/* Switch-on-hover feature navigator with an authentic Duo device bezel. */
+/* Feature navigator with the same official Glacier device artwork. */
 .showcase-photo-slot{inset:0;border:0;border-radius:0;background-image:var(--showcase-background,none);box-shadow:none}
 .showcase-tabs{display:grid;gap:10px;border:0}
 .showcase-tab{position:relative;grid-template-columns:34px minmax(0,1fr) 22px;min-height:66px;padding:16px 18px;border:1px solid transparent;border-radius:14px;background:transparent;transition:color .24s ease,background-color .24s ease,border-color .24s ease,transform .24s ease}
@@ -864,9 +860,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .showcase-note{margin-top:24px}
 .showcase-stage{overflow:visible;min-height:720px}
 .showcase-photo-slot{z-index:-1;inset:8% -5% 10%;border-radius:28px;transition:background-image .35s ease}
-.showcase-device{z-index:1;position:relative;display:grid;justify-items:center;align-self:center;width:min(100%,368px);margin:0;padding:0;border:0;border-radius:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;transform:none}
-.showcase-phone{position:relative;width:100%;aspect-ratio:1574/2194;isolation:isolate;filter:drop-shadow(0 30px 42px #000a)}
-.showcase-capture{position:absolute;z-index:0;left:18.5%;top:6%;width:63%;height:88%;aspect-ratio:auto;overflow:hidden;border:0;border-radius:0;background:#050606;cursor:zoom-in}
+.showcase-device{z-index:1;position:relative;display:grid;justify-items:center;align-self:center;width:min(100%,320px);margin:0;padding:0;border:0;border-radius:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;transform:none}
+.showcase-phone{position:relative;width:100%;aspect-ratio:1470/3000;isolation:isolate;filter:none}
+.showcase-capture{position:absolute;z-index:0;left:5.102041%;top:2.2%;width:89.795918%;height:95.6%;aspect-ratio:auto;overflow:hidden;border:0;border-radius:19% / 8.75%;background:#050606;cursor:zoom-in}
 .showcase-screen{width:100%;height:100%;object-fit:contain;object-position:center top;border-radius:0}
 .showcase-capture:after{display:none}
 .showcase-bezel{position:absolute;z-index:2;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
@@ -876,7 +872,47 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 @media(max-width:800px){.showcase-layout{gap:32px}.showcase-tabs{grid-template-columns:1fr 1fr;gap:8px}.showcase-tab{grid-template-columns:28px minmax(0,1fr) 18px;padding:13px 12px;min-height:60px;font-size:14px}.showcase-tab-description{font-size:13px}.showcase-stage{min-height:600px}.showcase-photo-slot{inset:2% 4% 8%}.showcase-device{width:min(100%,360px)}}
 @media(max-width:520px){.showcase-tabs{grid-template-columns:1fr;gap:5px}.showcase-tab{grid-template-columns:30px minmax(0,1fr) 18px;min-height:58px;padding:12px 14px}.showcase-tab-description{grid-column:2/4}.showcase-stage{min-height:550px}.showcase-device{width:min(100%,320px)}.showcase-photo-slot{inset:2% 0 8%}}
 @media(prefers-reduced-motion:reduce){.showcase-tab,.showcase-tab-description,.showcase-photo-slot{transition:none}}
-.hero-duo[aria-label*="iPhone Duo"] .duo-closed-bed{inset:6% 18.5% 6%;grid-template-columns:1fr;place-items:center;border-radius:2%;background:#030705}
-.hero-duo .duo-closed-bed img{width:100%;height:100%;object-fit:contain;object-position:center;background:#030705}
-.duo-closed-bed{inset:6% 18.5% 6%;grid-template-columns:1fr;place-items:center;border-radius:2%;background:#030705}
-.duo-closed-bed img{width:100%;height:100%;object-fit:contain;object-position:center;background:#030705}
+
+/* Launch polish: quiet presentation, native captures, readable controls. */
+.nav-bar{width:1000px}
+.nav-download{min-height:44px}
+.lens-bar.is-focusing .lens-link{opacity:1;filter:none;transform:none}
+.nav-bar .brand{min-height:44px;flex-shrink:0}
+.nav-bar .lens-link{display:inline-flex;align-items:center;min-height:44px;font-size:14px;letter-spacing:1px;padding:10px}
+.iphone-badge{font-size:14px;line-height:1.5;padding:8px 16px}
+.ingredient-tag,.meal-total span,.prompt-tools i{font-size:14px}
+.hero-header>p{color:#aeb4b1}
+.how-title{font-family:var(--display);font-weight:400;font-size:clamp(42px,4vw,58px);line-height:1.06;letter-spacing:-1px}
+.how-section{scroll-margin-top:0}
+.how-phone{height:min(740px,calc(100vh - 220px));width:auto;aspect-ratio:1470/3000;justify-self:center;isolation:isolate;overflow:visible;border:0;border-radius:0;background:transparent;filter:none;padding:0}
+.how-screen-button{cursor:zoom-in}
+.how-capture{display:block;width:100%;height:100%;object-fit:contain}
+.how-dot,.how-dot.active{position:relative;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;background:transparent;border-radius:50%;transition:none}
+.how-dot:before{content:"";position:absolute;left:9px;right:9px;top:20px;height:4px;border-radius:4px;background:#818987;transition:background .2s}
+.how-dot.active:before{background:var(--ivory)}
+.demo-note,.how-right .demo-note,.showcase-note,.showcase-tab-number,.showcase-device figcaption,.pricing-footnote,.copyright{font-size:14px;line-height:1.6;color:#b0b7b4}
+.showcase-note span{color:#b0b7b4}
+.showcase-tab-description{font-size:15px;color:#c2c7c4}
+.showcase-tab.active .showcase-tab-description{max-height:160px}
+.waitlist-section .eyebrow,.legal-document .draft-banner{font-size:14px}
+.footer-top{grid-template-columns:minmax(220px,1.5fr) 1fr 1fr;gap:48px}
+.footer-top>div{gap:4px}
+.footer-top h3{font-size:15px;margin-bottom:10px}
+.footer-top a{display:flex;align-items:center;min-height:44px;width:fit-content;font-size:16px;color:#b9c2bd}
+.footer-top a:hover{color:var(--ivory)}
+.contact-section a{display:inline-flex;align-items:center;min-height:44px}
+.footer-metal:focus-visible{outline:none}
+.footer-mark-wrap:has(.footer-metal:focus-visible){outline:3px solid #a4c5ef;outline-offset:4px}
+@media(max-width:1100px){.nav-bar{width:calc(100% - 48px)}.nav-bar .lens-link{padding:10px 7px}}
+@media(max-width:900px){.footer-top{grid-template-columns:repeat(2,minmax(0,1fr))}.footer-about{grid-column:1/-1}}
+@media(max-width:809px){.how-phone{width:min(300px,100%);height:auto;aspect-ratio:1470/3000;border-radius:0}.how-title{font-size:42px}.how-dots{margin-top:18px}.showcase-tab-description{font-size:15px}}
+@media(max-width:640px){.nav-bar{width:calc(100% - 24px);max-width:calc(100% - 24px);gap:8px;padding:8px 12px}.nav-download{font-size:14px;min-height:44px;padding:10px 16px}.nav-bar .menu-toggle{flex:0 0 44px;width:44px;height:44px}.nav-bar .brand{min-width:62px}.footer-top{gap:28px}.iphone-badge{font-size:14px}}
+@media(max-width:380px){.nav-bar{padding:6px 8px;gap:5px}.nav-download{padding:10px 12px}.how-title{font-size:38px}}
+@media(max-width:809px){.ingredient-tag{left:-22px}.layer-1 .ingredient-tag,.layer-3 .ingredient-tag{right:-22px}}
+
+/* The logo is the pause/resume target, without separate visible button chrome. */
+button.footer-metal{padding:0;border:0;background:transparent;color:inherit;cursor:pointer}
+button.footer-metal:disabled{cursor:default}
+
+/* Use the supplied vector wordmark without stretching its canvas. */
+.preloader-mark{aspect-ratio:578/144}
