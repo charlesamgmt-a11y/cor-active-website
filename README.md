@@ -38,7 +38,7 @@ and `curated-content.json` are older unused assets.
 
 The app is coming soon. Business/tab name: COR Active; in-page app name: COR.
 Pricing stays “Free to start. COR Pro available in the app.” Real app captures use
-illustrative records; the Duo render is a concept preview. Updated captures and
+illustrative records; the iPhone 18 Pro Max Glacier frame is an illustrative mockup. Updated captures and
 Charles's background photos are pending.
 
 `/privacy/` and `/terms/` are public DRAFT review pages with placeholders, not
@@ -76,3 +76,7 @@ The committed Open Graph image uses COR without a macron and states Coming soon.
 `product-shots/cor-og-preview.svg` is its editable vector layout, referencing the
 unchanged native home screenshot. Render at 1200 × 630 with Inkscape, then encode
 as JPEG. The Swift generator is retained as the macOS alternative.
+
+The hero and app-screen showcase use Hoverify’s iPhone 18 Pro Max Glacier frame.
+Glacier is Apple’s light-blue finish. See `product-shots/device-frame-provenance.md`
+for the asset source, measurements, license and unchanged capture provenance.
