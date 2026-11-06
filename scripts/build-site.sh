@@ -15,4 +15,5 @@ commit = os.environ.get("CF_PAGES_COMMIT_SHA") or subprocess.check_output(
 Path("dist/deployment.json").write_text(json.dumps({"commit": commit}) + "\n")
 PY
 node --check dist/app.js
+node scripts/check-footer-motion.cjs
 python3 scripts/check-site.py

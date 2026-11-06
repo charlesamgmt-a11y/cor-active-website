@@ -730,7 +730,7 @@ html.has-custom-cursor:not(.cursor-native),html.has-custom-cursor:not(.cursor-na
 
 /* Keep the loading moment clean: no cursor or navigation over the wordmark. */
 .preloader{z-index:1200;background:#000}
-.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-metal-wordmark.webp');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-metal-wordmark.webp');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
+.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-nav-wordmark.svg');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-nav-wordmark.svg');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
 .preloader-mark img{object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 20px rgba(180,205,230,.16))}
 body.is-preloading .nav-bar{visibility:hidden}
 body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
@@ -806,9 +806,6 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .contact-section p{color:#d1d5d4;line-height:1.6}
 .contact-section a{text-decoration:underline;text-underline-offset:4px}
 .footer-mark-wrap{position:relative}
-.footer-motion-toggle{position:absolute;right:8%;bottom:16px;z-index:3;min-height:44px;padding:10px 16px;border:1px solid #f4f2eb;border-radius:999px;background:#090c0e;color:#f4f2eb;font:600 14px var(--body)}
-.footer-motion-toggle[hidden]{display:none}
-.footer-motion-toggle:disabled{opacity:1;color:#f4f2eb;background:#090c0e;cursor:default}
 .legal-document{min-height:100vh;padding:120px 24px 80px;background:#000;color:#f4f2eb}
 .legal-document header,.legal-document article{width:min(820px,100%);margin-inline:auto}
 .legal-document header{margin-bottom:28px}
@@ -826,7 +823,7 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .not-found p{margin:0 auto 24px;color:#d1d5d4;max-width:480px}
 .not-found a{display:inline-flex;justify-self:center}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #a4c5ef;outline-offset:4px}
-@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}.footer-motion-toggle{right:6%;bottom:10px}}
+@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}}
 
 /* Glass Material inspired surfaces: soft refraction, layered rims and reflected light. */
 .features-section,.pricing-section,.waitlist-section{position:relative;isolation:isolate}
@@ -909,6 +906,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 @media(max-width:1100px){.nav-bar{width:calc(100% - 48px)}.nav-bar .lens-link{padding:10px 7px}}
 @media(max-width:900px){.footer-top{grid-template-columns:repeat(2,minmax(0,1fr))}.footer-about{grid-column:1/-1}}
 @media(max-width:809px){.how-phone{width:min(300px,100%);height:auto;aspect-ratio:1470/3000;border-radius:0}.how-title{font-size:42px}.how-dots{margin-top:18px}.showcase-tab-description{font-size:15px}}
-@media(max-width:640px){.nav-bar{width:calc(100% - 24px);max-width:calc(100% - 24px);gap:8px;padding:8px 12px}.nav-download{font-size:14px;min-height:44px;padding:10px 16px}.nav-bar .menu-toggle{flex:0 0 44px;width:44px;height:44px}.nav-bar .brand{min-width:62px}.footer-top{gap:28px}.footer-motion-toggle{position:relative;display:block;right:auto;bottom:auto;margin:8px auto 24px}.iphone-badge{font-size:14px}}
+@media(max-width:640px){.nav-bar{width:calc(100% - 24px);max-width:calc(100% - 24px);gap:8px;padding:8px 12px}.nav-download{font-size:14px;min-height:44px;padding:10px 16px}.nav-bar .menu-toggle{flex:0 0 44px;width:44px;height:44px}.nav-bar .brand{min-width:62px}.footer-top{gap:28px}.iphone-badge{font-size:14px}}
 @media(max-width:380px){.nav-bar{padding:6px 8px;gap:5px}.nav-download{padding:10px 12px}.how-title{font-size:38px}}
 @media(max-width:809px){.ingredient-tag{left:-22px}.layer-1 .ingredient-tag,.layer-3 .ingredient-tag{right:-22px}}
+
+/* The logo is the pause/resume target, without separate visible button chrome. */
+button.footer-metal{padding:0;border:0;background:transparent;color:inherit;cursor:pointer}
+button.footer-metal:disabled{cursor:default}
+
+/* Use the supplied vector wordmark without stretching its canvas. */
+.preloader-mark{aspect-ratio:578/144}

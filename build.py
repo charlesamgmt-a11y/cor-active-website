@@ -175,12 +175,12 @@ html = f'''<!doctype html>
 <meta name="theme-color" content="#030505">
 <meta property="og:type" content="website"><meta property="og:title" content="COR Active – Track the work. See the payoff."><meta property="og:description" content="Nutrition and strength, together. Plan your targets, log meals and workouts, and follow your progress. COR Active is coming soon for iPhone."><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="COR nutrition and training app screen with the message Track the work. See the payoff.">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/assets/brand/cor-metal-wordmark.webp" as="image">
+<link rel="preload" href="/assets/brand/cor-nav-wordmark.svg" as="image">
 <link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
 <script>try{{if(sessionStorage.getItem('cor-preloaded'))document.documentElement.classList.add('skip-preloader')}}catch(e){{}}</script>
 <script src="{versioned_asset('app.js')}" defer></script></head>
 <body>
-<div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-metal-wordmark.webp" alt=""><span class="preloader-shine"></span></div></div>
+<div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-nav-wordmark.svg" alt=""><span class="preloader-shine"></span></div></div>
 <div class="custom-cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span></div>
 <a class="skip-link" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} home">{img('brand/cor-nav-wordmark.svg', BRAND, 'nav-wordmark', True)}</a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button('Explore the app', '#features', 'solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
@@ -201,7 +201,7 @@ html = f'''<!doctype html>
 <dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>COR interface · illustrative records</p><img alt=""></dialog>
 <footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Launch status</a><a href="#contact">Contact</a></div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
 <div class="copyright">© 2026 COR Active. All rights reserved.<br>Apple and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries.</div>
-<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div></footer>
+<div class="footer-mark-wrap"><button type="button" class="footer-metal" aria-label="Pause logo animation" title="Pause logo animation"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="{versioned_asset('assets/brand/cor-liquid-metal.mp4')}" type="video/mp4"></video></button></div></footer>
 </body></html>'''
 (ROOT / 'dist/index.html').write_text(html)
 

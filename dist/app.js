@@ -237,39 +237,34 @@ showcaseTabs.forEach((tab, index) => {
   });
 });
 
-/* ── Footer video: only play while visible ─────────────────────────── */
+/* ── Footer video: the logo itself is the accessible motion control ── */
 const metal = document.querySelector('.footer-metal video');
-const metalToggle = document.querySelector('.footer-motion-toggle');
+const metalControl = document.querySelector('button.footer-metal');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-if (metal && metalToggle) {
+if (metal && metalControl) {
   let userPaused = false;
   let footerVisible = false;
+  let playAttempt = 0;
   const syncFooterMotion = () => {
-    if (motionPreference.matches) {
-      metal.removeAttribute('autoplay');
-      metal.pause();
-      metalToggle.hidden = false;
-      metalToggle.disabled = true;
-      metalToggle.textContent = 'Animation paused (reduced motion)';
-      metalToggle.setAttribute('aria-label', metalToggle.textContent);
-      metalToggle.setAttribute('aria-pressed', 'true');
-      return;
-    }
-    metalToggle.hidden = false;
-    metalToggle.disabled = false;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
-    if (footerVisible && !userPaused) metal.play().catch(() => {});
-    else metal.pause();
+    const attempt = ++playAttempt;
+    const reduced = motionPreference.matches;
+    const shouldPause = reduced || userPaused || !footerVisible || document.hidden;
+    const label = reduced ? 'COR logo, animation paused for reduced motion' :
+      userPaused ? 'Resume logo animation' : 'Pause logo animation';
+    metalControl.disabled = reduced;
+    metalControl.setAttribute('aria-label', label);
+    metalControl.title = label;
+    if (shouldPause) metal.pause();
+    else metal.play().catch((error) => {
+      // Visibility changes can cancel an older, still-pending play request.
+      if (attempt !== playAttempt || error?.name === 'AbortError') return;
+      userPaused = true;
+      syncFooterMotion();
+    });
   };
-  metalToggle.addEventListener('click', () => {
+  metalControl.addEventListener('click', () => {
+    if (motionPreference.matches) return;
     userPaused = !userPaused;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
     syncFooterMotion();
   });
   new IntersectionObserver(([entry]) => {
@@ -277,6 +272,7 @@ if (metal && metalToggle) {
     syncFooterMotion();
   }).observe(metal);
   motionPreference.addEventListener('change', syncFooterMotion);
+  document.addEventListener('visibilitychange', syncFooterMotion);
   syncFooterMotion();
 }
 
