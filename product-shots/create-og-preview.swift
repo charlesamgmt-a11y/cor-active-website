@@ -61,19 +61,26 @@ NSColor(calibratedRed: 0.94, green: 0.93, blue: 0.89, alpha: 1).setFill()
 pill.fill()
 drawText("Coming soon", at: NSPoint(x: 94, y: 113), font: .systemFont(ofSize: 16, weight: .semibold), color: NSColor.black)
 
-// Frame a real native COR screen capture; do not redraw or fabricate app UI.
-let frameRect = NSRect(x: 826, y: 38, width: 296, height: 554)
-let frame = NSBezierPath(roundedRect: frameRect, xRadius: 39, yRadius: 39)
-NSColor(calibratedRed: 0.55, green: 0.34, blue: 0.20, alpha: 1).setFill()
-frame.fill()
-NSColor(calibratedRed: 0.88, green: 0.58, blue: 0.34, alpha: 1).setStroke()
-frame.lineWidth = 2
-frame.stroke()
-
-let screenRect = NSRect(x: 834, y: 46, width: 280, height: 538)
-let clip = NSBezierPath(roundedRect: screenRect, xRadius: 32, yRadius: 32)
-clip.addClip()
-screenshot.draw(in: screenRect, from: .zero, operation: .sourceOver, fraction: 1)
+// Frame native COR content with Apple's original, upright device artwork.
+let deviceURL = root.appendingPathComponent("dist/assets/brand/iphone-18-pro-max-glacier-apple.png")
+guard let device = NSImage(contentsOf: deviceURL) else {
+    fatalError("Missing official Apple device artwork: \(deviceURL.path)")
+}
+let scale: CGFloat = 554.0 / 3000.0
+let frameRect = NSRect(x: 832, y: 38, width: 1470 * scale, height: 554)
+let screenRect = NSRect(x: frameRect.minX + 75 * scale, y: frameRect.minY + 66 * scale,
+                        width: 1320 * scale, height: 2868 * scale)
+NSGraphicsContext.saveGraphicsState()
+NSBezierPath(roundedRect: screenRect, xRadius: 250 * scale, yRadius: 250 * scale).addClip()
+let fit = min(screenRect.width / screenshot.size.width, screenRect.height / screenshot.size.height)
+let imageRect = NSRect(x: screenRect.midX - screenshot.size.width * fit / 2,
+                       y: screenRect.midY - screenshot.size.height * fit / 2,
+                       width: screenshot.size.width * fit, height: screenshot.size.height * fit)
+screenshot.draw(in: imageRect, from: .zero, operation: .sourceOver, fraction: 1)
+NSGraphicsContext.restoreGraphicsState()
+device.draw(in: frameRect, from: .zero, operation: .sourceOver, fraction: 1)
+drawText("iPhone is a trademark of Apple Inc., registered in the U.S. and other countries.",
+         at: NSPoint(x: 74, y: 20), font: .systemFont(ofSize: 11), color: muted)
 
 NSGraphicsContext.restoreGraphicsState()
 guard let data = bitmap.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) else {

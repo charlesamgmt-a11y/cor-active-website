@@ -90,6 +90,7 @@ document.addEventListener('click', e => { if (!e.target.closest('.nav-bar')) clo
 const how = document.querySelector('.how-section');
 const howPhone = document.querySelector('.how-phone');
 const howCapture = howPhone.querySelector('.how-capture');
+const howScreenButton = howPhone.querySelector('.how-screen-button');
 const titles = [...document.querySelectorAll('.how-title')];
 const descs = [...document.querySelectorAll('.how-desc')];
 const dots = [...document.querySelectorAll('.how-dot')];
@@ -102,9 +103,9 @@ function setStep(i) {
   dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
   howCapture.src = dots[i].dataset.screen;
   howCapture.alt = `${titles[i].textContent} — COR app screen with illustrative records`;
-  howPhone.dataset.screen = dots[i].dataset.screen;
-  howPhone.dataset.title = titles[i].textContent;
-  howPhone.setAttribute('aria-label', `Enlarge ${titles[i].textContent} app screen`);
+  howScreenButton.dataset.screen = dots[i].dataset.screen;
+  howScreenButton.dataset.title = titles[i].textContent;
+  howScreenButton.setAttribute('aria-label', `Enlarge ${titles[i].textContent} app screen`);
 }
 dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
 setStep(0);

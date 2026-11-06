@@ -23,6 +23,7 @@ PRO_PRICE = ''              # e.g. '9.99'  (leave empty to show "In app")
 ROOT = Path(__file__).parent
 data = json.loads((ROOT / 'reference-data.json').read_text())
 BRAND = 'COR'
+DEVICE_FRAME = 'brand/iphone-18-pro-max-glacier-apple.png'
 IMAGE_VARIANTS = json.loads((ROOT / 'image-variants.json').read_text())
 DOWNLOAD = APP_STORE_URL or '#download'
 DOWNLOAD_LABEL = 'Download for iPhone' if APP_STORE_URL else 'Coming soon'
@@ -59,18 +60,24 @@ def section_header(index):
 
 
 # ── Native app captures, using illustrative records ────────────────────
+def device_frame(cls='device-bezel', eager=False):
+    # Exact, unmodified PNG supplied in Apple's iPhone 18 bezel package.
+    return (f'<img src="{asset_url(DEVICE_FRAME)}" class="{cls}" width="1470" height="3000" '
+            f'alt="" aria-hidden="true" loading="{"eager" if eager else "lazy"}" decoding="async">')
+
+
 def phone(cls=''):
-    return f'''<button type="button" class="phone screen-shot {cls}" data-screen="{asset_url('product/questions.png')}" data-title="Add the details" aria-label="Enlarge Add the details app screen">{img('product/questions.png', 'COR meal details screen with illustrative records', 'how-capture')}</button>'''
+    return f'''<div class="phone {cls}"><button type="button" class="screen-shot device-screen-bed how-screen-button" data-screen="{asset_url('product/questions.png')}" data-title="Add the details" aria-label="Enlarge Add the details app screen">{img('product/questions.png', 'COR meal details screen with illustrative records', 'how-capture')}</button>{device_frame()}</div>'''
 
 
 def pro_max_hero():
-    # Preserve native app pixels beneath a licensed iPhone 18 Pro Max frame.
-    # The illustrative composition is not a new device compatibility claim.
-    return f'''<div class="hero-phone hero-pro-max" role="img" aria-label="Illustrative iPhone 18 Pro Max Glacier mockup showing a captured COR nutrition screen">
+    # Preserve native app content beneath Apple's unmodified device artwork.
+    # The composition is illustrative, not a device compatibility test.
+    return f'''<div class="hero-phone hero-pro-max" role="img" aria-label="iPhone 18 Pro Max in Glacier showing a captured COR nutrition screen">
   <div class="device-screen-bed" aria-hidden="true">
-    <img src="{asset_url("product/nutrition.png")}" width="1000" height="2174" alt="" fetchpriority="high">
+    <img src="{asset_url("product/nutrition.png")}" width="1000" height="2175" alt="" fetchpriority="high">
   </div>
-  {img('brand/iphone-18-pro-max-glacier.webp', 'iPhone 18 Pro Max Glacier frame', 'device-bezel', True)}
+  {device_frame(eager=True)}
 </div>'''
 
 
@@ -180,10 +187,10 @@ html = f'''<!doctype html>
 <main id="main" tabindex="-1">
 <section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">Coming soon for iPhone</span><h1>Track the work.<br><mark>See the payoff.</mark></h1><p>{escape(hero_copy)}</p>{button('Explore the app', '#features', 'solid-button hero-cta')}</header>
 <div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{pro_max_hero()}
-</div></div></div><p class="demo-note">iPhone 18 Pro Max mockup in Glacier · captured COR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
+</div></div></div><p class="demo-note">iPhone 18 Pro Max in Glacier · captured COR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
 <section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("COR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
 <section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Captured in COR · illustrative records</p></div></div></section>
-<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore COR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="{asset_url("product/questions.png")}" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="{asset_url("brand/iphone-18-pro-max-glacier.webp")}" loading="lazy" decoding="async" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 03</span><span>COR for iPhone</span></figcaption></figure></div></div></section>
+<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore COR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot device-screen-bed showcase-capture" data-screen="{asset_url("product/questions.png")}" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}</button>{device_frame('showcase-bezel')}</div><figcaption><span class="capture-count">01 — 03</span><span>COR for iPhone</span></figcaption></figure></div></div></section>
 <section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Estimate this meal: omelet, cheese and chicken — replay example"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools" aria-hidden="true"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
 <section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-statement">Free to start. {BRAND} Pro available in the app.</div><div class="pricing-grid">{plans}</div><p class="pricing-footnote">The app will show any subscription details before purchase.</p></section>
 <section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
@@ -193,7 +200,7 @@ html = f'''<!doctype html>
 </main>
 <dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">COR app screen</h2><p>COR interface · illustrative records</p><img alt=""></dialog>
 <footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Launch status</a><a href="#contact">Contact</a></div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
-<div class="copyright">© 2026 COR Active. All rights reserved.</div>
+<div class="copyright">© 2026 COR Active. All rights reserved.<br>Apple and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries.</div>
 <div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video muted loop playsinline preload="none" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div></footer>
 </body></html>'''
 (ROOT / 'dist/index.html').write_text(html)
