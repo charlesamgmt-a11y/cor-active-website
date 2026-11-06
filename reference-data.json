@@ -4,7 +4,7 @@
       "name": "Hero",
       "texts": [
         "The app that shows its workon every number.",
-        "Meals, weight, sets, reps, and body fat — plus calories, ingredients, and a score that shows the math.",
+        "Nutrition and strength, together. Plan your targets, log meals and workouts, and follow your progress over time.",
         "Know what you’re eating"
       ]
     },
@@ -32,7 +32,7 @@
       "name": "Features",
       "texts": [
         "One view for food, training, and progress.",
-        "See your calorie and macro targets alongside meals, hydration, workouts, weight and strength trends."
+        "See your calorie and macro targets alongside meals, hydration, workouts, weight and strength trends. COR Pro adds weekly coaching from your logged progress."
       ]
     },
     {
@@ -166,119 +166,5 @@
       "q": "What will COR Pro cost?",
       "a": "The final subscription price and any eligible trial will be shown in the app before you purchase. No launch price is being advertised on this page yet."
     }
-  ],
-  "website": {
-    "title": "COR Active | Nutrition and strength, together",
-    "description": "Plan your targets. Log meals and workouts. Follow your progress. COR brings nutrition and strength together. Coming soon for iPhone.",
-    "hero": {
-      "eyebrow": "Nutrition + strength",
-      "title": "Different disciplines.",
-      "emphasis": "One direction.",
-      "copy": "Your meals, your training, your progress. COR brings them into one place, so the work you put in is easier to see."
-    },
-    "pillars": [
-      {
-        "id": "nutrition",
-        "label": "01 / Nutrition",
-        "title": "Fuel the work.",
-        "copy": "Keep meals, calories and macros in view. Review the details before an estimate becomes a log.",
-        "points": [
-          "Daily targets and food logging",
-          "Reviewable meal estimates with COR Pro",
-          "Ingredient findings with reasons behind a grade"
-        ],
-        "screen": "nutrition",
-        "screen_label": "nutrition estimate"
-      },
-      {
-        "id": "strength",
-        "label": "02 / Strength",
-        "title": "Build on the work.",
-        "copy": "Record your sessions. Follow training volume, session history and the personal records you build.",
-        "points": [
-          "Workout logging and rest timers",
-          "Training volume and session history",
-          "Weight and strength trends"
-        ],
-        "screen": "strength",
-        "screen_label": "strength progression"
-      },
-      {
-        "id": "progress",
-        "label": "03 / Progress",
-        "title": "See the pattern.",
-        "copy": "Zoom out from a single day. Follow your weight trend alongside the work you have logged.",
-        "points": [
-          "Weight trends over time",
-          "Seven-day rolling average",
-          "Progress toward your goal"
-        ],
-        "screen": "weight",
-        "screen_label": "weight trend"
-      }
-    ],
-    "journey": [
-      {
-        "title": "Set your direction",
-        "copy": "Preview suggested calories, macros and a goal timeline before signing in."
-      },
-      {
-        "title": "Log your day",
-        "copy": "Keep meals, macros and hydration alongside your daily targets."
-      },
-      {
-        "title": "Record your training",
-        "copy": "Track workouts and rest, then return to your session history."
-      },
-      {
-        "title": "Look at the trend",
-        "copy": "Review weight and strength over time, beyond a single day."
-      }
-    ],
-    "screens": [
-      {
-        "key": "daily",
-        "title": "Your daily view",
-        "image": "home",
-        "copy": "See your calorie and macro targets with your meals in one place."
-      },
-      {
-        "key": "nutrition",
-        "title": "Food, with context",
-        "image": "questions",
-        "copy": "Add ingredients a photo can miss and choose a portion before a COR Pro meal estimate."
-      },
-      {
-        "key": "strength",
-        "title": "Strength over time",
-        "image": "strength",
-        "copy": "Look back at training volume, session history and personal records."
-      },
-      {
-        "key": "progress",
-        "title": "Progress in perspective",
-        "image": "weight",
-        "copy": "Follow your weight trend and seven-day rolling average."
-      }
-    ],
-    "weekly": {
-      "title": "A week is more than\na single number.",
-      "copy": "Nutrition, training and progress belong in the same conversation. COR Pro adds weekly coaching from your logged progress, so you can review your week and choose your next step.",
-      "note": "Weekly coaching is an optional COR Pro feature. The layout below explains the product story; it is not an app screenshot."
-    },
-    "ecosystem": [
-      {
-        "title": "iPhone",
-        "copy": "Your plan, food log, workouts and progress, together in COR."
-      },
-      {
-        "title": "Apple Health",
-        "copy": "Connect supported activity, sleep, body measurements and nutrition data with your permission."
-      },
-      {
-        "title": "Apple Watch",
-        "copy": "Follow a workout, record sets and manage rest with the companion app."
-      }
-    ]
-  }
+  ]
 }

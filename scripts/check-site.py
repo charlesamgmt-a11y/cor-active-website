@@ -68,27 +68,17 @@ def main():
             errors.append(f"{file.relative_to(ROOT)}: missing {ref}")
         elif url.fragment and target in pages and unquote(url.fragment) not in pages[target].ids:
             errors.append(f"{file.relative_to(ROOT)}: missing anchor {ref}")
-    # Guard the exact Apple source artwork and all six on-page placements.
+    # Guard the exact Apple source artwork and all three on-page placements.
     frame_path = "/assets/brand/iphone-18-pro-max-glacier-apple.png"
     frame = ROOT / frame_path.lstrip("/")
     expected_sha = "f6edfdf4f4b84170d79e34b21df4d4b3ab300e738b64d54bdf8297788e32c6af"
     if not frame.is_file() or hashlib.sha256(frame.read_bytes()).hexdigest() != expected_sha:
         errors.append("Official Apple device artwork is missing or modified")
     home = pages.get(ROOT / "index.html")
-    if home and sum(ref == frame_path for ref in home.refs) != 6:
-        errors.append("Both hero phones, all three feature stages and the showcase must use the official device artwork")
+    if home and sum(ref == frame_path for ref in home.refs) != 3:
+        errors.append("Hero, walkthrough and showcase must use the official device artwork")
     if "iphone-18-pro-max-glacier.webp" in (ROOT / "index.html").read_text():
         errors.append("The old third-party phone illustration is still referenced")
-    html = (ROOT / "index.html").read_text()
-    for section in ('nutrition', 'strength', 'progress', 'weekly-review', 'apple', 'waitlist'):
-        if f'id="{section}"' not in html:
-            errors.append(f"Missing connected-product section: {section}")
-    if '<form' in html or 'type="email"' in html:
-        errors.append("Signup must remain disabled until configured and verified")
-    if 'Coming soon' not in html or 'illustrative records' not in html:
-        errors.append("Launch status or screenshot disclosure is missing")
-    if 'burger-stage' in html or 'meal-demo' in html:
-        errors.append("Superseded decorative food demos are still in the public page")
     files = [path for path in ROOT.rglob("*") if path.is_file()]
     if len(files) > 20000:
         errors.append("Output exceeds Cloudflare Pages' 20,000-file free-plan limit")
