@@ -887,7 +887,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .hero-header>p{color:#aeb4b1}
 .how-title{font-family:var(--display);font-weight:400;font-size:clamp(42px,4vw,58px);line-height:1.06;letter-spacing:-1px}
 .how-section{scroll-margin-top:0}
-.how-phone{height:min(740px,calc(100vh - 140px));width:auto;aspect-ratio:1470/3000;justify-self:center;isolation:isolate;overflow:visible;border:0;border-radius:0;background:transparent;filter:none;padding:0}
+.how-phone{height:min(740px,calc(100vh - 220px));width:auto;aspect-ratio:1470/3000;justify-self:center;isolation:isolate;overflow:visible;border:0;border-radius:0;background:transparent;filter:none;padding:0}
 .how-screen-button{cursor:zoom-in}
 .how-capture{display:block;width:100%;height:100%;object-fit:contain}
 .how-dot,.how-dot.active{position:relative;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;background:transparent;border-radius:50%;transition:none}
