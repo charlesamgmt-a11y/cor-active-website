@@ -257,39 +257,18 @@ showcaseTabs.forEach((tab, index) => {
 
 /* ── Footer video: only play while visible ─────────────────────────── */
 const metal = document.querySelector('.footer-metal video');
-const metalToggle = document.querySelector('.footer-motion-toggle');
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-if (metal && metalToggle) {
-  let userPaused = false;
+if (metal) {
   let footerVisible = false;
   const syncFooterMotion = () => {
     if (motionPreference.matches) {
       metal.removeAttribute('autoplay');
       metal.pause();
-      metalToggle.hidden = false;
-      metalToggle.disabled = true;
-      metalToggle.textContent = 'Animation paused (reduced motion)';
-      metalToggle.setAttribute('aria-label', 'Animation paused because reduced motion is enabled');
-      metalToggle.setAttribute('aria-pressed', 'true');
       return;
     }
-    metalToggle.hidden = false;
-    metalToggle.disabled = false;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
-    if (footerVisible && !userPaused) metal.play().catch(() => {});
+    if (footerVisible) metal.play().catch(() => {});
     else metal.pause();
   };
-  metalToggle.addEventListener('click', () => {
-    userPaused = !userPaused;
-    const label = userPaused ? 'Resume animation' : 'Pause animation';
-    metalToggle.textContent = label;
-    metalToggle.setAttribute('aria-label', label);
-    metalToggle.setAttribute('aria-pressed', String(userPaused));
-    syncFooterMotion();
-  });
   new IntersectionObserver(([entry]) => {
     footerVisible = entry.isIntersecting;
     syncFooterMotion();

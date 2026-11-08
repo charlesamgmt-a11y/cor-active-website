@@ -36,7 +36,8 @@ def versioned_asset(name):
 
 
 def img(name, alt='', cls='', eager=False):
-    return (f'<img src="/assets/{escape(name)}" alt="{escape(alt)}" class="{cls}" '
+    src = versioned_asset(f'assets/{name}') if name.startswith('brand/cor-') else f'/assets/{name}'
+    return (f'<img src="{escape(src, quote=True)}" alt="{escape(alt)}" class="{cls}" '
             f'loading="{"eager" if eager else "lazy"}" decoding="async">')
 
 
@@ -201,13 +202,13 @@ html = f'''<!doctype html>
 <meta property="og:url" content="https://coractive.co/">
 <meta name="theme-color" content="#030505">
 <meta property="og:type" content="website"><meta property="og:title" content="COR Active – Track the work. See the payoff."><meta property="og:description" content="Meals, weight, sets, reps and body fat—plus calories, ingredients and a score that shows the math. Join the CŌR Active launch waitlist."><meta property="og:image" content="https://coractive.co/assets/brand/cor-og-preview.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="CŌR nutrition and training app screen with the message Track the work. See the payoff.">
-<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/assets/brand/cor-metal-wordmark.webp" as="image">
+<link rel="icon" href="{versioned_asset('favicon-32.png')}" sizes="32x32" type="image/png"><link rel="icon" href="{versioned_asset('favicon-64.png')}" sizes="64x64" type="image/png"><link rel="apple-touch-icon" href="{versioned_asset('apple-touch-icon.png')}">
+<link rel="preload" href="{versioned_asset('assets/brand/cor-metal-wordmark.webp')}" as="image">
 <link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
 <script>try{{if(sessionStorage.getItem('cor-preloaded'))document.documentElement.classList.add('skip-preloader')}}catch(e){{}}</script>
 <script src="{versioned_asset('app.js')}" defer></script></head>
 <body>
-<div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="/assets/brand/cor-metal-wordmark.webp" alt=""><span class="preloader-shine"></span></div></div>
+<div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="{versioned_asset('assets/brand/cor-metal-wordmark.webp')}" alt=""><span class="preloader-shine"></span></div></div>
 <div class="custom-cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span></div>
 <a class="skip-link" href="#main">Skip to content</a><div class="ambient" aria-hidden="true"></div>
 <nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} home">{img('brand/cor-nav-wordmark.svg', BRAND, 'nav-wordmark', True)}</a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button('Join the waitlist', '#waitlist', 'solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
@@ -231,7 +232,7 @@ html = f'''<!doctype html>
 <dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">CŌR app screen</h2><p>CŌR interface · illustrative records</p><img alt=""></dialog>
 <footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Join the waitlist</a><a href="#contact">Contact</a>{contact_link}</div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div><div>{footer_info}</div></div>
 <div class="copyright">© 2026 CŌR Active. All rights reserved.</div>
-<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="/assets/brand/cor-liquid-metal-poster.jpg"><source src="/assets/brand/cor-liquid-metal.mp4" type="video/mp4"></video></a><button type="button" class="footer-motion-toggle" aria-pressed="false">Pause animation</button></div></footer>
+<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="{versioned_asset('assets/brand/cor-liquid-metal-poster.jpg')}"><source src="{versioned_asset('assets/brand/cor-liquid-metal.mp4')}" type="video/mp4"></video></a></div></footer>
 </body></html>'''
 (ROOT / 'dist/index.html').write_text(html)
 
@@ -240,7 +241,7 @@ def legal_page(title, slug, description, body):
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{escape(title)} | COR Active</title><meta name="description" content="{escape(description, quote=True)}">
 <meta name="robots" content="noindex,follow"><link rel="canonical" href="https://coractive.co/{slug}/">
-<meta name="theme-color" content="#000000"><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#000000"><link rel="icon" href="{versioned_asset('favicon-32.png')}" sizes="32x32" type="image/png">
 <link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="/style.css"></head>
 <body><a class="skip-link" href="#legal-main">Skip to content</a><main id="legal-main" class="legal-document" tabindex="-1">
 <header><a href="/" class="legal-top-link">← Back to {BRAND} Active</a><p><span class="draft-banner">DRAFT — FOR REVIEW</span></p><h1>{escape(title)}</h1><p class="last-updated">Last updated: November 1, 2026</p></header>
@@ -302,7 +303,7 @@ def waitlist_status_page(title, heading, message, detail, confirmed=False):
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{escape(title)} | COR Active</title><meta name="robots" content="noindex,follow">
-<meta name="theme-color" content="#000000"><link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#000000"><link rel="icon" href="{versioned_asset('favicon-32.png')}" sizes="32x32" type="image/png">
 <link rel="stylesheet" href="{versioned_asset('fonts.css')}"><link rel="stylesheet" href="{versioned_asset('style.css')}"></head>
 <body class="waitlist-result"><a class="skip-link" href="#main">Skip to content</a>
 <header class="waitlist-result-header"><a href="/" aria-label="COR Active home">{img('brand/cor-nav-wordmark.svg', 'COR Active')}</a></header>

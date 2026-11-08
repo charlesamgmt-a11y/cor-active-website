@@ -730,7 +730,7 @@ html.has-custom-cursor:not(.cursor-native),html.has-custom-cursor:not(.cursor-na
 
 /* Keep the loading moment clean: no cursor or navigation over the wordmark. */
 .preloader{z-index:1200;background:#000}
-.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-metal-wordmark.webp');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-metal-wordmark.webp');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
+.preloader-mark{width:min(300px,64vw);-webkit-mask-image:url('/assets/brand/cor-metal-wordmark.webp?v=11c96812b8ea');-webkit-mask-mode:luminance;mask-image:url('/assets/brand/cor-metal-wordmark.webp?v=11c96812b8ea');mask-mode:luminance;mask-size:100% 100%;mask-repeat:no-repeat;filter:brightness(2.8) blur(1px)}
 .preloader-mark img{object-fit:contain;mix-blend-mode:screen;filter:drop-shadow(0 0 20px rgba(180,205,230,.16))}
 body.is-preloading .nav-bar{visibility:hidden}
 body.is-preloading .custom-cursor{visibility:hidden;opacity:0!important}
@@ -806,9 +806,6 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .contact-section p{color:#d1d5d4;line-height:1.6}
 .contact-section a{text-decoration:underline;text-underline-offset:4px}
 .footer-mark-wrap{position:relative}
-.footer-motion-toggle{position:absolute;right:8%;bottom:16px;z-index:3;min-height:44px;padding:10px 16px;border:1px solid #f4f2eb;border-radius:999px;background:#090c0e;color:#f4f2eb;font:600 14px var(--body)}
-.footer-motion-toggle[hidden]{display:none}
-.footer-motion-toggle:disabled{opacity:1;color:#f4f2eb;background:#090c0e;cursor:default}
 .legal-document{min-height:100vh;padding:120px 24px 80px;background:#000;color:#f4f2eb}
 .legal-document header,.legal-document article{width:min(820px,100%);margin-inline:auto}
 .legal-document header{margin-bottom:28px}
@@ -826,7 +823,7 @@ html.has-custom-cursor input,html.has-custom-cursor textarea,html.has-custom-cur
 .not-found p{margin:0 auto 24px;color:#d1d5d4;max-width:480px}
 .not-found a{display:inline-flex;justify-self:center}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #a4c5ef;outline-offset:4px}
-@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}.footer-motion-toggle{right:6%;bottom:10px}}
+@media(max-width:700px){.confirm-feature-list{grid-template-columns:1fr}.waitlist-row{flex-direction:column}.waitlist-row button{width:100%}.contact-section h2{font-size:34px}}
 
 /* Glass Material inspired surfaces: soft refraction, layered rims and reflected light. */
 .features-section,.pricing-section,.waitlist-section{position:relative;isolation:isolate}
