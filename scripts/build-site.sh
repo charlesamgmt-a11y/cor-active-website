@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+node scripts/build-components.mjs
 python3 build.py
 python3 - <<'PY'
 import json

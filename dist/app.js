@@ -160,39 +160,6 @@ addEventListener('scroll', onScroll, { passive: true });
 addEventListener('resize', onScroll, { passive: true });
 onScroll();
 
-/* ── AI meal demo ──────────────────────────────────────────────────── */
-let mealTimers = [];
-const status = document.querySelector('.meal-status');
-const statusText = status.querySelector('span');
-function replayMeal() {
-  mealTimers.forEach(clearTimeout);
-  mealTimers = [];
-  document.querySelectorAll('.plate-layer').forEach((el, i) => el.classList.toggle('active', i === 0));
-  document.querySelectorAll('.ingredient').forEach(el => el.classList.remove('active'));
-  document.querySelector('.meal-total').classList.remove('active');
-  status.classList.remove('done');
-  statusText.textContent = 'Estimating nutrition';
-  ['Omelet', 'Cheese', 'Chicken'].forEach((name, i) => {
-    mealTimers.push(setTimeout(() => {
-      document.querySelectorAll('.plate-layer').forEach((el, n) => el.classList.toggle('active', n === i + 1));
-      document.querySelector(`.ingredient-${i}`).classList.add('active');
-      statusText.textContent = `Reading ${name}`;
-    }, reduceMotion ? 0 : 1300 + i * 1400));
-  });
-  mealTimers.push(setTimeout(() => {
-    status.classList.add('done');
-    statusText.textContent = 'Done ✓';
-    document.querySelector('.meal-total').classList.add('active');
-  }, reduceMotion ? 0 : 5600));
-}
-let mealSeen = false;
-new IntersectionObserver(entries => {
-  const vis = entries.some(e => e.isIntersecting);
-  if (vis && !mealSeen) replayMeal();
-  mealSeen = vis;
-}, { threshold: .35 }).observe(document.querySelector('.meal-demo'));
-document.querySelector('.prompt-demo').addEventListener('click', replayMeal);
-
 /* ── FAQ: Smooth FAQ Flow (one open at a time) ─────────────────────── */
 const flowItems = [...document.querySelectorAll('.flow-item')];
 flowItems.forEach(item => item.querySelector('.flow-a').setAttribute('aria-hidden', String(!item.classList.contains('open'))));
@@ -323,4 +290,15 @@ if (metal) {
   finePointer.addEventListener?.('change', event => {
     if (!event.matches) document.documentElement.classList.remove('has-custom-cursor');
   });
+})();
+
+
+/* Assemble physical plate layers; match the burger's ease-out scroll pacing. */
+(() => {
+ const section=document.querySelector('.barbell-section'),stage=document.querySelector('.barbell-stage');
+ if(!section||!stage)return;
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');let queued=false;
+ function update(){queued=false;const r=section.getBoundingClientRect();const p=preference.matches?1:Math.max(0,Math.min(1,(innerHeight*.35-r.top)/(innerHeight*.75)));stage.style.setProperty('--assembly',String(1-Math.pow(1-p,3)));}
+ function request(){if(!queued){queued=true;requestAnimationFrame(update);}}
+ addEventListener('scroll',request,{passive:true});addEventListener('resize',request,{passive:true});preference.addEventListener('change',request);update();
 })();

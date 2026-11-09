@@ -877,3 +877,69 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .hero-duo .duo-closed-bed img{width:100%;height:100%;object-fit:contain;object-position:center;background:#030705}
 .duo-closed-bed{inset:6% 18.5% 6%;grid-template-columns:1fr;place-items:center;border-radius:2%;background:#030705}
 .duo-closed-bed img{width:100%;height:100%;object-fit:contain;object-position:center;background:#030705}
+
+/* Current-site preview: supplied blue iPhone hero, preserving existing motion. */
+.hero-phone-group:has(.hero-iphone){width:100%;height:auto;display:flex;justify-content:center}
+.hero-iphone{align-self:flex-start;position:relative;isolation:isolate;width:min(390px,calc(100vw - 64px));height:auto;aspect-ratio:1470/3000;flex:none;filter:drop-shadow(0 38px 60px #0009);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.iphone-screen-bed{position:absolute;z-index:0;inset:1.3% 3.2% 1.5%;overflow:hidden;border-radius:12% / 6%;background:#000}
+.iphone-screen-bed img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.iphone-bezel{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.hero-revealed .hero-iphone{transform:scale(1.035) translateY(-10px)}
+.hero-scene:has(.hero-iphone) .float-food,.hero-scene:has(.hero-iphone) .nutrition-toast,.hero-scene:has(.hero-iphone) .know-heading{display:none}
+@media(prefers-reduced-motion:reduce){.hero-iphone{transition:none;transform:none!important}}
+
+/* Numbered spring-style FAQ, preserving existing semantic buttons. */
+.flow-list{gap:0;max-width:1000px}.flow-item,.flow-item.open{border:0;border-bottom:1px solid #ffffff30;border-radius:0;background:none;box-shadow:none;backdrop-filter:none}
+.flow-q{display:grid;grid-template-columns:48px 1fr 48px;padding:28px 0;gap:24px;font-size:20px}.faq-number,.flow-icon{font-size:12px;color:#b5b8b5;letter-spacing:.08em;width:auto;height:auto}.flow-icon{font-weight:400}.faq-close,.open .faq-open{display:none}.open .faq-close{display:inline}.flow-a p{padding:0 72px 28px;color:#c5c8c6}.flow-a{transition:grid-template-rows .65s cubic-bezier(.22,1.2,.36,1)}
+.reveal-word{display:inline-block;white-space:pre;opacity:1}.js-enabled .section-header h2:not(.words-visible) .reveal-word{opacity:.18;transform:translateY(12px);filter:blur(2px)}.words-visible .reveal-word{transition:opacity .7s,transform .7s,filter .7s;transition-delay:calc(var(--word)*35ms)}
+.training-layout{display:grid;grid-template-columns:1fr 1fr;gap:9%;max-width:1100px;margin:64px auto 0;align-items:start}.training-visual{position:sticky;top:115px}.training-art{height:min(64vh,620px);position:relative}.training-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:translateY(18px) scale(.97);transition:opacity .55s,transform .8s}.training-frame.active{opacity:1;transform:none}.training-frame.equipment{object-fit:cover;animation:training-float 6s ease-in-out infinite}.training-frame:not(.equipment){border-radius:28px}.training-progress{display:flex;gap:10px;max-width:240px;margin:24px auto 12px}.training-progress a{flex:1;min-height:44px;display:flex;align-items:center}.training-progress a:after{content:'';width:100%;height:2px;background:#ffffff40;transition:background .4s}.training-progress a[aria-current]:after{background:#f4f2eb}.training-chapter{min-height:70vh;display:flex;flex-direction:column;justify-content:center;scroll-margin-top:150px;opacity:.45;transition:opacity .4s}.training-chapter.active{opacity:1}.training-chapter h3{font-family:Boska,Georgia,serif;font-size:clamp(36px,4vw,56px);font-weight:400;margin:20px 0}.training-chapter p{font-size:18px;line-height:1.7;color:#c5c8c6;max-width:390px}.training-index{font-size:11px;letter-spacing:.16em;color:#c7b695}@keyframes training-float{50%{transform:translateY(-14px) rotate(-3deg)}}
+@media(max-width:700px){.flow-q{grid-template-columns:1fr auto;gap:16px;font-size:18px}.flow-q>span:nth-child(2){grid-column:1/-1;grid-row:2}.flow-icon{grid-column:2;grid-row:1}.flow-a p{padding:0 0 24px}.training-layout{grid-template-columns:1fr;gap:24px}.training-visual{top:84px;background:#000;z-index:2}.training-art{height:38vh}.training-chapter{min-height:65vh;justify-content:flex-end;padding-bottom:50px;scroll-margin-top:55vh}.training-frame.equipment{object-fit:contain}.training-chapter h3{font-size:36px}}
+@media(prefers-reduced-motion:reduce){.reveal-word,.js-enabled .section-header h2:not(.words-visible) .reveal-word{opacity:1;transform:none;filter:none}.reveal-word,.training-frame,.training-chapter,.flow-a{transition:none!important;animation:none!important}}
+
+/* Original Framer Sticky Scroll: COR content and responsive sizing only. */
+#original-sticky { width:100%; }
+#original-sticky .framer-s79Sf { gap:64px; padding:32px 0; }
+#original-sticky [data-framer-name="Sticky preview"] { width:46%; top:110px; }
+#original-sticky [data-framer-name="Preview stage"] { height:min(64vh,620px); }
+#original-sticky [data-framer-name^="Preview —"] { top:0;left:50%;transform:translateX(-50%);height:100%;aspect-ratio:1470/3000;width:auto;max-width:100%;border-radius:0!important; }
+#original-sticky [data-framer-name^="Preview —"] img { position:absolute;inset:1.5% 3.5%!important;width:93%!important;height:97%!important;object-fit:cover!important;border-radius:13% / 6.5%!important; }
+/* A single permanent bezel stays above the original crossfading screen layers. */
+#original-sticky [data-framer-name="Preview stage"]::after { content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;aspect-ratio:1470/3000;background:url('/assets/brand/iphone-18-pro-max-glacier-portrait.png') center/100% 100% no-repeat;pointer-events:none;z-index:3; }
+#original-sticky [data-framer-name="Preview stage"]::before { content:"";position:absolute;left:-5%;top:48%;width:38%;aspect-ratio:1.5;background:url('/assets/product/cor-barbell.png') center/contain no-repeat;pointer-events:none;z-index:4;animation:sticky-equipment-float 6s ease-in-out infinite; }
+@keyframes sticky-equipment-float { 0%,100% { transform:translateY(0) rotate(-14deg); } 50% { transform:translateY(-12px) rotate(-9deg); } }
+@media(prefers-reduced-motion:reduce) { #original-sticky [data-framer-name="Preview stage"]::before { animation:none; } }
+#original-sticky .framer-139n2vz,#original-sticky .framer-1khr2cr,#original-sticky .framer-1ow7yui { display:none; }
+#original-sticky [data-framer-name^="Feature section"] { height:580px; }
+#original-sticky h2 { font-family:var(--display)!important;font-size:clamp(28px,3vw,44px)!important; }
+#original-sticky p { font-family:var(--body)!important;font-size:17px!important;line-height:1.65!important; }
+#original-sticky [data-framer-name="Progression continue"] { height:40px; }
+#original-sticky + .capture-caption { text-align:center; }
+@media(max-width:700px) {
+ #original-sticky .framer-s79Sf { flex-direction:column;gap:0;padding:0; }
+ #original-sticky [data-framer-name="Sticky preview"] { width:100%;top:80px;z-index:2;background:#000; }
+ #original-sticky [data-framer-name="Preview stage"] { height:38vh; }
+ #original-sticky .framer-f0unxn { width:100%;flex:none; }
+ #original-sticky [data-framer-name^="Feature section"] { height:72vh;justify-content:flex-end;padding:48px 0; }
+ #original-sticky h2 { font-size:30px!important; }
+}
+
+#original-sticky [data-framer-name="Preview — Collaborate"] img,
+#original-sticky [data-framer-name="Preview — Understand"] img { position:absolute; }
+
+#original-sticky [data-framer-name="Preview — Collaborate"] img,
+#original-sticky [data-framer-name="Preview — Understand"] img { border-radius:13% / 6.5%!important; }
+#original-sticky p span { font-family:var(--body)!important; }
+
+/* A companion to the burger's scroll-driven ingredient layers. */
+.barbell-section{height:145vh;min-height:900px;background:#000;position:relative;margin-top:40px}
+.barbell-pin{position:sticky;top:90px;height:calc(100vh - 90px);min-height:580px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:32px 24px}
+.barbell-pin .section-header{margin:0;position:relative;z-index:1}
+.barbell-pin .assembly-eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.2em;color:#b8b5ad;margin:0 auto 20px}
+.barbell-stage{width:min(100%,1100px);margin:-15px auto -30px;filter:drop-shadow(0 20px 28px #000);--assembly:1}
+.assembly-barbell{display:block;width:100%;height:auto;overflow:visible}
+.assembly-plate{transform:translateX(calc(var(--side) * (1 - var(--assembly)) * (85px + var(--order) * 45px)));will-change:transform}
+.assembly-next{font-size:15px;color:var(--soft);padding:16px;display:flex;gap:18px;align-items:center}
+.assembly-next span{font-size:22px}
+.barbell-section+.training-story{padding-top:80px}
+@media(max-width:700px){.barbell-section{height:120vh;min-height:720px}.barbell-pin{top:75px;height:calc(100svh - 75px);min-height:480px;padding:24px 18px}.barbell-stage{width:135%;flex:none;margin:35px -17.5%}.barbell-pin h2{font-size:42px}.barbell-pin .section-header p{font-size:16px}.barbell-pin .assembly-eyebrow{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.barbell-section{height:auto;min-height:0}.barbell-pin{position:relative;top:0;height:auto;min-height:0;padding:70px 24px}.assembly-plate{transform:none;will-change:auto}}

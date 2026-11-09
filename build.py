@@ -83,15 +83,10 @@ def phone(cls=''):
 </div>'''
 
 
-def duo_hero():
-    # One authentic CŌR capture is layered beneath the supplied closed Duo
-    # bezel. Keep the source asset unmodified and label the presentation as a
-    # concept preview until Duo-specific behavior is verified.
-    return f'''<div class="hero-phone hero-duo" role="img" aria-label="Illustrative iPhone Duo preview showing a captured CŌR nutrition screen">
-  <div class="duo-screen-bed duo-closed-bed" aria-hidden="true">
-    <img src="/assets/product/nutrition.png" alt="" fetchpriority="high">
-  </div>
-  {img('brand/iphone-duo-star-white-outer-closed-portrait.png', 'Apple iPhone Duo bezel', 'duo-bezel', True)}
+def iphone_hero():
+    return f'''<div class="hero-phone hero-iphone" role="img" aria-label="COR nutrition screen in the blue iPhone bezel, with illustrative records">
+  <div class="iphone-screen-bed" aria-hidden="true"><img src="/assets/product/nutrition.png" alt="" fetchpriority="high"></div>
+  {img('brand/iphone-18-pro-max-glacier-portrait.png', '', 'iphone-bezel', True)}
 </div>'''
 
 
@@ -163,15 +158,21 @@ how_titles = ''.join(f'<h3 class="how-title{" active" if i == 0 else ""}">{t}</h
 how_descs = ''.join(f'<p class="how-desc{" active" if i == 0 else ""}">{escape(d)}</p>' for i, (_, d) in enumerate(steps))
 how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-step="{i}" aria-label="Step {i + 1}: {escape(t.replace("<br>", " "))}"></button>' for i, (t, _) in enumerate(steps))
 
+barbell_assembly = '''<svg class="assembly-barbell" viewBox="0 0 1000 400" role="img" aria-label="Weight plates slide onto a barbell as you scroll"><defs>
+<linearGradient id="bar-chrome" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#22292d"/><stop offset=".28" stop-color="#a8afb5"/><stop offset=".43" stop-color="#f0f2f3"/><stop offset=".55" stop-color="#727b83"/><stop offset=".78" stop-color="#282d31"/><stop offset="1" stop-color="#959fa7"/></linearGradient>
+<linearGradient id="plate-face"><stop stop-color="#6c7379"/><stop offset=".23" stop-color="#272d32"/><stop offset=".7" stop-color="#101418"/><stop offset="1" stop-color="#555e66"/></linearGradient>
+<linearGradient id="plate-rim"><stop stop-color="#11171b"/><stop offset=".3" stop-color="#cbd0d4"/><stop offset=".5" stop-color="#667078"/><stop offset="1" stop-color="#151c22"/></linearGradient>
+<pattern id="knurl" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 0L5 5M5 0L0 5" stroke="#101820" stroke-opacity=".3" stroke-width=".7"/></pattern></defs>
+<g class="bar-shaft"><rect x="110" y="191" width="780" height="18" rx="9" fill="url(#bar-chrome)"/><rect x="385" y="192" width="230" height="16" fill="url(#knurl)"/><rect x="125" y="186" width="185" height="28" rx="5" fill="url(#bar-chrome)"/><rect x="690" y="186" width="185" height="28" rx="5" fill="url(#bar-chrome)"/></g><g class="assembly-plate" style="--side:-1;--order:0" data-layer="-1-0"><image href="/assets/product/barbell-plate-3d.png" x="241.67" y="75.00" width="166.67" height="250" preserveAspectRatio="xMidYMid meet"/></g><g class="assembly-plate" style="--side:-1;--order:1" data-layer="-1-1"><image href="/assets/product/barbell-plate-3d.png" x="216.00" y="87.50" width="150.00" height="225" preserveAspectRatio="xMidYMid meet"/></g><g class="assembly-plate" style="--side:-1;--order:2" data-layer="-1-2"><image href="/assets/product/barbell-plate-3d.png" x="190.33" y="100.00" width="133.33" height="200" preserveAspectRatio="xMidYMid meet"/></g><g class="assembly-plate" style="--side:1;--order:0" data-layer="1-0"><g transform="translate(1390 0) scale(-1 1)"><image href="/assets/product/barbell-plate-3d.png" x="631.67" y="75.00" width="166.67" height="250" preserveAspectRatio="xMidYMid meet"/></g></g><g class="assembly-plate" style="--side:1;--order:1" data-layer="1-1"><g transform="translate(1454 0) scale(-1 1)"><image href="/assets/product/barbell-plate-3d.png" x="670.00" y="87.50" width="150.00" height="225" preserveAspectRatio="xMidYMid meet"/></g></g><g class="assembly-plate" style="--side:1;--order:2" data-layer="1-2"><g transform="translate(1518 0) scale(-1 1)"><image href="/assets/product/barbell-plate-3d.png" x="708.33" y="100.00" width="133.33" height="200" preserveAspectRatio="xMidYMid meet"/></g></g></svg>'''
+
 # ── Product showcase: one current app capture at a time ────────────────
 showcase_items = [
-    ('food', 'Food & meals', 'questions', 'Add the details a photo can miss.',
-     'Choose hidden ingredients and a portion size, then review the estimate before saving.'),
-    ('training', 'Training', 'strength', 'Train with a clearer picture.',
-     'See recent training load, session history, and personal records together.'),
-    ('progress', 'Progress', 'weight', 'See change over time.',
-     'Follow your rolling average and recent weight trend.')
+    ('food', 'Hidden ingredients', 'questions', 'Add the details a photo can miss.',
+     'Add oil, butter, sauces or other extras a photo may miss before reviewing your meal estimate.'),
+    ('ingredients', 'Understand the grade', 'ingredients', 'See the reasons behind the grade.',
+     'Review ingredient flags, positive findings and the explanation behind a product’s CŌR grade.')
 ]
+
 showcase_tabs = ''.join(
     f'<button type="button" class="showcase-tab{" active" if i == 0 else ""}" role="tab" id="showcase-tab-{key}" '
     f'aria-controls="showcase-panel" aria-selected="{"true" if i == 0 else "false"}" tabindex="{"0" if i == 0 else "-1"}" '
@@ -206,7 +207,7 @@ html = f'''<!doctype html>
 <link rel="preload" href="{versioned_asset('assets/brand/cor-metal-wordmark.webp')}" as="image">
 <link rel="stylesheet" href="/fonts.css"><link rel="stylesheet" href="{versioned_asset('style.css')}">
 <script>try{{if(sessionStorage.getItem('cor-preloaded'))document.documentElement.classList.add('skip-preloader')}}catch(e){{}}</script>
-<script src="{versioned_asset('app.js')}" defer></script></head>
+<script src="{versioned_asset('app.js')}" defer></script><script type="module" src="{versioned_asset('original-components.js')}"></script><script type="module" src="{versioned_asset('sticky-original.js')}"></script></head>
 <body>
 <div class="preloader" aria-hidden="true"><div class="preloader-mark"><img src="{versioned_asset('assets/brand/cor-metal-wordmark.webp')}" alt=""><span class="preloader-shine"></span></div></div>
 <div class="custom-cursor" aria-hidden="true"><span class="cursor-ring"></span><span class="cursor-dot"></span></div>
@@ -214,15 +215,16 @@ html = f'''<!doctype html>
 <nav class="nav-bar" aria-label="Main navigation"><a class="brand" href="#top" aria-label="{BRAND} home">{img('brand/cor-nav-wordmark.svg', BRAND, 'nav-wordmark', True)}</a><div class="nav-links lens-bar">{nav_links}<span class="lens" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>{button('Join the waitlist', '#waitlist', 'solid-button nav-download')}<button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button><div id="mobile-menu" hidden>{''.join(f'<a href="{h}">{t}</a>' for t, h in NAV)}</div></nav>
 <main id="main" tabindex="-1">
 <section class="hero" id="top"><header class="hero-header"><span class="iphone-badge">{APPSTORE} Coming soon for iPhone</span><h1>Track the work.<br><mark>See the payoff.</mark></h1><p>{escape(hero_copy)}</p>{button('Join the waitlist', '#waitlist', 'solid-button hero-cta')}</header>
-<div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{duo_hero()}
+<div class="hero-scene"><div class="hero-sticky"><div class="hero-phone-group">{iphone_hero()}
 <div class="float-food float-salad">{icon('Salad')}</div><div class="float-food float-ramen">{icon('Ramen')}</div><div class="float-food float-pizza">{icon('Pizza')}</div><div class="float-food float-chocolate">{icon('Chocolate')}</div>
 <div class="nutrition-toast toast-carbs"><i>⟋</i><span><b>25g</b>Carbs</span></div><div class="nutrition-toast toast-protein"><i>◎</i><span><b>5g</b>Protein</span></div><div class="nutrition-toast toast-sugar"><i>◈</i><span><b>12g</b>Sugar</span></div><div class="nutrition-toast toast-fat"><i>◐</i><span><b>12g</b>Fats</span></div>
-<h2 class="know-heading">Know what<br>you’re eating</h2></div></div></div><p class="demo-note">iPhone Duo concept preview · captured CŌR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
+<h2 class="know-heading">Know what<br>you’re eating</h2></div></div></div><p class="demo-note">Captured CŌR nutrition screen with illustrative records. <a href="#screens">Explore the iPhone screens</a>.</p></section>
 <section class="food-suggestions section" id="food-suggestions"><div class="food-stage"><h2 class="reveal">Make room for<br>the details<br>in every meal.</h2>{food_orbit}<button class="food-help"><span aria-hidden="true">ⓘ</span> Tap or hover to explore</button></div><dialog id="food-guide"><button class="dialog-close" aria-label="Close guide">×</button>{icon('Salad')}<h3>Details make a difference</h3><p>Explore examples of portion and ingredient details you can include when logging a meal. These illustrations are prompts, not personalized food recommendations.</p><p class="touch-help">On a touch screen, tap an icon to explore it.</p></dialog></section>
-<section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("CŌR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
 <section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Illustrated flow · sample values</p></div></div></section>
-<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore CŌR app screens">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="/assets/product/questions.png" data-title="Food & meals" aria-label="Enlarge Food and meals app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="/assets/brand/iphone-duo-star-white-outer-closed-portrait.png" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 03</span><span>CŌR for iPhone</span></figcaption></figure></div></div></section>
-<section class="ai-section section" id="ai-meals"><header class="section-header reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'ai-icon')}<h2>{escape(ai[0])}</h2><p>{escape(ai[1])}</p></header><div class="meal-demo"><div class="plate-scene">{plate_html}</div><div class="meal-ingredients">{ingredients}</div><p class="meal-status" role="status"><i class="spinner" aria-hidden="true"></i><span>Estimating nutrition</span></p><div class="meal-total"><span>258 Calories</span><span>32g Protein</span></div><button class="prompt-demo" aria-label="Estimate this meal: omelet, cheese and chicken — replay example"><span class="prompt-text">Estimate this meal: omelet, cheese and chicken</span><span class="prompt-tools" aria-hidden="true"><i>+</i><i>⚙ Tools</i><i class="mic">◖</i><i class="send">↑</i></span></button><p class="demo-note">Illustrated meal estimate · sample values</p></div></section>
+<section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("CŌR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
+<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore CŌR ingredient features">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="/assets/product/questions.png" data-title="Hidden ingredients" aria-label="Enlarge Hidden ingredients app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="/assets/brand/iphone-duo-star-white-outer-closed-portrait.png" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 02</span><span>CŌR for iPhone</span></figcaption></figure></div></div></section>
+<section class="barbell-section" id="training-intro"><div class="barbell-pin"><header class="section-header"><p class="assembly-eyebrow">FUEL. TRAIN. BUILD.</p><h2>Built one set at a time.</h2><p>Know what fuels you. See what your training adds up to.</p></header><div class="barbell-stage">{barbell_assembly}</div><a class="assembly-next" href="#strength">See your training in CŌR <span aria-hidden="true">↓</span></a></div></section>
+<section class="training-story section" id="strength"><header class="section-header"><h2>Log the work. See what adds up.</h2><p>Your sets, personal records and training history, together.</p></header><div id="original-sticky"><p>Training volume, recent sessions, personal records and weight trends in CŌR.</p></div><p class="capture-caption">Real app captures · illustrative records</p></section>
 <section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-statement">Free to start. {BRAND} Pro available in the app.</div><div class="pricing-grid">{plans}</div><p class="pricing-footnote">The app will show any subscription details before purchase.</p></section>
 <section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
 <section class="cta-section section" id="download"><div class="cta-icon reveal">{img('product/cor-app-icon.png', f'{BRAND} app icon', 'app-icon')}{img('vfwd58TDMrxP0cuErxsVbpt2Qs.png', '', 'crown')}</div><span class="iphone-badge">{APPSTORE} Coming soon for iPhone</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
