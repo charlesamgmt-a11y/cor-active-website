@@ -1,6 +1,6 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
-import FAQ from './originals/faq.js';
+import FAQ from './accessible-faq.jsx';
 import Reveal from './originals/reveal.js';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const faq = document.querySelector('.flow-list');

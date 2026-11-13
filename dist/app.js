@@ -116,14 +116,7 @@ function setStep(i) {
 }
 dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
 setStep(0);
-// On phones the section isn't sticky, so cycle the steps while it's on screen.
-let howTimer = null;
-new IntersectionObserver(([e]) => {
-  clearInterval(howTimer);
-  if (e.isIntersecting && innerWidth < 810 && !reduceMotion) {
-    howTimer = setInterval(() => { if (performance.now() > manualUntil) setStep((currentStep + 1) % 3); }, 3200);
-  }
-}, { threshold: .4 }).observe(how);
+// Mobile steps stay under the reader’s control; desktop retains scroll progression.
 
 /* ── Scroll-driven scenes ──────────────────────────────────────────── */
 const hero = document.querySelector('.hero');
@@ -171,7 +164,7 @@ flowItems.forEach(item => item.querySelector('.flow-q').addEventListener('click'
 
 /* Real app screenshots: full-size viewing with native dialog focus handling. */
 const screenViewer = document.querySelector('#screen-viewer');
-document.querySelectorAll('.screen-shot').forEach(button => button.addEventListener('click', () => {
+document.querySelectorAll('.screen-shot, .strength-screen-button').forEach(button => button.addEventListener('click', () => {
   const image = screenViewer.querySelector('img');
   image.src = button.dataset.screen;
   image.alt = `${button.dataset.title} — CŌR app screen with illustrative records`;
