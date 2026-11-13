@@ -36,3 +36,8 @@ Waitlist integration and complete legal documents remain launch blockers. Do not
 - Verified desktop pinned top 100px across states, mobile pinned top 82px and transition to grade, no mobile horizontal overflow. Verified CTA Enter reaches waitlist. Build passes 6 pages/102 local references; no console errors.
 - Expanded Card reference assessed: an expanding horizontal image accordion. Not added because existing ingredient and strength stories already expose those app details; another hover-heavy gallery would repeat content and compress screenshots on phones. Best reserved for genuinely new app areas with supplied captures.
 - Local preview server stopped during Mac disconnect; restarted on 127.0.0.1:4317. Native Chrome inspection later found user viewing production; switched visible tab to local preview. No publishing performed.
+
+## Supplied COR chrome plates
+- Replaced drawn plate faces with the user's transparent COR Active chrome plate PNG (45 LB / 20.4 KG). Original image retained unedited; projected into the existing horizontal stack.
+- Preserved three-plate floating/condensing scroll movement and reduced-motion behavior. No production publish.
+- Build validated 6 pages, 103 local references, 81 deployable files; diff check passed. Visually checked desktop and 390px mobile, no horizontal overflow. Verified plate transforms change as scrolling progresses.
