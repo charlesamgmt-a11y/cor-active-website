@@ -942,8 +942,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 @media(prefers-reduced-motion:reduce){.barbell-section{height:auto;min-height:0}.barbell-pin{position:relative;top:0;height:auto;min-height:0;padding:70px 24px}.assembly-plate{transform:none;will-change:auto}}
 
 /* Audit polish: a quiet, scroll-led silver plate stack rather than a barbell. */
-.barbell-stage{width:min(100%,900px);margin:-42px auto -30px}
-.floating-plate{transform:translateY(calc((1 - var(--assembly)) * var(--spread)));will-change:transform}
+.barbell-stage{width:min(100%,900px);margin:8px auto -30px}
+.floating-plate{transform:translate(calc((1 - var(--assembly)) * var(--spread-x,0px)),calc((1 - var(--assembly)) * var(--spread)));will-change:transform}
 .barbell-pin .section-header{max-width:700px}
 .barbell-pin h2{text-wrap:balance}
 .footer-top{grid-template-columns:2fr 1fr 1fr}
@@ -957,7 +957,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .strength-screen-links button{border:1px solid #ffffff30;border-radius:999px;background:#ffffff0c;color:#f5f3eb;padding:12px 18px;font:inherit;cursor:pointer}
 .strength-screen-links button:hover{background:#ffffff18}
 .strength-screen-links button:focus-visible{outline:2px solid #fff;outline-offset:3px}
-@media(max-width:700px){.barbell-stage{width:130%;margin:-12px -15% -12px}.barbell-pin h2{font-size:clamp(30px,8.5vw,42px)}.barbell-pin .section-header p{max-width:30ch}.footer-top{grid-template-columns:1fr 1fr}.footer-about{grid-column:1/-1}.accessible-faq button{gap:12px;grid-template-columns:24px 1fr 38px;font-size:17px}.accessible-faq p{padding:0 0 22px 36px}}
+@media(max-width:700px){.barbell-stage{width:130%;margin:8px -15% -12px}.barbell-pin h2{font-size:clamp(30px,8.5vw,42px)}.barbell-pin .section-header p{max-width:30ch}.footer-top{grid-template-columns:1fr 1fr}.footer-about{grid-column:1/-1}.accessible-faq button{gap:12px;grid-template-columns:24px 1fr 38px;font-size:17px}.accessible-faq p{padding:0 0 22px 36px}}
 @media(prefers-reduced-motion:reduce){.floating-plate{transform:none;will-change:auto}}
 
 .cta-icon .app-icon{display:flex;align-items:center;justify-content:center;background:#050505}

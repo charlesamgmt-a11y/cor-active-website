@@ -41,3 +41,6 @@ Waitlist integration and complete legal documents remain launch blockers. Do not
 - Replaced drawn plate faces with the user's transparent COR Active chrome plate PNG (45 LB / 20.4 KG). Original image retained unedited; projected into the existing horizontal stack.
 - Preserved three-plate floating/condensing scroll movement and reduced-motion behavior. No production publish.
 - Build validated 6 pages, 103 local references, 81 deployable files; diff check passed. Visually checked desktop and 390px mobile, no horizontal overflow. Verified plate transforms change as scrolling progresses.
+
+## Plate proportion correction
+The previous horizontal projection flattened the supplied face and repeated its lettering awkwardly. Removed that projection: the original transparent artwork now keeps its aspect ratio, with a prominent upright front plate and two closely offset rear plates. Scroll gathers them along a shallow diagonal instead of flattening them into discs. Added breathing room beneath the heading. Desktop visual inspected; mobile DOM width/geometry and changing transforms verified (390px), although the browser's mobile screenshot capture scaled incorrectly in this pass. Reduced-motion transform override retained. No production publishing.

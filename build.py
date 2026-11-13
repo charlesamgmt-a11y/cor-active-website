@@ -138,12 +138,13 @@ how_titles = ''.join(f'<h3 class="how-title{" active" if i == 0 else ""}">{t}</h
 how_descs = ''.join(f'<p class="how-desc{" active" if i == 0 else ""}">{escape(d)}</p>' for i, (_, d) in enumerate(steps))
 how_dots = ''.join(f'<button class="how-dot{" active" if i == 0 else ""}" data-step="{i}" aria-label="Step {i + 1}: {escape(t.replace("<br>", " "))}"></button>' for i, (t, _) in enumerate(steps))
 
-barbell_assembly = '''<svg class="assembly-barbell" viewBox="0 0 1000 570" role="img" aria-label="Chrome COR Active weight plates float apart and stack together as you scroll"><defs>
-<g id="silver-plate"><image href="/assets/brand/cor-chrome-weight-plate.png" x="-280" y="-106" width="560" height="212" preserveAspectRatio="none"/></g></defs>
-<ellipse class="plate-ground" cx="500" cy="455" rx="210" ry="20" fill="#a8b3bc" opacity=".08"/>
-<g transform="translate(500 382)"><g class="floating-plate" style="--spread:78px"><use href="#silver-plate"/></g></g>
-<g transform="translate(500 354)"><g class="floating-plate" style="--spread:-36px"><use href="#silver-plate"/></g></g>
-<g transform="translate(500 326)"><g class="floating-plate" style="--spread:-150px"><use href="#silver-plate"/></g></g></svg>'''
+barbell_assembly = '''<svg class="assembly-barbell" viewBox="0 0 1000 570" role="img" aria-label="Chrome COR Active weight plates gather into an upright stack as you scroll"><defs>
+<g id="silver-plate"><image href="/assets/brand/cor-chrome-weight-plate.png" x="-290" y="-233" width="580" height="466" preserveAspectRatio="xMidYMid meet"/></g></defs>
+<ellipse class="plate-ground" cx="518" cy="531" rx="240" ry="13" fill="#a8b3bc" opacity=".07"/>
+<g transform="translate(552 274)"><g class="floating-plate" style="--spread: -24px;--spread-x:105px"><use href="#silver-plate"/></g></g>
+<g transform="translate(526 282)"><g class="floating-plate" style="--spread:-12px;--spread-x:52px"><use href="#silver-plate"/></g></g>
+<g transform="translate(500 290)"><g class="floating-plate" style="--spread:0px;--spread-x:-36px"><use href="#silver-plate"/></g></g></svg>'''
+
 
 
 # ── Product showcase: one current app capture at a time ────────────────
