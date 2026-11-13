@@ -27,3 +27,12 @@ Observed Robinhood Platinum live page: spacious monochrome product presentation,
 
 ## Still open
 Waitlist integration and complete legal documents remain launch blockers. Do not activate/remove draft labels without actual configuration and approved policy details. Existing heavy captures and JS merit separate performance optimization. Live coractive.co unchanged pending review/publication authorization.
+
+
+## Follow-up: simplified page and dot buttons
+- Removed pricing and FAQ sections, their navigation/footer anchors and unused FAQ runtime. Original sources retained for recoverability, but not rendered/bundled.
+- CTA and screenshot-viewer pills use an original CSS dot-mask adaptation informed by Zelo Studio's live Dot Button demo. No marketplace source imported or republished. Label remains readable; keyboard focus exposes the same mask, touch does not require hover, disabled signup remains inactive, reduced motion disables transition.
+- Ingredient showcase now pins within the viewport and scrolls from Hidden ingredients to Understand the grade; tap/keyboard remain available. Hover-only selection removed so scrolling under a stationary cursor cannot steal the selected step. Short viewports and reduced motion use ordinary flow/manual selection.
+- Verified desktop pinned top 100px across states, mobile pinned top 82px and transition to grade, no mobile horizontal overflow. Verified CTA Enter reaches waitlist. Build passes 6 pages/102 local references; no console errors.
+- Expanded Card reference assessed: an expanding horizontal image accordion. Not added because existing ingredient and strength stories already expose those app details; another hover-heavy gallery would repeat content and compress screenshots on phones. Best reserved for genuinely new app areas with supplied captures.
+- Local preview server stopped during Mac disconnect; restarted on 127.0.0.1:4317. Native Chrome inspection later found user viewing production; switched visible tab to local preview. No publishing performed.

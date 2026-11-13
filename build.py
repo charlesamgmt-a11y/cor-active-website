@@ -28,7 +28,7 @@ DOWNLOAD_LABEL = 'Download for iPhone' if APP_STORE_URL else 'Coming soon'
 AVAILABILITY = 'Built for iPhone' if APP_STORE_URL else 'Coming soon for iPhone'
 ARROW = '<span aria-hidden="true">›</span>'
 APPSTORE = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#1d8cf8"/><path d="M8.1 16.6h7.8M9.6 16.6l3.9-8.9M14.4 16.6l-1.6-3.6M10.3 7.7l.8 1.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>'
-NAV = [('Features', '#features'), ('How it works', '#how-it-works'), ('Plans', '#pricing'), ('FAQ', '#faq'), ('App screens', '#screens')]
+NAV = [('Features', '#features'), ('How it works', '#how-it-works'), ('App screens', '#screens')]
 
 def versioned_asset(name):
     digest = hashlib.sha256((ROOT / 'dist' / name).read_bytes()).hexdigest()[:12]
@@ -46,7 +46,7 @@ def icon(name, cls='deco'):
 
 
 def button(label=DOWNLOAD_LABEL, href=DOWNLOAD, cls='solid-button'):
-    return f'<a class="{cls}" href="{escape(href, quote=True)}">{escape(label)}{ARROW}</a>'
+    return f'<a class="{cls} dot-button" href="{escape(href, quote=True)}"><span class="dot-label">{escape(label)}</span></a>'
 
 
 def section_header(index):
@@ -129,26 +129,6 @@ features = ''.join(
     f'<div class="feature-copy"><h3>{escape(f["title"])}</h3><p>{escape(f["description"])}</p></div></article>'
     for i, f in enumerate(data['features']))
 
-# ── Pricing (real tiers only: Free + COR Pro) ──────────────────────────
-free = ['Plan and daily targets', 'Food search, manual logging and recognized barcode lookup',
-        'Daily calories, macros and hydration', 'Workout tracking and rest timers',
-        'Weight and strength progress', 'Apple Health connection with permission']
-pro = ['Everything in Free', 'Meal-photo and text estimates', 'Restaurant menu scanning',
-       'Nutrition-label photos and new-product lookup', 'AI coach and weekly coaching', 'AI workouts and workout-photo import']
-plans_data = [('Free', '<b>Free to start</b>', 'Your everyday tracking', free, 'Join the waitlist'),
-              (f'{BRAND} Pro', '<b>Available in the app</b>', 'Optional AI tools', pro, 'Join the waitlist')]
-plans = ''.join(
-    f'<article class="pricing-card plan-{i} reveal" style="--d:{i * 90}ms"><div class="price-heading"><h3>{escape(name)}</h3>'
-    f'<p class="price">{price}</p><p>{escape(tag)}</p></div>{button(cta, "#waitlist", "solid-button plan-cta")}'
-    f'<div class="includes">Includes<ul>' + ''.join(f'<li>{escape(x)}</li>' for x in feats) + '</ul></div></article>'
-    for i, (name, price, tag, feats, cta) in enumerate(plans_data))
-
-# ── FAQ (Smooth FAQ Flow style) ────────────────────────────────────────
-faq = ''.join(
-    f'<div class="flow-item reveal{" open" if i == 0 else ""}" style="--d:{i * 60}ms"><h3><button class="flow-q" aria-expanded="{"true" if i == 0 else "false"}" '
-    f'aria-controls="faq-a{i}" id="faq-q{i}"><span>{escape(f["q"].replace("CŌR", BRAND))}</span><span class="flow-icon" aria-hidden="true"><i></i><i></i></span></button></h3>'
-    f'<div class="flow-a" id="faq-a{i}" role="region" aria-labelledby="faq-q{i}"><div><p>{escape(f["a"].replace("CŌR", BRAND))}</p></div></div></div>'
-    for i, f in enumerate(data['faq']))
 
 # ── How it works ───────────────────────────────────────────────────────
 steps = [('Log your <br>food', 'Search for a food, scan a recognized barcode, or use Pro to estimate a meal from a photo or description.'),
@@ -223,17 +203,15 @@ html = f'''<!doctype html>
 <section class="food-suggestions section" id="food-suggestions"><div class="food-stage"><h2 class="reveal">Make room for<br>the details<br>in every meal.</h2>{food_orbit}<button class="food-help"><span aria-hidden="true">ⓘ</span> Tap or hover to explore</button></div><dialog id="food-guide"><button class="dialog-close" aria-label="Close guide">×</button>{icon('Salad')}<h3>Details make a difference</h3><p>Explore examples of portion and ingredient details you can include when logging a meal. These illustrations are prompts, not personalized food recommendations.</p><p class="touch-help">On a touch screen, tap an icon to explore it.</p></dialog></section>
 <section class="how-section section" id="how-it-works"><div class="how-sticky"><div class="how-left">{how_titles}</div>{phone('how-phone')}<div class="how-right">{how_descs}<div class="how-dots">{how_dots}</div><p class="demo-note">Illustrated flow · sample values</p></div></div></section>
 <section class="meal-section section" id="meal-deconstruct"><header class="section-header reveal"><h2>{escape(meal[0])}</h2><p>{escape(meal[1].replace("CŌR", BRAND))}</p></header><div class="burger-stage">{burger}</div></section>
-<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore CŌR ingredient features">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Hover, tap, or use arrow keys to explore.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="/assets/product/questions.png" data-title="Hidden ingredients" aria-label="Enlarge Hidden ingredients app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="/assets/brand/iphone-duo-star-white-outer-closed-portrait.png" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 02</span><span>CŌR for iPhone</span></figcaption></figure></div></div></section>
+<section class="features-section section" id="features"><span id="screens" class="anchor-alias" aria-hidden="true"></span>{section_header(4)}<div class="showcase-scroll-start" aria-hidden="true"></div><div class="showcase-layout"><div class="showcase-content"><div class="showcase-tabs" role="tablist" aria-label="Explore CŌR ingredient features">{showcase_tabs}</div><p class="showcase-note">App screen details shown with illustrative records. <span>Scroll to explore. Tap a step or use arrow keys.</span></p></div><div class="showcase-stage"><!-- BACKGROUND PHOTO SLOT: set --showcase-background to the supplied image when ready. --><div class="showcase-photo-slot" aria-hidden="true"></div><figure class="showcase-device" id="showcase-panel" role="tabpanel" aria-labelledby="showcase-tab-food"><div class="showcase-phone"><button type="button" class="screen-shot showcase-capture" data-screen="/assets/product/questions.png" data-title="Hidden ingredients" aria-label="Enlarge Hidden ingredients app screen">{showcase_image}<span class="capture-zoom" aria-hidden="true">↗</span></button><img class="showcase-bezel" src="/assets/brand/iphone-duo-star-white-outer-closed-portrait.png" alt="" aria-hidden="true"></div><figcaption><span class="capture-count">01 — 02</span><span>CŌR for iPhone</span></figcaption></figure></div></div></section>
 <section class="barbell-section" id="training-intro"><div class="barbell-pin"><header class="section-header"><p class="assembly-eyebrow">FUEL. TRAIN. BUILD.</p><h2>Built one set at a time.</h2><p>Know what fuels you. See what your training adds up to.</p></header><div class="barbell-stage">{barbell_assembly}</div><a class="assembly-next" href="#strength">See your training in CŌR <span aria-hidden="true">↓</span></a></div></section>
-<section class="training-story section" id="strength"><header class="section-header"><h2>Log the work. See what adds up.</h2><p>Your sets, personal records and training history, together.</p></header><div id="original-sticky"><p>Training volume, recent sessions, personal records and weight trends in CŌR.</p></div><div class="strength-screen-links" aria-label="Enlarge training app screens"><button type="button" class="strength-screen-button" data-screen="/assets/product/workout-history.png" data-title="Workout history">Workout history ↗</button><button type="button" class="strength-screen-button" data-screen="/assets/product/strength.png" data-title="Strength overview">Strength overview ↗</button><button type="button" class="strength-screen-button" data-screen="/assets/product/muscle-balance.png" data-title="Muscle groups">Muscle groups ↗</button></div><p class="capture-caption">Real app captures · illustrative records</p></section>
-<section class="pricing-section section" id="pricing">{section_header(7)}<div class="pricing-statement">Free to start. {BRAND} Pro available in the app.</div><div class="pricing-grid">{plans}</div><p class="pricing-footnote">The app will show any subscription details before purchase.</p></section>
-<section class="faq-section section" id="faq">{section_header(8)}<div class="flow-list">{faq}</div></section>
+<section class="training-story section" id="strength"><header class="section-header"><h2>Log the work. See what adds up.</h2><p>Your sets, personal records and training history, together.</p></header><div id="original-sticky"><p>Training volume, recent sessions, personal records and weight trends in CŌR.</p></div><div class="strength-screen-links" aria-label="Enlarge training app screens"><button type="button" class="strength-screen-button dot-button dot-button-dark" data-screen="/assets/product/workout-history.png" data-title="Workout history"><span class="dot-label">Workout history</span></button><button type="button" class="strength-screen-button dot-button dot-button-dark" data-screen="/assets/product/strength.png" data-title="Strength overview"><span class="dot-label">Strength overview</span></button><button type="button" class="strength-screen-button dot-button dot-button-dark" data-screen="/assets/product/muscle-balance.png" data-title="Muscle groups"><span class="dot-label">Muscle groups</span></button></div><p class="capture-caption">Real app captures · illustrative records</p></section>
 <section class="cta-section section" id="download"><div class="cta-icon reveal"><div class="app-icon">{img('brand/cor-mirror-transparent.png', f'{BRAND} app logo', 'app-icon-wordmark')}</div></div><span class="iphone-badge">{APPSTORE} Coming soon for iPhone</span><h2>See your plan before you make an account.</h2><p>Answer the setup questions and get your calorie and macro targets, your goal timeline with dated milestones, and a suggested goal based on your setup answers. Sign in when you are ready to keep your plan.</p>{final_cta}</section>
-<section class="waitlist-section section" id="waitlist"><header class="section-header"><span class="eyebrow">CŌR is coming soon</span><h2>Get launch updates.</h2><p>Join for early access news and the launch announcement. You can unsubscribe at any time.</p></header><form class="waitlist-preview" aria-label="CŌR launch waitlist preview"><label for="waitlist-email">Email address</label><div class="waitlist-row"><input id="waitlist-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" disabled><button class="solid-button" type="button" disabled>Join the waitlist</button></div><p class="waitlist-status" role="status">Waitlist signup is not available yet. Please check back soon.</p><!-- BREVO EMBED GOES HERE: replace this preview form with the Brevo embed in build.py, in the #waitlist section. --></form></section>
+<section class="waitlist-section section" id="waitlist"><header class="section-header"><span class="eyebrow">CŌR is coming soon</span><h2>Get launch updates.</h2><p>Join for early access news and the launch announcement. You can unsubscribe at any time.</p></header><form class="waitlist-preview" aria-label="CŌR launch waitlist preview"><label for="waitlist-email">Email address</label><div class="waitlist-row"><input id="waitlist-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" disabled><button class="solid-button dot-button" type="button" disabled><span class="dot-label">Join the waitlist</span></button></div><p class="waitlist-status" role="status">Waitlist signup is not available yet. Please check back soon.</p><!-- BREVO EMBED GOES HERE: replace this preview form with the Brevo embed in build.py, in the #waitlist section. --></form></section>
 <section class="contact-section section" id="contact"><h2>Questions? Get in touch.</h2><p>For support or launch questions, email <a href="mailto:{escape(SUPPORT_EMAIL)}">{escape(SUPPORT_EMAIL)}</a>.</p></section>
 </main>
 <dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">CŌR app screen</h2><p>CŌR interface · illustrative records</p><img alt=""></dialog>
-<footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#pricing">Plans</a><a href="#waitlist">Join the waitlist</a><a href="#contact">Contact</a>{contact_link}</div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
+<footer class="footer" id="legal"><div class="footer-top"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#waitlist">Join the waitlist</a><a href="#contact">Contact</a>{contact_link}</div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
 <div class="copyright">© 2026 CŌR Active. All rights reserved.</div>
 <div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="{versioned_asset('assets/brand/cor-liquid-metal-poster.jpg')}"><source src="{versioned_asset('assets/brand/cor-liquid-metal.mp4')}" type="video/mp4"></video></a></div></footer>
 </body></html>'''
@@ -288,7 +266,7 @@ for slug, title, description, body in [
     target.mkdir(parents=True, exist_ok=True)
     (target / 'index.html').write_text(legal_page(title, slug, description, body))
 
-not_found = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | COR Active</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"></head><body><main class="not-found"><h1>Page not found.</h1><p>That address doesn’t lead to a CŌR page. Head back to the site and keep going.</p><a class="solid-button" href="/">Back to CŌR Active</a></main></body></html>'''
+not_found = '''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found | COR Active</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"></head><body><main class="not-found"><h1>Page not found.</h1><p>That address doesn’t lead to a CŌR page. Head back to the site and keep going.</p><a class="solid-button dot-button" href="/"><span class="dot-label">Back to CŌR Active</span></a></main></body></html>'''
 (ROOT / 'dist' / '404.html').write_text(not_found)
 (ROOT / 'dist' / 'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: https://coractive.co/sitemap.xml\n')
 (ROOT / 'dist' / 'sitemap.xml').write_text('''<?xml version="1.0" encoding="UTF-8"?>
@@ -314,7 +292,7 @@ def waitlist_status_page(title, heading, message, detail, confirmed=False):
 <svg class="waitlist-result-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{symbol}</svg>
 <p class="waitlist-result-eyebrow">COR Active · Launch waitlist</p><h1>{escape(heading)}</h1>
 <p class="waitlist-result-message">{escape(message)}</p><p class="waitlist-result-detail">{detail}</p>
-<a class="solid-button" href="/#features">Explore CŌR {ARROW}</a>
+<a class="solid-button dot-button" href="/#features"><span class="dot-label">Explore CŌR</span></a>
 <p class="waitlist-result-help">Need a hand? <a href="mailto:{escape(SUPPORT_EMAIL, quote=True)}">{escape(SUPPORT_EMAIL)}</a></p>
 </main><footer class="waitlist-result-footer"><a href="/privacy/">Privacy policy</a><span>© 2026 COR Active</span></footer>
 </body></html>'''

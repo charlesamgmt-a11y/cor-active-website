@@ -154,14 +154,6 @@ addEventListener('resize', onScroll, { passive: true });
 onScroll();
 
 /* ── FAQ: Smooth FAQ Flow (one open at a time) ─────────────────────── */
-const flowItems = [...document.querySelectorAll('.flow-item')];
-flowItems.forEach(item => item.querySelector('.flow-a').setAttribute('aria-hidden', String(!item.classList.contains('open'))));
-flowItems.forEach(item => item.querySelector('.flow-q').addEventListener('click', () => {
-  const opening = !item.classList.contains('open');
-  flowItems.forEach(o => { o.classList.remove('open'); o.querySelector('.flow-q').setAttribute('aria-expanded', 'false'); o.querySelector('.flow-a').setAttribute('aria-hidden', 'true'); });
-  if (opening) { item.classList.add('open'); item.querySelector('.flow-q').setAttribute('aria-expanded', 'true'); item.querySelector('.flow-a').setAttribute('aria-hidden', 'false'); }
-}));
-
 /* Real app screenshots: full-size viewing with native dialog focus handling. */
 const screenViewer = document.querySelector('#screen-viewer');
 document.querySelectorAll('.screen-shot, .strength-screen-button').forEach(button => button.addEventListener('click', () => {
@@ -180,9 +172,14 @@ const showcaseCapture = document.querySelector('.showcase-capture');
 const showcaseCount = document.querySelector('.capture-count');
 const showcaseStage = document.querySelector('.showcase-stage');
 const showcasePanel = document.querySelector('#showcase-panel');
-function selectShowcase(index, moveFocus = false) {
+let selectedShowcase = -1;
+let showcaseManualY = null;
+function selectShowcase(index, moveFocus = false, fromScroll = false) {
   if (!showcaseTabs.length || !showcaseCapture) return;
   const safeIndex = (index + showcaseTabs.length) % showcaseTabs.length;
+  if (!fromScroll) showcaseManualY = scrollY;
+  const changed = selectedShowcase !== safeIndex;
+  selectedShowcase = safeIndex;
   showcaseTabs.forEach((tab, i) => {
     const active = i === safeIndex;
     tab.classList.toggle('active', active);
@@ -197,14 +194,12 @@ function selectShowcase(index, moveFocus = false) {
   showcaseCapture.setAttribute('aria-label', `Enlarge ${current.dataset.title} app screen`);
   const image = showcaseCapture.querySelector('img');
   image.src = current.dataset.screen;
+  if (changed && !matchMedia('(prefers-reduced-motion: reduce)').matches) image.animate([{opacity:.15},{opacity:1}], {duration:320,easing:'ease-out'});
   image.alt = `${current.dataset.title} — CŌR app screen with illustrative records`;
   if (showcaseCount) showcaseCount.textContent = `${String(safeIndex + 1).padStart(2, '0')} — ${String(showcaseTabs.length).padStart(2, '0')}`;
   if (moveFocus) current.focus();
 }
 showcaseTabs.forEach((tab, index) => {
-  tab.addEventListener('pointerenter', event => {
-    if (event.pointerType === 'mouse' || event.pointerType === 'pen') selectShowcase(index);
-  });
   tab.addEventListener('focus', () => selectShowcase(index));
   tab.addEventListener('click', () => selectShowcase(index));
   tab.addEventListener('keydown', event => {
@@ -214,6 +209,30 @@ showcaseTabs.forEach((tab, index) => {
     selectShowcase(index + keys[event.key], true);
   });
 });
+
+/* Scroll selects only on movement, so manual/keyboard exploration stays usable. */
+(() => {
+ const section=document.querySelector('.features-section'),layout=document.querySelector('.showcase-layout');
+ if(!section||!layout||!showcaseTabs.length)return;
+ const preference=matchMedia('(prefers-reduced-motion: reduce)');let queued=false;
+ showcaseTabs.forEach(tab=>{const image=new Image();image.src=tab.dataset.screen;});
+ function update(){
+  queued=false;
+  if(preference.matches||innerHeight<=620)return;
+  if(showcaseManualY!==null&&Math.abs(scrollY-showcaseManualY)<120)return;
+  const rect=section.getBoundingClientRect();
+  if(rect.top>innerHeight||rect.bottom<0)return;
+  const pinTop=parseFloat(getComputedStyle(layout).top)||100;
+  const marker=section.querySelector('.showcase-scroll-start');
+  const start=scrollY+marker.getBoundingClientRect().top+(parseFloat(getComputedStyle(layout).marginTop)||0)-pinTop;
+  const end=section.offsetTop+section.offsetHeight-layout.offsetHeight-pinTop;
+  const progress=Math.max(0,Math.min(1,(scrollY-start)/Math.max(1,end-start)));
+  const next=progress<.5?0:1;
+  if(next!==selectedShowcase)selectShowcase(next,false,true);
+ }
+ function request(){if(!queued){queued=true;requestAnimationFrame(update);}}
+ addEventListener('scroll',request,{passive:true});addEventListener('resize',request,{passive:true});preference.addEventListener('change',request);request();
+})();
 
 /* ── Footer video: only play while visible ─────────────────────────── */
 const metal = document.querySelector('.footer-metal video');
