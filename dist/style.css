@@ -1001,3 +1001,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
  .features-section .showcase-stage{height:auto;min-height:400px}
  .features-section .showcase-device{width:min(100%,300px)}
 }
+
+/* Responsive live waitlist signup. */
+.waitlist-embed{max-width:620px;margin:0 auto;text-align:center}.waitlist-embed>p{font-size:14px;line-height:1.6;color:#aeb3ba;margin:18px auto}.waitlist-embed a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:600px){.waitlist-embed{--waitlist-frame-height:1050px}}
