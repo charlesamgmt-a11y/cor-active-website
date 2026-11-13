@@ -1011,3 +1011,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 @media(max-width:720px){.cor-waitlist{grid-template-columns:minmax(0,1fr);gap:28px;padding:65px 22px!important}.waitlist-copy h2{font-size:49px}.cor-waitlist .cor-waitlist-card{padding:25px 22px}.waitlist-copy>p{font-size:16px}}
 /* Override vendor field chrome while retaining Brevo validation behavior. */
 .cor-waitlist #sib-container .entry__field{background:#080a0b!important;border:1px solid #ffffff2d!important;border-radius:12px!important;box-shadow:none!important;padding:0!important;min-height:52px!important}.cor-waitlist #sib-container #EMAIL{height:52px!important;min-height:52px!important;padding:15px 17px!important;background:transparent!important;color:#fff!important;border:0!important}.cor-waitlist #sib-container .entry__field:focus-within{outline:2px solid #c7d3d8;outline-offset:3px}
+
+.cor-waitlist #sib-container #EMAIL,.cor-waitlist #sib-container .entry__field{box-sizing:border-box!important}
