@@ -18,9 +18,9 @@ if (!reduceMotion) root.classList.add('js-motion');
     try { sessionStorage.setItem('cor-preloaded', '1'); } catch (e) {}
     setTimeout(() => pre.remove(), 900);
   };
-  const whenReady = () => setTimeout(finish, Math.max(0, 1900 - (performance.now() - started)));
+  const whenReady = () => setTimeout(finish, Math.max(0, 650 - (performance.now() - started)));
   if (document.readyState === 'complete') whenReady(); else window.addEventListener('load', whenReady, { once: true });
-  setTimeout(finish, 3500); // never hold the page longer than this
+  setTimeout(finish, 1800); // never hold the page longer than this
 })();
 
 /* ── Reveal on scroll ──────────────────────────────────────────────── */
@@ -111,8 +111,7 @@ function setStep(i) {
   [titles, descs, dots].forEach(list => list.forEach((el, n) => el.classList.toggle('active', n === i)));
   [...titles, ...descs].forEach((el, n) => el.setAttribute('aria-hidden', String(n % 3 !== i)));
   dots.forEach((el, n) => el.setAttribute('aria-pressed', String(n === i)));
-  howPhone.classList.toggle('is-scanned', i > 0);
-  howPhone.classList.toggle('is-action', i === 2);
+  howPhone.querySelectorAll('.how-capture').forEach((screen, n) => { screen.classList.toggle('active', n === i); screen.setAttribute('aria-hidden', String(n !== i)); });
 }
 dots.forEach((d, i) => d.addEventListener('click', () => { manualUntil = performance.now() + 12000; setStep(i); }));
 setStep(0);
@@ -314,3 +313,11 @@ if (metal) {
  function request(){if(!queued){queued=true;requestAnimationFrame(update);}}
  addEventListener('scroll',request,{passive:true});addEventListener('resize',request,{passive:true});preference.addEventListener('change',request);update();
 })();
+
+// Keep the pinned phone below the actual heading height, including wrapped text.
+const trainingHeading = document.querySelector('.training-heading');
+if (trainingHeading && 'ResizeObserver' in window) {
+  const updateTrainingClearance = () => trainingHeading.closest('.training-story').style.setProperty('--training-heading-height', `${Math.ceil(trainingHeading.getBoundingClientRect().height)}px`);
+  new ResizeObserver(updateTrainingClearance).observe(trainingHeading);
+  updateTrainingClearance();
+}

@@ -9,7 +9,7 @@ export function customizeSticky(source) {
  'See your progress and what needs focus now. Bring priorities and team workload into focus. Find the clarity to make your next move easier.':'Explore your training across muscle groups, with volume, sessions and load views.'
  };
  for (const [from,to] of Object.entries(copy)) source=source.split(from).join(to);
- for (const [id,file] of Object.entries({BRqgFFbvLw3ilMXnPVonIGrXOQ:'workout-history.png','12yzuMWOuyhMq2pXyVdNjPIBj0':'strength.png','6JRVxrWi9g9CAdumAYN3Bdew':'muscle-balance.png'})) {
+ for (const [id,file] of Object.entries({BRqgFFbvLw3ilMXnPVonIGrXOQ:'workout-history.webp','12yzuMWOuyhMq2pXyVdNjPIBj0':'strength.webp','6JRVxrWi9g9CAdumAYN3Bdew':'muscle-balance.webp'})) {
   source=source.replace(new RegExp('https://framerusercontent.com/images/'+id+'\\.png[^" ]*','g'),'/assets/product/'+file);
  }
  // One local capture per image instead of mismatched template responsive sizes.

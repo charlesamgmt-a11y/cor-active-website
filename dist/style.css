@@ -1013,3 +1013,87 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .cor-waitlist #sib-container .entry__field{background:#080a0b!important;border:1px solid #ffffff2d!important;border-radius:12px!important;box-shadow:none!important;padding:0!important;min-height:52px!important}.cor-waitlist #sib-container #EMAIL{height:52px!important;min-height:52px!important;padding:15px 17px!important;background:transparent!important;color:#fff!important;border:0!important}.cor-waitlist #sib-container .entry__field:focus-within{outline:2px solid #c7d3d8;outline-offset:3px}
 
 .cor-waitlist #sib-container #EMAIL,.cor-waitlist #sib-container .entry__field{box-sizing:border-box!important}
+
+/* November audit: real captures, comfortable pinned headers, and a quiet close. */
+.real-flow-phone{position:relative;width:min(340px,30vw);aspect-ratio:1470/3000;height:auto;isolation:isolate;justify-self:center;filter:drop-shadow(0 22px 40px #0006)}
+.real-flow-screen{position:absolute;inset:1.4% 3.2%;border-radius:13% / 6.5%;overflow:hidden;background:#000}
+.real-flow-screen .how-capture{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .65s cubic-bezier(.22,1,.36,1)}
+.real-flow-screen .how-capture.active{opacity:1;transform:none}
+.real-flow-bezel{position:relative;width:100%;height:100%;pointer-events:none}
+.how-sticky{top:100px;height:calc(100svh - 115px);min-height:580px}
+.how-title{line-height:1.12}
+.section-header h2{line-height:1.15;padding-block:.08em}
+.training-story{position:relative;isolation:isolate}
+.training-heading{position:sticky;top:88px;z-index:6;background:#000;padding:18px 12px 24px;margin-bottom:24px!important;gap:10px!important}
+.training-heading::before{content:"";position:absolute;left:-10vw;right:-10vw;bottom:100%;height:110px;background:#000;pointer-events:none}
+.training-heading h2{font-size:clamp(30px,3.5vw,48px);line-height:1.15}
+.training-heading p{font-size:16px}
+#original-sticky [data-framer-name="Sticky preview"]{top:245px}
+#original-sticky [data-framer-name="Preview stage"]{height:min(57svh,600px)}
+.everyday-section{background:#000;text-align:center;padding:90px 0 0;overflow:hidden}
+.everyday-section>header{padding:0 24px;position:relative;z-index:2}
+.everyday-eyebrow{font-size:12px;letter-spacing:.16em;color:#b7bcbf;margin-bottom:22px}
+.everyday-section h2{font-size:clamp(44px,5.2vw,76px);line-height:1.1;letter-spacing:-.035em}
+.everyday-section header>p:not(.everyday-eyebrow){font-size:18px;line-height:1.6;color:#c6cec8;margin:22px auto 28px;max-width:480px}
+.everyday-section .solid-button{display:inline-flex}
+
+
+.everyday-screen{position:absolute;inset:1.4% 3.2%;width:93.6%;height:97.2%;object-fit:contain;background:#000;border-radius:13% / 6.5%}
+.everyday-bezel{position:absolute;inset:0;width:100%;height:100%}
+.everyday-note{font-size:12px;color:#aab3b7;margin:24px auto 45px;position:relative}
+@media(max-width:809px){.real-flow-phone{width:min(280px,70vw)}.how-sticky{position:relative;top:0;height:auto;min-height:0}.how-title{font-size:34px}.how-right{max-width:360px}}
+@media(max-width:700px){.training-heading{top:76px;padding:12px 0 16px}.training-heading h2{font-size:28px}.training-heading p{font-size:14px;max-width:28ch;margin:auto}#original-sticky [data-framer-name="Sticky preview"]{top:218px}#original-sticky [data-framer-name="Preview stage"]{height:34svh}.everyday-section{padding-top:65px}.everyday-note{margin:0 auto 24px}.everyday-section header>p:not(.everyday-eyebrow){font-size:16px}}
+@media(max-height:650px){.training-heading{position:relative;top:0}#original-sticky [data-framer-name="Sticky preview"]{top:95px}.how-sticky{min-height:0}.real-flow-phone{max-height:75svh;width:auto}}
+@media(prefers-reduced-motion:reduce){.real-flow-screen .how-capture{transition:none;transform:none}.training-heading{position:relative;top:0}#original-sticky [data-framer-name="Sticky preview"]{top:100px}}
+
+/* Keep the phone, screen layers and floating equipment in separate visual lanes. */
+#original-sticky [data-framer-name="Preview stage"]{--training-phone-width:min(60%,calc(57svh * .49),294px)}
+#original-sticky [data-framer-name^="Preview —"],
+#original-sticky [data-framer-name="Preview stage"]::after{top:50%;left:50%;width:var(--training-phone-width);height:auto;max-width:none;aspect-ratio:1470/3000;transform:translate(-50%,-50%)}
+#original-sticky [data-framer-name="Preview stage"]::before{left:-3%;width:20%}
+@media(max-width:700px){#original-sticky [data-framer-name="Preview stage"]{--training-phone-width:min(60%,calc(34svh * .49))}}
+
+@media(min-width:701px) and (max-width:900px){
+ #original-sticky [data-framer-name="Preview stage"]{height:auto;aspect-ratio:.58;--training-phone-width:80%}
+ #original-sticky [data-framer-name="Preview stage"]::before{left:-27%;width:30%}
+}
+.training-heading::before{left:0;right:0}
+.cor-waitlist .sib-captcha{min-height:140px}
+@media(max-width:380px){
+ .food-2 .food-hint,.food-3 .food-hint{left:20%}
+ .food-6 .food-hint{left:70%}
+}
+.training-story{--training-heading-top:88px;--training-heading-height:139px}
+#original-sticky [data-framer-name="Sticky preview"]{top:calc(var(--training-heading-top) + var(--training-heading-height) + 24px)}
+@media(max-width:700px){.training-story{--training-heading-top:76px}}
+@media(max-width:380px){
+ .ingredient-tag{left:-26px}
+ .layer-1 .ingredient-tag,.layer-3 .ingredient-tag{right:-26px}
+ #original-sticky [data-framer-name="Preview stage"]{height:28svh;--training-phone-width:min(60%,calc(28svh * .49))}
+}
+@media(max-height:650px),(prefers-reduced-motion:reduce){#original-sticky [data-framer-name="Sticky preview"]{top:95px}}
+@media(min-width:810px){.real-flow-phone{width:min(340px,30vw,calc((100svh - 150px) * .49))}}
+
+/* Reuse the supplied photographs as independently positioned layout layers. */
+.everyday-object{position:absolute;height:auto;overflow:hidden}
+.everyday-scene{--everyday-phone-width:24%;position:relative;width:78%;max-width:1400px;aspect-ratio:1.5;margin:32px auto 0}
+.everyday-phone{position:absolute;left:50%;top:50%;width:var(--everyday-phone-width);aspect-ratio:1470/3000;transform:translate(-50%,-50%);filter:drop-shadow(0 20px 26px #000b)}
+.everyday-wallet,.everyday-bar,.everyday-can,.everyday-watch,.everyday-bottle{transform:translate(-50%,-50%)}
+.everyday-wallet{left:24%;top:25%;width:22%;aspect-ratio:370/260}
+.everyday-key{position:absolute;left:24%;top:50%;width:6.5%;height:auto;aspect-ratio:300/610;overflow:hidden;transform:translate(-50%,-50%) rotate(90deg)}
+.everyday-watch{position:absolute;left:24%;top:72%;width:13%;height:auto}
+/* Match the visible product heights, accounting for padding in the source crops. */
+.everyday-bar{left:74%;top:50%;width:calc(var(--everyday-phone-width) * 2.1452);aspect-ratio:600/240;transform:translate(-50%,-50%) rotate(90deg)}
+.everyday-can{left:96%;top:50%;width:calc(var(--everyday-phone-width) * .94094);aspect-ratio:280/640;transform:translate(-50%,-50.4%)}
+.everyday-bottle{left:1.5%;top:50%;width:18%;aspect-ratio:250/880}
+@media(max-width:700px){
+ .everyday-scene{--everyday-phone-width:25%;width:100%;max-width:none;aspect-ratio:1.4;margin:30px auto 0}
+ .everyday-phone{left:41%}
+ .everyday-wallet{left:13%;top:24%;width:22%}
+ .everyday-key{left:13%;top:50%;width:6%}
+ .everyday-watch{left:13%;top:73%;width:12%}
+ .everyday-bar{left:65%}
+ .everyday-can{left:88%}
+ .everyday-bottle{left:-20%}
+ .everyday-note{padding:0 20px;line-height:1.5}
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import Reveal from './originals/reveal.js';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-if (!reduced.matches) document.querySelectorAll('.section-header h2').forEach(heading => {
+if (!reduced.matches) document.querySelectorAll('.section-header:not(.training-heading) h2').forEach(heading => {
  const text = heading.textContent.trim();
  const style = getComputedStyle(heading);
  const font={fontFamily:style.fontFamily,fontSize:'inherit',fontWeight:style.fontWeight,lineHeight:'inherit',letterSpacing:'inherit'};
