@@ -1097,3 +1097,108 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
  .everyday-bottle{left:-20%}
  .everyday-note{padding:0 20px;line-height:1.5}
 }
+
+
+
+/* Original Framer Sticky Scroll: COR content and responsive sizing only. */
+
+
+/* Original Framer Sticky Scroll: COR content and responsive sizing only. */
+#ingredient-sticky { width:100%; }
+
+#ingredient-sticky .framer-s79Sf { gap:64px; padding:32px 0; }
+
+#ingredient-sticky [data-framer-name="Sticky preview"] { width:46%; top:110px; }
+
+#ingredient-sticky [data-framer-name="Preview stage"] { height:min(64vh,620px); }
+
+#ingredient-sticky [data-framer-name^="Preview —"] { top:0;left:50%;transform:translateX(-50%);height:100%;aspect-ratio:1470/3000;width:auto;max-width:100%;border-radius:0!important; }
+
+#ingredient-sticky [data-framer-name^="Preview —"] img { position:absolute;inset:1.5% 3.5%!important;width:93%!important;height:97%!important;object-fit:cover!important;border-radius:13% / 6.5%!important; }
+
+/* A single permanent bezel stays above the original crossfading screen layers. */
+#ingredient-sticky [data-framer-name="Preview stage"]::after { content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;aspect-ratio:1470/3000;background:url('/assets/brand/iphone-18-pro-max-glacier-portrait.png') center/100% 100% no-repeat;pointer-events:none;z-index:3; }
+
+#ingredient-sticky [data-framer-name="Preview stage"]::before { content:"";position:absolute;left:-5%;top:48%;width:38%;aspect-ratio:1.5;background:url('/assets/product/cor-barbell.png') center/contain no-repeat;pointer-events:none;z-index:4;animation:sticky-equipment-float 6s ease-in-out infinite; }
+
+@media(prefers-reduced-motion:reduce) { #ingredient-sticky [data-framer-name="Preview stage"]::before { animation:none; } }
+
+#ingredient-sticky .framer-139n2vz,#ingredient-sticky .framer-1khr2cr,#ingredient-sticky .framer-1ow7yui { display:none; }
+
+#ingredient-sticky [data-framer-name^="Feature section"] { height:580px; }
+
+#ingredient-sticky h2 { font-family:var(--display)!important;font-size:clamp(28px,3vw,44px)!important; }
+
+#ingredient-sticky p { font-family:var(--body)!important;font-size:17px!important;line-height:1.65!important; }
+
+#ingredient-sticky [data-framer-name="Progression continue"] { height:40px; }
+
+#ingredient-sticky + .capture-caption { text-align:center; }
+
+@media(max-width:700px) {
+ #ingredient-sticky .framer-s79Sf { flex-direction:column;gap:0;padding:0; }
+ #ingredient-sticky [data-framer-name="Sticky preview"] { width:100%;top:80px;z-index:2;background:#000; }
+ #ingredient-sticky [data-framer-name="Preview stage"] { height:38vh; }
+ #ingredient-sticky .framer-f0unxn { width:100%;flex:none; }
+ #ingredient-sticky [data-framer-name^="Feature section"] { height:72vh;justify-content:flex-end;padding:48px 0; }
+ #ingredient-sticky h2 { font-size:30px!important; }
+}
+
+
+#ingredient-sticky [data-framer-name="Preview — Collaborate"] img,
+#ingredient-sticky [data-framer-name="Preview — Understand"] img { position:absolute; }
+
+
+#ingredient-sticky [data-framer-name="Preview — Collaborate"] img,
+#ingredient-sticky [data-framer-name="Preview — Understand"] img { border-radius:13% / 6.5%!important; }
+
+#ingredient-sticky p span { font-family:var(--body)!important; }
+
+#ingredient-sticky [data-framer-name="Sticky preview"]{top:245px}
+
+#ingredient-sticky [data-framer-name="Preview stage"]{height:min(57svh,600px)}
+
+@media(max-width:700px){.training-heading{top:76px;padding:12px 0 16px}.training-heading h2{font-size:28px}.training-heading p{font-size:14px;max-width:28ch;margin:auto}#ingredient-sticky [data-framer-name="Sticky preview"]{top:218px}#ingredient-sticky [data-framer-name="Preview stage"]{height:34svh}.everyday-section{padding-top:65px}.everyday-note{margin:0 auto 24px}.everyday-section header>p:not(.everyday-eyebrow){font-size:16px}}
+
+@media(max-height:650px){.training-heading{position:relative;top:0}#ingredient-sticky [data-framer-name="Sticky preview"]{top:95px}.how-sticky{min-height:0}.real-flow-phone{max-height:75svh;width:auto}}
+
+@media(prefers-reduced-motion:reduce){.real-flow-screen .how-capture{transition:none;transform:none}.training-heading{position:relative;top:0}#ingredient-sticky [data-framer-name="Sticky preview"]{top:100px}}
+
+
+/* Keep the phone, screen layers and floating equipment in separate visual lanes. */
+#ingredient-sticky [data-framer-name="Preview stage"]{--training-phone-width:min(60%,calc(57svh * .49),294px)}
+
+#ingredient-sticky [data-framer-name^="Preview —"],
+#ingredient-sticky [data-framer-name="Preview stage"]::after{top:50%;left:50%;width:var(--training-phone-width);height:auto;max-width:none;aspect-ratio:1470/3000;transform:translate(-50%,-50%)}
+
+#ingredient-sticky [data-framer-name="Preview stage"]::before{left:-3%;width:20%}
+
+@media(max-width:700px){#ingredient-sticky [data-framer-name="Preview stage"]{--training-phone-width:min(60%,calc(34svh * .49))}}
+
+
+@media(min-width:701px) and (max-width:900px){
+ #ingredient-sticky [data-framer-name="Preview stage"]{height:auto;aspect-ratio:.58;--training-phone-width:80%}
+ #ingredient-sticky [data-framer-name="Preview stage"]::before{left:-27%;width:30%}
+}
+
+#ingredient-sticky [data-framer-name="Sticky preview"]{top:calc(var(--training-heading-top) + var(--training-heading-height) + 24px)}
+
+@media(max-width:380px){
+ .ingredient-tag{left:-26px}
+ .layer-1 .ingredient-tag,.layer-3 .ingredient-tag{right:-26px}
+ #ingredient-sticky [data-framer-name="Preview stage"]{height:28svh;--training-phone-width:min(60%,calc(28svh * .49))}
+}
+
+@media(max-height:650px),(prefers-reduced-motion:reduce){#ingredient-sticky [data-framer-name="Sticky preview"]{top:95px}}
+#ingredient-sticky [data-framer-name="Preview stage"]::before{display:none}
+.cor-gallery{padding:100px 24px;max-width:1240px;margin:auto}.gallery-cards{display:flex;gap:14px;height:570px;margin-top:48px}.gallery-card{position:relative;overflow:hidden;flex:1;min-width:0;background:#101112;border:1px solid #343638;border-radius:24px;color:#f5f3ed;text-align:left;padding:24px;cursor:pointer;transition:flex .7s cubic-bezier(.22,1,.36,1)}.gallery-card.is-open{flex:2.8}.gallery-card img{position:absolute;top:24px;left:50%;transform:translateX(-50%);height:410px;width:auto;max-width:none;object-fit:contain;border-radius:22px;transition:transform .7s,opacity .5s;opacity:.48}.gallery-card.is-open img{opacity:1}.gallery-number{position:relative;z-index:2;font-size:12px;letter-spacing:.12em}.gallery-copy{position:absolute;bottom:26px;left:24px;right:24px;display:grid;gap:12px}.gallery-copy strong{font-size:24px;font-weight:500}.gallery-copy>span{font-size:14px;line-height:1.5;color:#bac0bd;max-height:0;opacity:0;filter:blur(5px);transition:opacity .4s,filter .4s,max-height .4s}.is-open .gallery-copy>span{max-height:65px;opacity:1;filter:none}.gallery-card:focus-visible{outline:3px solid #e6dcb6;outline-offset:4px}.waitlist-title-row{display:flex;align-items:center;gap:22px}.waitlist-app-logo{width:76px;height:76px;object-fit:contain;background:#080808;border:1px solid #444;border-radius:19px;padding:12px;flex-shrink:0}.everyday-section{padding-top:20px}.ingredient-story .training-heading h2{font-size:clamp(30px,4vw,54px)}
+@media(max-width:700px){.gallery-cards{flex-direction:column;height:760px;gap:10px}.gallery-card{padding:16px;min-height:72px}.gallery-card.is-open{flex:5}.gallery-card img{height:320px;top:20px;left:68%;opacity:0}.gallery-card.is-open img{opacity:1}.gallery-copy{left:18px;right:52%;bottom:20px}.gallery-copy strong{font-size:20px}.gallery-number{display:none}.gallery-copy>span{font-size:12px}.is-open .gallery-copy>span{max-height:100px}.waitlist-title-row{gap:16px}.waitlist-app-logo{width:58px;height:58px;border-radius:15px;padding:8px}.cor-gallery{padding:65px 20px}#ingredient-sticky [data-framer-name="Preview stage"]{height:32svh;--training-phone-width:min(60%,calc(32svh * .49))}#ingredient-sticky [data-framer-name="Sticky preview"]{top:220px}}
+@media(prefers-reduced-motion:reduce){.gallery-card,.gallery-card img,.gallery-copy>span{transition:none}}
+/* Ingredient instance shares the original controller, with independent sizing. */
+#ingredient-sticky [data-framer-name="Preview stage"]{height:min(57svh,600px);--training-phone-width:min(60%,calc(57svh * .49),294px)}
+#ingredient-sticky [data-framer-name="Sticky preview"]{top:calc(var(--training-heading-top) + var(--training-heading-height) + 24px)}
+@media(max-width:700px){#ingredient-sticky [data-framer-name="Preview stage"]{height:32svh;--training-phone-width:min(60%,calc(32svh * .49))}#ingredient-sticky [data-framer-name="Sticky preview"]{top:calc(var(--training-heading-top) + var(--training-heading-height) + 18px)}}
+.gallery-number{position:absolute;top:24px;left:24px}.cor-gallery>.capture-caption{text-align:center;margin-top:24px}
+
+/* Stack the app mark above the coming-soon label. */
+.waitlist-copy > .waitlist-app-logo{display:block;margin:0 0 24px}

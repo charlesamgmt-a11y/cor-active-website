@@ -321,3 +321,9 @@ if (trainingHeading && 'ResizeObserver' in window) {
   new ResizeObserver(updateTrainingClearance).observe(trainingHeading);
   updateTrainingClearance();
 }
+
+// Accessible accordion gallery: hover, click, touch and keyboard focus.
+const galleryCards=[...document.querySelectorAll('.gallery-card')];
+function openGallery(card){galleryCards.forEach(item=>{const open=item===card;item.classList.toggle('is-open',open);item.setAttribute('aria-expanded',String(open));});}
+galleryCards.forEach(card=>{card.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')openGallery(card);});card.addEventListener('click',()=>openGallery(card));card.addEventListener('focus',()=>openGallery(card));});
+document.querySelectorAll('.ingredient-story .training-heading').forEach(heading=>{if('ResizeObserver' in window)new ResizeObserver(()=>heading.closest('.training-story').style.setProperty('--training-heading-height',`${Math.ceil(heading.getBoundingClientRect().height)}px`)).observe(heading);});

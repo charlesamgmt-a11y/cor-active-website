@@ -1,0 +1,23 @@
+/* Preview-only testimonial composition; replace placeholders with approved assets. */
+.testimonial-draft{max-width:1200px;margin:auto;padding:64px 24px 110px}
+.testimonial-draft .section-header>p{color:#b6bbb8}
+.testimonial-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start;margin-top:52px}
+.testimonial-card{position:relative;min-height:490px;border:1px solid #333638;border-radius:26px;background:#101112;overflow:hidden;margin-top:38px}
+.testimonial-card:nth-child(2){margin-top:0}
+.portrait-placeholder{height:490px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:140px;color:#888e8b;gap:12px}
+.portrait-placeholder>span{font-family:var(--display);font-size:60px;color:#747b77}
+.portrait-placeholder>p{font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.testimonial-quote{position:absolute;bottom:16px;left:16px;right:16px;padding:22px;background:#17191ad9;border:1px solid #525655;border-radius:16px;backdrop-filter:blur(20px)}
+.testimonial-quote .eyebrow{font-size:10px;letter-spacing:.15em;color:#b9c1bd}
+.testimonial-quote h3{font-family:var(--body);font-size:20px;margin:10px 0 8px}
+.testimonial-quote p{font-size:14px;line-height:1.6;color:#c4c8c5;margin:0}
+@media(max-width:700px){.testimonial-draft{padding:48px 20px 72px}.testimonial-grid{grid-template-columns:1fr;gap:18px;margin-top:32px}.testimonial-card,.testimonial-card:nth-child(2){margin:0;min-height:390px}.portrait-placeholder{height:390px}.testimonial-quote{padding:20px}}
+
+.testimonial-portrait{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%}.testimonial-placeholder-label{position:absolute;top:16px;left:16px;padding:7px 10px;border:1px solid #ffffff40;border-radius:20px;color:#fff;background:#0009;font-size:11px;backdrop-filter:blur(12px)}.testimonial-quote{background:#10121480;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+
+/* Two aligned rows, with the middle column raised like the reference. */
+.testimonial-grid{row-gap:22px;align-items:start}
+.testimonial-card,.testimonial-card:nth-child(2){margin-top:0}
+.testimonial-card:nth-child(3n + 1),.testimonial-card:nth-child(3n){transform:translateY(38px)}
+.testimonial-grid{padding-bottom:38px}
+@media(max-width:700px){.testimonial-card:nth-child(n){transform:none;margin-top:0}.testimonial-grid{padding-bottom:0}}
