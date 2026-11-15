@@ -94,9 +94,9 @@ foods.forEach(button => button.addEventListener('click', () => {
   button.setAttribute('aria-pressed', String(!was));
 }));
 const guide = document.querySelector('#food-guide');
-document.querySelector('.food-help').addEventListener('click', () => guide.showModal());
-document.querySelector('.dialog-close').addEventListener('click', () => guide.close());
-guide.addEventListener('click', e => { if (e.target === guide) guide.close(); });
+document.querySelector('.food-help')?.addEventListener('click', () => guide.showModal());
+document.querySelector('.dialog-close')?.addEventListener('click', () => guide.close());
+guide?.addEventListener('click', e => { if (e.target === guide) guide.close(); });
 
 /* ── How it works ──────────────────────────────────────────────────── */
 const how = document.querySelector('.how-section');
@@ -138,7 +138,7 @@ function onScroll() {
     const p = Math.max(0, Math.min(1, (innerHeight * .9 - b.top) / (innerHeight * .8)));
     const eased = 1 - Math.pow(1 - p, 3);
     burger.style.setProperty('--spread', `${eased * (innerWidth < 810 ? 70 : 150)}px`);
-    const f = foodStage.getBoundingClientRect();
+    const f = foodStage?.getBoundingClientRect() || {top:0,height:0};
     const fp = (innerHeight / 2 - (f.top + f.height / 2)) / innerHeight; // about -1..1 around centre
     foods.forEach((el, i) => el.style.setProperty('--py', `${fp * (i % 2 ? -70 : 50) * (1 + (i % 3) * .3)}px`));
     if (innerWidth >= 810 && performance.now() > manualUntil) {

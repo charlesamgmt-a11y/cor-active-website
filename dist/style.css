@@ -1202,3 +1202,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Stack the app mark above the coming-soon label. */
 .waitlist-copy > .waitlist-app-logo{display:block;margin:0 0 24px}
+
+/* A single ingredient insight follows the burger; no second meal walkthrough. */
+.ingredient-detail{max-width:1120px;margin:auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:90px;padding:48px 32px 110px}
+.ingredient-detail-phone .real-flow-phone{width:290px;margin:auto;position:relative}
+.ingredient-grade-capture{width:100%;height:100%;object-fit:cover}
+.ingredient-detail-copy h2{font-family:var(--display);font-size:clamp(34px,4vw,56px);line-height:1.08;margin:20px 0}
+.ingredient-detail-copy p{font-size:18px;line-height:1.7;color:#bec3bf;max-width:36ch}
+.ingredient-detail-copy .ingredient-detail-note{font-size:14px;margin-top:24px;color:#a6ada8}
+@media(max-width:700px){.ingredient-detail{grid-template-columns:1fr;gap:36px;padding:40px 24px 72px}.ingredient-detail-copy{grid-row:1;text-align:center}.ingredient-detail-copy p{margin-inline:auto}.ingredient-detail-phone .real-flow-phone{width:260px}}
+.ingredient-detail{position:relative}.ingredient-detail>.anchor-alias{position:absolute;top:0;left:0}
