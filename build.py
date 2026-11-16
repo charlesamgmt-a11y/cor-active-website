@@ -72,7 +72,7 @@ def phone(cls=''):
 
 def iphone_hero():
     return f'''<div class="hero-phone hero-iphone" role="img" aria-label="COR nutrition screen in the blue iPhone bezel, with illustrative records">
-  <div class="iphone-screen-bed" aria-hidden="true"><img src="/assets/product/nutrition.webp" alt="" fetchpriority="high"></div>
+  <div class="iphone-screen-bed" aria-hidden="true"><img class="hero-demo-poster" src="/assets/product/avocado-camera-start.png" alt="" fetchpriority="high"><video class="hero-demo-video" muted playsinline preload="auto" poster="/assets/product/avocado-camera-start.png"><source src="/assets/product/avocado-demo.mp4" type="video/mp4"></video><canvas class="hero-status-clean" width="400" height="120"></canvas><div class="hero-demo-status"><span>9:41</span><svg viewBox="0 0 65 16" aria-hidden="true"><g fill="currentColor"><rect x="0" y="10" width="3" height="5" rx="1"/><rect x="5" y="7" width="3" height="8" rx="1"/><rect x="10" y="4" width="3" height="11" rx="1"/><rect x="15" y="1" width="3" height="14" rx="1"/></g><path d="M24 5q8-7 16 0M27 9q5-5 10 0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="13" r="1.6" fill="currentColor"/><rect x="45" y="3" width="17" height="11" rx="3" fill="none" stroke="currentColor"/><rect x="47" y="5" width="13" height="7" rx="1" fill="currentColor"/><rect x="63" y="6" width="2" height="5" rx="1" fill="currentColor"/></svg></div></div>
   {img('brand/iphone-18-pro-max-glacier-portrait.png', '', 'iphone-bezel', True)}
 </div>'''
 
@@ -204,7 +204,7 @@ html = f'''<!doctype html>
 <dialog id="screen-viewer" aria-labelledby="screen-viewer-title"><button class="screen-close" aria-label="Close app screenshot">×</button><h2 id="screen-viewer-title">CŌR app screen</h2><p>CŌR interface · illustrative records</p><img alt=""></dialog>
 <footer class="footer" id="legal"><div class="footer-top" id="contact"><div class="footer-about"><p>The nutrition and training app that shows its work.</p></div><div><h3>Product</h3><a href="#top">Home</a><a href="#waitlist">Join the waitlist</a>{contact_link}</div><div><h3>Legal &amp; Privacy</h3>{legal_links}</div></div>
 <div class="copyright">© 2026 CŌR Active. All rights reserved.</div>
-<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="metadata" aria-hidden="true" poster="{versioned_asset('assets/brand/cor-liquid-metal-poster.jpg')}"><source src="{versioned_asset('assets/brand/cor-liquid-metal.mp4')}" type="video/mp4"></video></a></div></footer>
+<div class="footer-mark-wrap"><a class="footer-metal" href="#top" aria-label="Back to top"><video autoplay muted loop playsinline preload="auto" aria-hidden="true" poster="{versioned_asset('assets/brand/cor-liquid-metal-poster.jpg')}"><source src="{versioned_asset('assets/brand/cor-liquid-metal.mp4')}" type="video/mp4"></video></a></div></footer>
 </body></html>'''
 (ROOT / 'dist/index.html').write_text(html)
 

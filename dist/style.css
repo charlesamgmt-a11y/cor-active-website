@@ -1212,3 +1212,45 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .ingredient-detail-copy .ingredient-detail-note{font-size:14px;margin-top:24px;color:#a6ada8}
 @media(max-width:700px){.ingredient-detail{grid-template-columns:1fr;gap:36px;padding:40px 24px 72px}.ingredient-detail-copy{grid-row:1;text-align:center}.ingredient-detail-copy p{margin-inline:auto}.ingredient-detail-phone .real-flow-phone{width:260px}}
 .ingredient-detail{position:relative}.ingredient-detail>.anchor-alias{position:absolute;top:0;left:0}
+
+/* Scroll-controlled real app demo. Natural document scroll; no wheel interception. */
+.hero-scene:has(.hero-demo-video){height:calc(100svh + 1400px);overflow:visible}
+.hero-scene:has(.hero-demo-video) .hero-sticky{position:sticky;top:100px;height:calc(100svh - 120px);align-items:center}
+.hero-scene:has(.hero-demo-video) .hero-iphone{align-self:center;width:min(390px,calc((100svh - 145px)*.49),calc(100vw - 42px));transform:none}
+.hero-demo-video,.hero-demo-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.hero-demo-video{opacity:0}.hero-demo-video.is-ready{opacity:1}
+@media(prefers-reduced-motion:reduce){.hero-scene:has(.hero-demo-video){height:auto}.hero-scene:has(.hero-demo-video) .hero-sticky{position:relative;top:0}.hero-demo-video{display:none}}
+/* Avoid compositor drop-shadow artifacts on a scrubbing video layer. */
+.hero-scene:has(.hero-demo-video) .hero-iphone{filter:none;transition:none}
+
+/* Exact supplied camera composition is the opening frame, before the recording. */
+.hero-demo-poster{z-index:1;opacity:1;transition:none}
+.hero-demo-video.is-ready{opacity:1}
+.iphone-screen-bed:has(.hero-demo-video.is-ready) .hero-demo-poster{opacity:calc(1 - var(--demo-reveal,0))}
+@media(prefers-reduced-motion:reduce){.iphone-screen-bed .hero-demo-poster{opacity:1!important}}
+/* Recordings include their own Dynamic Island: retain frame without doubling it. */
+.hero-scene:has(.hero-demo-video) .iphone-bezel{clip-path:polygon(evenodd,0 0,100% 0,100% 100%,0 100%,0 0,30% 2.3%,30% 9%,70% 9%,70% 2.3%,30% 2.3%)}
+/* Keep the complete camera UI, including its status-bar headroom. */
+.iphone-screen-bed .hero-demo-poster{object-fit:fill}
+/* Presentation cutout covers recording/privacy indicators baked into source captures. */
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{content:"";position:absolute;z-index:3;top:1.2%;left:33%;width:34%;height:4.6%;border-radius:999px;background:#000;pointer-events:none}
+/* Tight mask: cover captured recording indicator without oversized presentation island. */
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{top:1.55%;left:35%;width:30%;height:3.7%}
+/* Cover the thin baked-in recording outline without expanding the cutout footprint significantly. */
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{box-shadow:0 0 0 2px #000}
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{top:1.3%;left:33.6%;width:32.8%;height:4.3%;box-shadow:none}
+
+/* Reconstruct only the central status background from neighboring source pixels. */
+.hero-status-clean{position:absolute;z-index:2;left:29%;top:0;width:42%;height:6%;pointer-events:none}
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{top:1.55%;left:38%;width:24%;height:3.45%;box-shadow:none}
+.hero-status-clean{mask-image:linear-gradient(to right,transparent,#000 9%,#000 91%,transparent),linear-gradient(to bottom,#000 88%,transparent);mask-composite:intersect}
+
+/* A coherent presentation status bar replaces the entire captured strip, not a center patch. */
+.hero-status-clean{left:0;width:100%;height:7%;mask-image:linear-gradient(to bottom,#000 86%,transparent);mask-composite:add}
+.hero-demo-status{position:absolute;inset:0 0 auto;height:6%;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:0 8%;font:600 13px/1 -apple-system,BlinkMacSystemFont,sans-serif;color:color-mix(in srgb,#000 calc((1 - var(--demo-reveal,0))*100%),#fff);pointer-events:none}
+.hero-demo-status svg{width:20%;height:auto}
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{z-index:4}
+/* Match supplied cutout reference: compact pill and subtle right-hand lens. */
+.hero-scene:has(.hero-demo-video) .iphone-screen-bed::after{background:radial-gradient(circle at 77% 50%,#29416d 0 1px,#0d1830 2px,#080c15 4px,#000 5px)}
+/* Minimal product presentation: no clock, signal, Wi-Fi, or battery overlays. */
+.hero-demo-status{display:none}

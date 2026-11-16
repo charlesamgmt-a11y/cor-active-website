@@ -327,3 +327,49 @@ const galleryCards=[...document.querySelectorAll('.gallery-card')];
 function openGallery(card){galleryCards.forEach(item=>{const open=item===card;item.classList.toggle('is-open',open);item.setAttribute('aria-expanded',String(open));});}
 galleryCards.forEach(card=>{card.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')openGallery(card);});card.addEventListener('click',()=>openGallery(card));card.addEventListener('focus',()=>openGallery(card));});
 document.querySelectorAll('.ingredient-story .training-heading').forEach(heading=>{if('ResizeObserver' in window)new ResizeObserver(()=>heading.closest('.training-story').style.setProperty('--training-heading-height',`${Math.ceil(heading.getBoundingClientRect().height)}px`)).observe(heading);});
+
+/* Latest scroll position wins; seek serially for mobile decoder stability. */
+(() => {
+ const video=document.querySelector('.hero-demo-video');
+ if(!video)return;
+ const scene=video.closest('.hero-scene');
+ const motion=matchMedia('(prefers-reduced-motion: reduce)');
+ let target=0, frame=0, reveal=0;
+ const poster=scene.querySelector('.hero-demo-poster');
+ const canvas=scene.querySelector('.hero-status-clean');
+ const ctx=canvas.getContext('2d');
+ function cleanStatus(){
+  if(!poster.complete||!poster.naturalWidth)return;
+  ctx.globalAlpha=1;
+  ctx.drawImage(poster,poster.naturalWidth*.29,0,2,poster.naturalHeight*.07,0,0,400,120);
+  if(video.readyState>=2&&!motion.matches){
+   ctx.globalAlpha=reveal;
+   ctx.drawImage(video,video.videoWidth*.29,0,2,video.videoHeight*.07,0,0,400,120);
+   ctx.globalAlpha=1;
+  }
+ }
+ poster.addEventListener('load',cleanStatus);
+ function seek(){
+  if(motion.matches||!Number.isFinite(video.duration)||video.seeking)return;
+  if(Math.abs(video.currentTime-target)>.035)video.currentTime=target;
+ }
+ function update(){
+  frame=0;
+  const rect=scene.getBoundingClientRect();
+  const range=Math.max(1,scene.offsetHeight-innerHeight);
+  const progress=Math.max(0,Math.min(1,(100-rect.top)/range));
+  reveal=progress>=.14?1:0;
+  scene.style.setProperty('--demo-reveal',String(reveal));
+  cleanStatus();
+  target=Math.max(0,(progress-.14)/.86)*Math.max(0,video.duration-.05);
+  seek();
+ }
+ function schedule(){if(!frame)frame=requestAnimationFrame(update)}
+ video.addEventListener('loadedmetadata',schedule);
+ video.addEventListener('loadeddata',()=>{video.classList.add('is-ready');schedule()});
+ video.addEventListener('seeked',()=>{cleanStatus();seek()});
+ addEventListener('scroll',schedule,{passive:true});
+ addEventListener('resize',schedule,{passive:true});
+ motion.addEventListener('change',schedule);
+ schedule();
+})();
