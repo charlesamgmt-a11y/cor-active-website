@@ -389,3 +389,11 @@ document.querySelectorAll('.ingredient-story .training-heading').forEach(heading
  schedule();
  prime();
 })();
+
+// Preview-only diagnostics are opt-in; no data leaves the device.
+if(location.search.includes('demoDebug=1')){
+ const debug=document.createElement('output');
+ debug.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#111;color:#fff;font:12px monospace;padding:8px;pointer-events:none';
+ document.body.append(debug);
+ setInterval(()=>{const v=document.querySelector('.hero-demo-video'),s=document.querySelector('.hero-scene');debug.textContent=JSON.stringify({y:Math.round(scrollY),motion:matchMedia('(prefers-reduced-motion:reduce)').matches,ready:v.readyState,time:v.currentTime,duration:v.duration,seeking:v.seeking,error:v.error?.code,scene:s.offsetHeight,overflow:getComputedStyle(document.body).overflow,classes:document.body.className});},500);
+}
