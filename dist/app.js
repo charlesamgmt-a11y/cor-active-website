@@ -334,7 +334,7 @@ document.querySelectorAll('.ingredient-story .training-heading').forEach(heading
  if(!video)return;
  const scene=video.closest('.hero-scene');
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
- let target=0, frame=0, reveal=0;
+ let target=0, frame=0, reveal=0, priming=false, primed=false;
  const poster=scene.querySelector('.hero-demo-poster');
  const canvas=scene.querySelector('.hero-status-clean');
  const ctx=canvas.getContext('2d');
@@ -349,8 +349,22 @@ document.querySelectorAll('.ingredient-story .training-heading').forEach(heading
   }
  }
  poster.addEventListener('load',cleanStatus);
+ // iOS Safari may ignore preload until muted playback is initialized.
+ // Retry on a real gesture if Low Power Mode or media policy rejects it.
+ function prime(){
+  if(motion.matches||priming||primed)return;
+  priming=true;
+  video.muted=true;
+  video.playsInline=true;
+  const playback=video.play();
+  if(playback&&playback.then)playback.then(()=>{
+   video.pause();priming=false;primed=true;
+   video.classList.add('is-ready');schedule();
+  }).catch(()=>{priming=false;});
+  else {video.pause();priming=false;}
+ }
  function seek(){
-  if(motion.matches||!Number.isFinite(video.duration)||video.seeking)return;
+  if(motion.matches||priming||!Number.isFinite(target)||!Number.isFinite(video.duration)||video.seeking)return;
   if(Math.abs(video.currentTime-target)>.035)video.currentTime=target;
  }
  function update(){
@@ -361,15 +375,17 @@ document.querySelectorAll('.ingredient-story .training-heading').forEach(heading
   reveal=progress>=.14?1:0;
   scene.style.setProperty('--demo-reveal',String(reveal));
   cleanStatus();
-  target=Math.max(0,(progress-.14)/.86)*Math.max(0,video.duration-.05);
+  target=Number.isFinite(video.duration)?Math.max(0,(progress-.14)/.86)*Math.max(0,video.duration-.05):0;
   seek();
  }
  function schedule(){if(!frame)frame=requestAnimationFrame(update)}
- video.addEventListener('loadedmetadata',schedule);
+ video.addEventListener('loadedmetadata',()=>{schedule();prime()});
  video.addEventListener('loadeddata',()=>{video.classList.add('is-ready');schedule()});
  video.addEventListener('seeked',()=>{cleanStatus();seek()});
  addEventListener('scroll',schedule,{passive:true});
  addEventListener('resize',schedule,{passive:true});
- motion.addEventListener('change',schedule);
+ motion.addEventListener('change',()=>{video.pause();schedule();prime()});
+ ['pointerdown','touchend','keydown'].forEach(event=>addEventListener(event,prime,{passive:true}));
  schedule();
+ prime();
 })();
